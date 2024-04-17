@@ -1,0 +1,965 @@
+{
+	"info": {
+		"_postman_id": "d0f76e38-ac94-498b-9f11-d4efbeec9a6d",
+		"name": "GOOGLE SOLUTION CHALLANGE",
+		"description": "# 📄 Get started here\n\nThis template contains a boilerplate for documentation that you can quickly customize and reuse.\n\n## 🔖 How to use this template\n\n- Replace the content given brackets (()) with your API's details.\n- Tips are formatted in `codespan` - feel free to read and remove them.\n    \n\n---\n\n`Start with a brief overview of what your API offers.`\n\nThe ((product name)) provides many API products, tools, and resources that enable you to ((add product value here)).\n\n`You can also list the APIs you offer, link to the relevant pages, or do both in this section.`\n\n## **Getting started guide**\n\n`List the steps or points required to start using your APIs. Make sure to cover everything required to reach success with your API as quickly as possible.`\n\nTo start using the ((add APIs here)), you need to -\n\n`The points given below are from The Postman API's documentation. You can reference it to write your own getting started guide.`\n\n- You must use a valid API Key to send requests to the API endpoints. You can get your API key from Postman's [integrations dashboard](https://go.postman.co/settings/me/api-keys).\n- The API has [rate and usage limits](https://postman.postman.co/workspace/Collection-Templates~6311738d-2e70-441f-ae12-78caf078c5b7/collection/22517504-e9c28f47-1253-44af-a2f3-20dce4da1f18?ctx=documentation#rate-and-usage-limits).\n- The API only responds to HTTPS-secured communications. Any requests sent via HTTP return an HTTP 301 redirect to the corresponding HTTPS resources.\n- The API returns request responses in JSON format. When an API request returns an error, it is sent in the JSON response as an error key.\n    \n\n## Authentication\n\n`Add details on the authorization keys/tokens required, steps that cover how to get them, and the relevant error codes.`\n\nThe ((product name)) API uses ((add your API's authorization type)) for authentication.\n\n`The details given below are from the Postman API's documentation. You can reference it to write your own authentication section.`\n\nPostman uses API keys for authentication. You can generate a Postman API key in the [API keys](https://postman.postman.co/settings/me/api-keys) section of your Postman account settings.\n\nYou must include an API key in each request to the Postman API with the X-Api-Key request header.\n\n### Authentication error response\n\nIf an API key is missing, malformed, or invalid, you will receive an HTTP 401 Unauthorized response code.\n\n## Rate and usage limits\n\n`Use this section to cover your APIs' terms of use. Include API limits, constraints, and relevant error codes, so consumers understand the permitted API usage and practices.`\n\n`The example given below is from The Postman API's documentation. Use it as a reference to write your APIs' terms of use.`\n\nAPI access rate limits apply at a per-API key basis in unit time. The limit is 300 requests per minute. Also, depending on your plan, you may have usage limits. If you exceed either limit, your request will return an HTTP 429 Too Many Requests status code.\n\nEach API response returns the following set of headers to help you identify your use status:\n\n| Header | Description |\n| --- | --- |\n| `X-RateLimit-Limit` | The maximum number of requests that the consumer is permitted to make per minute. |\n| `X-RateLimit-Remaining` | The number of requests remaining in the current rate limit window. |\n| `X-RateLimit-Reset` | The time at which the current rate limit window resets in UTC epoch seconds. |\n\n### 503 response\n\nAn HTTP `503` response from our servers indicates there is an unexpected spike in API access traffic. The server is usually operational within the next five minutes. If the outage persists or you receive any other form of an HTTP `5XX` error, [contact support](https://support.postman.com/hc/en-us/requests/new/).\n\n### **Need some help?**\n\n`Add links that customers can refer to whenever they need help.`\n\nIn case you have questions, go through our tutorials ((link to your video or help documentation here)). Or visit our FAQ page ((link to the relevant page)).\n\nOr you can check out our community forum, there’s a good chance our community has an answer for you. Visit our developer forum ((link to developer forum)) to review topics, ask questions, and learn from others.\n\n`You can also document or add links to libraries, code examples, and other resources needed to make a request.`",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "28817429",
+		"_collection_link": "https://red-rocket-108531.postman.co/workspace/New-Team-Workspace~e1181399-9eec-47c7-8845-5f0ceab9aac0/collection/28817429-d0f76e38-ac94-498b-9f11-d4efbeec9a6d?action=share&source=collection_link&creator=28817429"
+	},
+	"item": [
+		{
+			"name": "User",
+			"item": [
+				{
+					"name": "user login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\":\"userFiktif2\",\r\n    \"password\":\"fictive02\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "localhost:8080/api/user/login",
+						"description": "Gets information about the authenticated user."
+					},
+					"response": []
+				},
+				{
+					"name": "user registration",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\":\"userFiktif1\",\r\n    \"email\":\"fictiveuse01r@gmail.com\",\r\n    \"password\":\"fictive01\",\r\n    \"c-password\":\"fictive01\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "localhost:8080/api/user/register"
+					},
+					"response": []
+				},
+				{
+					"name": "Upload Avatar",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NywidXNlcm5hbWUiOiJ1c2VyVXJ1dEtlMyIsInRva2VuVHlwZSI6InVzZXIiLCJleHAiOjE3MDc3MTE1MTh9.0sBIbBMv-XQHDDORc0RgdCmW-amX-olEIW7-40nD6oY"
+							}
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "file",
+									"type": "file",
+									"src": "/D:/ab7bd4d836c08ce85aa64d5549588ffa.jpg"
+								}
+							]
+						},
+						"url": "localhost:8080/api/user/avatar"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Profile",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NywidXNlcm5hbWUiOiJ1c2VyVXJ1dEtlMyIsInRva2VuVHlwZSI6InVzZXIiLCJleHAiOjE3MDc3MDYyMDN9.PgDnWNkhdnyT9rya-p7IxLFbcq_Hd5kCsJea3nIerP4"
+							}
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NywidXNlcm5hbWUiOiJ1c2VyVXJ1dEtlMyIsInRva2VuVHlwZSI6InVzZXIiLCJleHAiOjE3MDc2NTMzODV9.HGSpkuc_c0TLSDUDDsGEdxPA7AMcRqEzHSV8q9frHw4",
+								"type": "text"
+							}
+						],
+						"url": "localhost:8080/api/user"
+					},
+					"response": []
+				},
+				{
+					"name": "Logout",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NywidXNlcm5hbWUiOiJ1c2VyVXJ1dEtlMyIsInRva2VuVHlwZSI6InVzZXIiLCJleHAiOjE3MDc3MDk3NTB9.pR6pNiWQdF__MFxMvpigjjshmf-vMSprlM0w8ANOPSI"
+							}
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": "localhost:8080/api/user/logout"
+					},
+					"response": []
+				},
+				{
+					"name": "New Request",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NywidXNlcm5hbWUiOiJ1c2VyVXJ1dEtlMyIsInRva2VuVHlwZSI6InVzZXIiLCJleHAiOjE3MDc3MTE1MTh9.0sBIbBMv-XQHDDORc0RgdCmW-amX-olEIW7-40nD6oY"
+							}
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": "localhost:8080/api/user/7"
+					},
+					"response": []
+				},
+				{
+					"name": "All User",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NywidXNlcm5hbWUiOiJ1c2VyVXJ1dEtlMyIsInRva2VuVHlwZSI6InVzZXIiLCJleHAiOjE3MDc3MTE1MTh9.0sBIbBMv-XQHDDORc0RgdCmW-amX-olEIW7-40nD6oY"
+							}
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NywidXNlcm5hbWUiOiJ1c2VyVXJ1dEtlMyIsInRva2VuVHlwZSI6InVzZXIiLCJleHAiOjE3MDc3MTE1MTh9.0sBIbBMv-XQHDDORc0RgdCmW-amX-olEIW7-40nD6oY",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"url": "localhost:8080/api/user/all"
+					},
+					"response": []
+				},
+				{
+					"name": "Find username",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NywidXNlcm5hbWUiOiJ1c2VyVXJ1dEtlMyIsInRva2VuVHlwZSI6InVzZXIiLCJleHAiOjE3MDc3MTE1MTh9.0sBIbBMv-XQHDDORc0RgdCmW-amX-olEIW7-40nD6oY"
+							}
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\":\"userUrutKe3\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "localhost:8080/api/user/username"
+					},
+					"response": []
+				},
+				{
+					"name": "New Request",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NywidXNlcm5hbWUiOiJ1c2VyVXJ1dEtlMyIsInRva2VuVHlwZSI6InVzZXIiLCJleHAiOjE3MDc3MTE1MTh9.0sBIbBMv-XQHDDORc0RgdCmW-amX-olEIW7-40nD6oY",
+								"type": "text"
+							}
+						],
+						"url": "localhost:8080/api/user/delete"
+					},
+					"response": []
+				}
+			],
+			"description": "The `/me` endpoints let you manage information about the authenticated user."
+		},
+		{
+			"name": "quiz",
+			"item": [
+				{
+					"name": "quiz cheapest list",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": "localhost:8080/api/quiz/cheapest"
+					},
+					"response": []
+				},
+				{
+					"name": "Not Verified",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": "localhost:8080/api/quiz/not-verified"
+					},
+					"response": []
+				},
+				{
+					"name": "Quiz All",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": "localhost:8080/api/quiz"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Quiz by ID",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": "localhost:8080/api/quiz"
+					},
+					"response": []
+				},
+				{
+					"name": "Create Quiz",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NSwidXNlcm5hbWUiOiJhZG1pbnN1cHJlbWUiLCJ0b2tlblR5cGUiOiJhZG1pbiIsImV4cCI6MTcwNzM1ODUzN30.wGALX99kAvop1bWZTOpmiE6NKfRja8UjWXpZyNcTDpo"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "title",
+									"value": "Something",
+									"type": "text"
+								},
+								{
+									"key": "topic",
+									"value": "topic",
+									"type": "text"
+								},
+								{
+									"key": "desc",
+									"value": "description",
+									"type": "text"
+								},
+								{
+									"key": "file",
+									"type": "file",
+									"src": []
+								}
+							]
+						},
+						"url": "localhost:8080/api/quiz/create"
+					},
+					"response": []
+				},
+				{
+					"name": "Find Quiz By Title",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"title\":\"Edukasi Kesehatan\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "localhost:8080/api/quiz/title"
+					},
+					"response": []
+				},
+				{
+					"name": "Find Quiz by Topic",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"topic\":\"Menjaga Kesehatan\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "localhost:8080/api/quiz/topic"
+					},
+					"response": []
+				},
+				{
+					"name": "Edit Quiz",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NSwidXNlcm5hbWUiOiJhZG1pbnN1cHJlbWUiLCJ0b2tlblR5cGUiOiJhZG1pbiIsImV4cCI6MTcwNzcyNDAwMH0.FAqGXupirxPyAvxTkk_oeiJNbbPMNcqQxnEnImLdwDU"
+							}
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"title\":\"Menjaga pola makan\",\r\n    \"topic\":\"Menjaga Kesehatan\",\r\n    \"desc\":\"Menjaga pola makan merupakan hal yang sangat penting dalam menjaga kesehatan. Quiz ini akan memberitahu kamu tentang cara menjaga pola makan\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "localhost:8080/api/quiz/edit/4"
+					},
+					"response": []
+				},
+				{
+					"name": "Upload imgage cover",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NSwidXNlcm5hbWUiOiJhZG1pbnN1cHJlbWUiLCJ0b2tlblR5cGUiOiJhZG1pbiIsImV4cCI6MTcwNzcyNDc0NH0.QeWFJNCJESnHHzmfiIPo9NG5zU1Q4RtetNJM-Y7y40g"
+							}
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "file",
+									"type": "file",
+									"src": "/D:/635f7e32c0784.jpg"
+								}
+							]
+						},
+						"url": "localhost:8080/api/quiz/upload/4"
+					},
+					"response": []
+				},
+				{
+					"name": "verify quiz",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwidXNlcm5hbWUiOiJhZG1pbktlMV8wMDEiLCJ0b2tlblR5cGUiOiJhZG1pbiIsImV4cCI6MTcwODMzNjc3NX0.Q92yfect5efXq6YoqmRLA162Cra8stu0lgwiSleK4mQ"
+							}
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "file",
+									"type": "file",
+									"src": "/D:/635f7e32c0784.jpg"
+								}
+							]
+						},
+						"url": "localhost:8080/api/quiz/verify/1"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Quiz",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NSwidXNlcm5hbWUiOiJhZG1pbnN1cHJlbWUiLCJ0b2tlblR5cGUiOiJhZG1pbiIsImV4cCI6MTcwNzcyNDAwMH0.FAqGXupirxPyAvxTkk_oeiJNbbPMNcqQxnEnImLdwDU"
+							}
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": "localhost:8080/api/quiz/delete/4"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Admin",
+			"item": [
+				{
+					"name": "Login",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\":\"adminsupreme\",\r\n    \"password\":\"super_admin01\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "localhost:8080/api/user/admin/login"
+					},
+					"response": []
+				},
+				{
+					"name": "Create New",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NSwidXNlcm5hbWUiOiJhZG1pbnN1cHJlbWUiLCJ0b2tlblR5cGUiOiJhZG1pbiIsImV4cCI6MTcwNzM1ODUzN30.wGALX99kAvop1bWZTOpmiE6NKfRja8UjWXpZyNcTDpo"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\":\"admin2@gmail.com\",\r\n    \"password\":\"admin_admin02\",\r\n    \"c-password\":\"admin_admin02\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "localhost:8080/api/user/admin/create"
+					},
+					"response": []
+				},
+				{
+					"name": "Find Admin by Username",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NSwidXNlcm5hbWUiOiJhZG1pbnN1cHJlbWUiLCJ0b2tlblR5cGUiOiJhZG1pbiIsImV4cCI6MTcwNzcxMzM1Nn0.eFy8l4lskMdRdIPPzNhC7EJi50ZEhF-X6JX9N-1QbK4"
+							}
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\":\"adminsupreme\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "localhost:8080/api/user/admin/username"
+					},
+					"response": []
+				},
+				{
+					"name": "get Admin by ID",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NSwidXNlcm5hbWUiOiJhZG1pbnN1cHJlbWUiLCJ0b2tlblR5cGUiOiJhZG1pbiIsImV4cCI6MTcwNzcxMzM1Nn0.eFy8l4lskMdRdIPPzNhC7EJi50ZEhF-X6JX9N-1QbK4"
+							}
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": "localhost:8080/api/user/admin/5"
+					},
+					"response": []
+				},
+				{
+					"name": "Block User Accouunt",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NSwidXNlcm5hbWUiOiJhZG1pbnN1cHJlbWUiLCJ0b2tlblR5cGUiOiJhZG1pbiIsImV4cCI6MTcwNzcxMzM1Nn0.eFy8l4lskMdRdIPPzNhC7EJi50ZEhF-X6JX9N-1QbK4"
+							}
+						},
+						"method": "PUT",
+						"header": [],
+						"url": "localhost:8080/api/user/7"
+					},
+					"response": []
+				},
+				{
+					"name": "Admin Logout",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NSwidXNlcm5hbWUiOiJhZG1pbnN1cHJlbWUiLCJ0b2tlblR5cGUiOiJhZG1pbiIsImV4cCI6MTcwNzc0OTQ2OH0.IyboiCe1iNRUXYT8bn-5ycFtTy7_OJXvXbrhaghAEis"
+							}
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": "localhost:8080/api/user/logout"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Questions",
+			"item": [
+				{
+					"name": "Create Question",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NSwidXNlcm5hbWUiOiJhZG1pbnN1cHJlbWUiLCJ0b2tlblR5cGUiOiJhZG1pbiIsImV4cCI6MTcwNzczNDIzOH0.lcTRMUmm6uiiWbZ1Pd7AEgXO4Uo4AqRKVJD2vaScrys"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"question\":\"Soal gagal\",\r\n    \"answer\":\"A\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "localhost:8080/api/quiz/2/question/create"
+					},
+					"response": []
+				},
+				{
+					"name": "Refer to Quiz",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NSwidXNlcm5hbWUiOiJhZG1pbnN1cHJlbWUiLCJ0b2tlblR5cGUiOiJhZG1pbiIsImV4cCI6MTcwNzczMDAxNH0.I2U3eHoewR8I1ridDdJxzcGRaKZKNRmuXyoHEqOMsM0"
+							}
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": "localhost:8080/api/quiz/4/refer-quiz"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Question by ID",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NSwidXNlcm5hbWUiOiJhZG1pbnN1cHJlbWUiLCJ0b2tlblR5cGUiOiJhZG1pbiIsImV4cCI6MTcwNzc0ODQ2NX0.Xsmcefi3PwsjmV261YSpA2da3dRP7LmlDlgpcv2m-hs"
+							}
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": "localhost:8080/api/question/2"
+					},
+					"response": []
+				},
+				{
+					"name": "Send Question to User Page",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlcm5hbWUiOiJ1c2VyRmlrdGlmMSIsInRva2VuVHlwZSI6InVzZXIiLCJleHAiOjE3MDg0MjczMDd9.Zel7-pgRwVsU88msy9ldApcfSIkHNDgZYSjfVwTWR8E"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"url": "localhost:8080/api/quiz/1/attempt"
+					},
+					"response": []
+				},
+				{
+					"name": "Edit",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"question\":\"Makanan manakah yang merupakan sumber protein nabati\",\r\n    \"answer\":\"B\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "localhost:8080/api/question/update/2"
+					},
+					"response": []
+				},
+				{
+					"name": "Edit Copy",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"question\":\"Makanan manakah yang merupakan sumber protein nabati\",\r\n    \"answer\":\"B\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "localhost:8080/api/question/upload/2"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Question",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NSwidXNlcm5hbWUiOiJhZG1pbnN1cHJlbWUiLCJ0b2tlblR5cGUiOiJhZG1pbiIsImV4cCI6MTcwNzczNDIzOH0.lcTRMUmm6uiiWbZ1Pd7AEgXO4Uo4AqRKVJD2vaScrys"
+							}
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": "localhost:8080/api/question/delete/3"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Option",
+			"item": [
+				{
+					"name": "Create Option",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NSwidXNlcm5hbWUiOiJhZG1pbnN1cHJlbWUiLCJ0b2tlblR5cGUiOiJhZG1pbiIsImV4cCI6MTcwNzc0ODQ2NX0.Xsmcefi3PwsjmV261YSpA2da3dRP7LmlDlgpcv2m-hs"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"options\":\"D\",\r\n    \"desc\":\"Kangkung\",\r\n    \"color\":\"white\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "localhost:8080/api/question/2/option/create"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Option by ID",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NSwidXNlcm5hbWUiOiJhZG1pbnN1cHJlbWUiLCJ0b2tlblR5cGUiOiJhZG1pbiIsImV4cCI6MTcwNzc0ODQ2NX0.Xsmcefi3PwsjmV261YSpA2da3dRP7LmlDlgpcv2m-hs"
+							}
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": "localhost:8080/api/option/2"
+					},
+					"response": []
+				},
+				{
+					"name": "Edit Option",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NSwidXNlcm5hbWUiOiJhZG1pbnN1cHJlbWUiLCJ0b2tlblR5cGUiOiJhZG1pbiIsImV4cCI6MTcwNzc0OTQ2OH0.IyboiCe1iNRUXYT8bn-5ycFtTy7_OJXvXbrhaghAEis"
+							}
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"options\":\"A\",\r\n    \"desc\":\"Wortel\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "localhost:8080/api/option/edit/1"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Option",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": "localhost:8080/api/option/delete/5"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Score",
+			"item": [
+				{
+					"name": "Rank",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlcm5hbWUiOiJ1c2VyRmlrdGlmMSIsInRva2VuVHlwZSI6InVzZXIiLCJleHAiOjE3MDgzMzkyMTZ9.TxjjmKfxipSwu655y1PKcoOsJvPSL2CqIHZSQCssHXs"
+							}
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": "localhost:8080/api/quiz/1/rank"
+					},
+					"response": []
+				},
+				{
+					"name": "History",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlcm5hbWUiOiJ1c2VyRmlrdGlmMSIsInRva2VuVHlwZSI6InVzZXIiLCJleHAiOjE3MDgzMzkyMTZ9.TxjjmKfxipSwu655y1PKcoOsJvPSL2CqIHZSQCssHXs"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"url": "localhost:8080/api/history"
+					},
+					"response": []
+				},
+				{
+					"name": "submit quiz",
+					"protocolProfileBehavior": {
+						"strictSSL": false
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlcm5hbWUiOiJ1c2VyRmlrdGlmMSIsInRva2VuVHlwZSI6InVzZXIiLCJleHAiOjE3MDg0Mzc1NDh9.68uy7JiGlTBGDEr-vf6pDw8xBqJF47m03mJH5GgjOdY"
+							}
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"num\":3,\r\n    \"length\":3,\r\n    \"answer\":\"A\",\r\n    \"checkbox\":\"A\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "localhost:8080/api/quiz/1/post"
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"auth": {
+		"type": "apikey",
+		"apikey": {
+			"key": "X-API-Key",
+			"value": "{{token}}"
+		}
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "https://farming-simulator.pstmn.io"
+		}
+	]
+}
