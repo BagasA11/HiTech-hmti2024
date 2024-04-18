@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:healty_quizz/presentation/pages/user/home_user_page.dart';
+import 'package:healty_quizz/presentation/pages/home_user_page.dart';
 import 'package:healty_quizz/presentation/pages/login_page.dart';
 import 'package:healty_quizz/themes/theme.dart';
 
