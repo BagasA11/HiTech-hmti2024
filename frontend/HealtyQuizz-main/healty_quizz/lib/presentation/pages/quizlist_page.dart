@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import 'package:healty_quizz/presentation/pages/user/quiz_user_page.dart';
+import 'package:healty_quizz/themes/theme.dart';
 
 class QuizList extends StatefulWidget {
   static const routeName = '/quizlist-page';
@@ -16,16 +17,13 @@ class _QuizListState extends State<QuizList> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xffD2F6C5),
+      backgroundColor: primaryColor,
       appBar: AppBar(
-        backgroundColor: Color(0xff28DF99),
+        backgroundColor: secondaryColor,
         centerTitle: true,
         title: Text(
           'Quizizz List',
-          style: GoogleFonts.poppins(
-            fontSize: 20,
-            color: Colors.white,
-          ),
+          style: title,
         ),
       ),
       body: SafeArea(
@@ -50,10 +48,7 @@ class _QuizListState extends State<QuizList> {
                   children: [
                     Text(
                       "Username",
-                      style: GoogleFonts.openSans(
-                          fontWeight: FontWeight.w700,
-                          fontSize: 16.8,
-                          color: Colors.black),
+                      style: text.copyWith(fontWeight: FontWeight.bold),
                     ),
                     Row(
                       children: [
@@ -66,10 +61,8 @@ class _QuizListState extends State<QuizList> {
                         ),
                         Text(
                           "Online",
-                          style: GoogleFonts.openSans(
-                              fontSize: 11.4,
-                              color: Colors.black,
-                              fontWeight: FontWeight.w400),
+                          style: subText.copyWith(
+                              color: blackColor, fontWeight: FontWeight.w400),
                         )
                       ],
                     ),
@@ -82,46 +75,39 @@ class _QuizListState extends State<QuizList> {
             ),
             Text(
               "Quizizz List",
-              style: GoogleFonts.poppins(
-                  fontWeight: FontWeight.bold, fontSize: 12),
+              style: preSubTitles.copyWith(fontWeight: FontWeight.bold),
             ),
             SizedBox(
               height: 30,
             ),
             //list
             ListTile(
-              tileColor: Color(0xffD2F6C5),
+              tileColor: primaryColor,
               leading: InkWell(
                 child: Container(
                   decoration: BoxDecoration(
-                      color: Color(0xff00BF63),
+                      color: accentColor,
                       borderRadius: BorderRadius.circular(10)),
                   width: 40,
                   child: Padding(
                     padding: EdgeInsets.all(10),
                     child: Icon(
                       Icons.task,
-                      color: Colors.white,
+                      color: whiteColor,
                     ),
                   ),
                 ),
               ),
               title: Text(
                 "Quizizz 1",
-                style: GoogleFonts.poppins(
-                    fontSize: 12,
-                    fontWeight: FontWeight.w700,
-                    color: Colors.black),
+                style: preSubTitles.copyWith(fontWeight: FontWeight.w700),
               ),
               subtitle: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
                     "Topic : Input Topic 2",
-                    style: GoogleFonts.poppins(
-                        fontSize: 10,
-                        fontWeight: FontWeight.w400,
-                        color: Colors.black),
+                    style: keterangan,
                   ),
                 ],
               ),
@@ -131,14 +117,14 @@ class _QuizListState extends State<QuizList> {
                 },
                 child: Container(
                   decoration: BoxDecoration(
-                      color: Color(0xff00BF63),
+                      color: accentColor,
                       borderRadius: BorderRadius.circular(10)),
                   width: 40,
                   child: Padding(
                     padding: EdgeInsets.all(10),
                     child: Icon(
                       Icons.arrow_forward_ios,
-                      color: Colors.white,
+                      color: whiteColor,
                     ),
                   ),
                 ),
@@ -147,42 +133,36 @@ class _QuizListState extends State<QuizList> {
             Divider(
               thickness: 2,
               height: 10,
-              color: Color(0xff00BF63),
+              color: accentColor,
             ),
             ListTile(
-              tileColor: Color(0xffD2F6C5),
+              tileColor: primaryColor,
               leading: InkWell(
                 onTap: () {},
                 child: Container(
                   decoration: BoxDecoration(
-                      color: Color(0xff00BF63),
+                      color: accentColor,
                       borderRadius: BorderRadius.circular(10)),
                   width: 40,
                   child: Padding(
                     padding: EdgeInsets.all(10),
                     child: Icon(
                       Icons.task,
-                      color: Colors.white,
+                      color: whiteColor,
                     ),
                   ),
                 ),
               ),
               title: Text(
                 "Quizizz 1",
-                style: GoogleFonts.poppins(
-                    fontSize: 12,
-                    fontWeight: FontWeight.w700,
-                    color: Colors.black),
+                style: preSubTitles.copyWith(color: blackColor),
               ),
               subtitle: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
                     "Topic : Input Topic 2",
-                    style: GoogleFonts.poppins(
-                        fontSize: 10,
-                        fontWeight: FontWeight.w400,
-                        color: Colors.black),
+                    style: keterangan,
                   ),
                   SizedBox(
                     height: 5,
@@ -190,21 +170,21 @@ class _QuizListState extends State<QuizList> {
                   Icon(
                     _isvisibleQuiz ? Icons.lock : Icons.check,
                     size: 15,
-                    color: Color(0xff00BF63),
+                    color: accentColor,
                   )
                 ],
               ),
               trailing: InkWell(
                 child: Container(
                   decoration: BoxDecoration(
-                      color: Color(0xff00BF63),
+                      color: accentColor,
                       borderRadius: BorderRadius.circular(10)),
                   width: 40,
                   child: Padding(
                     padding: EdgeInsets.all(10),
                     child: Icon(
                       Icons.arrow_forward_ios,
-                      color: Colors.white,
+                      color: whiteColor,
                     ),
                   ),
                 ),
@@ -213,42 +193,36 @@ class _QuizListState extends State<QuizList> {
             Divider(
               thickness: 2,
               height: 10,
-              color: Color(0xff00BF63),
+              color: accentColor,
             ),
             ListTile(
-              tileColor: Color(0xffD2F6C5),
+              tileColor: primaryColor,
               leading: InkWell(
                 onTap: () {},
                 child: Container(
                   decoration: BoxDecoration(
-                      color: Color(0xff00BF63),
+                      color: accentColor,
                       borderRadius: BorderRadius.circular(10)),
                   width: 40,
                   child: Padding(
                     padding: EdgeInsets.all(10),
                     child: Icon(
                       Icons.task,
-                      color: Colors.white,
+                      color: whiteColor,
                     ),
                   ),
                 ),
               ),
               title: Text(
                 "Quizizz 1",
-                style: GoogleFonts.poppins(
-                    fontSize: 12,
-                    fontWeight: FontWeight.w700,
-                    color: Colors.black),
+                style: preSubTitles.copyWith(color: blackColor),
               ),
               subtitle: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
                     "Topic : Input Topic 2",
-                    style: GoogleFonts.poppins(
-                        fontSize: 10,
-                        fontWeight: FontWeight.w400,
-                        color: Colors.black),
+                    style: keterangan,
                   ),
                   SizedBox(
                     height: 5,
@@ -256,21 +230,21 @@ class _QuizListState extends State<QuizList> {
                   Icon(
                     _isvisibleQuiz ? Icons.lock : Icons.check,
                     size: 15,
-                    color: Color(0xff00BF63),
+                    color: accentColor,
                   )
                 ],
               ),
               trailing: InkWell(
                 child: Container(
                   decoration: BoxDecoration(
-                      color: Color(0xff00BF63),
+                      color: accentColor,
                       borderRadius: BorderRadius.circular(10)),
                   width: 40,
                   child: Padding(
                     padding: EdgeInsets.all(10),
                     child: Icon(
                       Icons.arrow_forward_ios,
-                      color: Colors.white,
+                      color: whiteColor,
                     ),
                   ),
                 ),
@@ -279,42 +253,36 @@ class _QuizListState extends State<QuizList> {
             Divider(
               thickness: 2,
               height: 10,
-              color: Color(0xff00BF63),
+              color: accentColor,
             ),
             ListTile(
-              tileColor: Color(0xffD2F6C5),
+              tileColor: primaryColor,
               leading: InkWell(
                 onTap: () {},
                 child: Container(
                   decoration: BoxDecoration(
-                      color: Color(0xff00BF63),
+                      color: accentColor,
                       borderRadius: BorderRadius.circular(10)),
                   width: 40,
                   child: Padding(
                     padding: EdgeInsets.all(10),
                     child: Icon(
                       Icons.task,
-                      color: Colors.white,
+                      color: whiteColor,
                     ),
                   ),
                 ),
               ),
               title: Text(
                 "Quizizz 1",
-                style: GoogleFonts.poppins(
-                    fontSize: 12,
-                    fontWeight: FontWeight.w700,
-                    color: Colors.black),
+                style: preSubTitles.copyWith(color: blackColor),
               ),
               subtitle: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
                     "Topic : Input Topic 2",
-                    style: GoogleFonts.poppins(
-                        fontSize: 10,
-                        fontWeight: FontWeight.w400,
-                        color: Colors.black),
+                    style: keterangan,
                   ),
                   SizedBox(
                     height: 5,
@@ -322,21 +290,21 @@ class _QuizListState extends State<QuizList> {
                   Icon(
                     _isvisibleQuiz ? Icons.lock : Icons.check,
                     size: 15,
-                    color: Color(0xff00BF63),
+                    color: accentColor,
                   )
                 ],
               ),
               trailing: InkWell(
                 child: Container(
                   decoration: BoxDecoration(
-                      color: Color(0xff00BF63),
+                      color: accentColor,
                       borderRadius: BorderRadius.circular(10)),
                   width: 40,
                   child: Padding(
                     padding: EdgeInsets.all(10),
                     child: Icon(
                       Icons.arrow_forward_ios,
-                      color: Colors.white,
+                      color: whiteColor,
                     ),
                   ),
                 ),
@@ -345,42 +313,36 @@ class _QuizListState extends State<QuizList> {
             Divider(
               thickness: 2,
               height: 10,
-              color: Color(0xff00BF63),
+              color: accentColor,
             ),
             ListTile(
-              tileColor: Color(0xffD2F6C5),
+              tileColor: primaryColor,
               leading: InkWell(
                 onTap: () {},
                 child: Container(
                   decoration: BoxDecoration(
-                      color: Color(0xff00BF63),
+                      color: accentColor,
                       borderRadius: BorderRadius.circular(10)),
                   width: 40,
                   child: Padding(
                     padding: EdgeInsets.all(10),
                     child: Icon(
                       Icons.task,
-                      color: Colors.white,
+                      color: whiteColor,
                     ),
                   ),
                 ),
               ),
               title: Text(
                 "Quizizz 1",
-                style: GoogleFonts.poppins(
-                    fontSize: 12,
-                    fontWeight: FontWeight.w700,
-                    color: Colors.black),
+                style: preSubTitles.copyWith(color: blackColor),
               ),
               subtitle: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
                     "Topic : Input Topic 2",
-                    style: GoogleFonts.poppins(
-                        fontSize: 10,
-                        fontWeight: FontWeight.w400,
-                        color: Colors.black),
+                    style: keterangan,
                   ),
                   SizedBox(
                     height: 5,
@@ -388,21 +350,21 @@ class _QuizListState extends State<QuizList> {
                   Icon(
                     _isvisibleQuiz ? Icons.lock : Icons.check,
                     size: 15,
-                    color: Color(0xff00BF63),
+                    color: accentColor,
                   )
                 ],
               ),
               trailing: InkWell(
                 child: Container(
                   decoration: BoxDecoration(
-                      color: Color(0xff00BF63),
+                      color: accentColor,
                       borderRadius: BorderRadius.circular(10)),
                   width: 40,
                   child: Padding(
                     padding: EdgeInsets.all(10),
                     child: Icon(
                       Icons.arrow_forward_ios,
-                      color: Colors.white,
+                      color: whiteColor,
                     ),
                   ),
                 ),
@@ -411,8 +373,8 @@ class _QuizListState extends State<QuizList> {
             Divider(
               thickness: 2,
               height: 10,
-              color: Color(0xff00BF63),
-            )
+              color: accentColor,
+            ),
           ],
         ),
       )),

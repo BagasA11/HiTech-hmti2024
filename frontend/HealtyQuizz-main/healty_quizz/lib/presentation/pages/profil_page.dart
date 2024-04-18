@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:healty_quizz/themes/theme.dart';
 
 class ProfilPage extends StatelessWidget {
   static const routeName = '/profil-screen';
@@ -8,16 +8,13 @@ class ProfilPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xffD2F6C5),
+      backgroundColor: primaryColor,
       appBar: AppBar(
-        backgroundColor: Color(0xff28DF99),
+        backgroundColor: secondaryColor,
         centerTitle: true,
         title: Text(
           'Profile',
-          style: GoogleFonts.poppins(
-            fontSize: 20,
-            color: Colors.white,
-          ),
+          style: title,
         ),
       ),
       body: SafeArea(
@@ -42,7 +39,7 @@ class ProfilPage extends StatelessWidget {
                             image: const DecorationImage(
                                 image: AssetImage("assets/guest.png")),
                             border: Border.all(
-                              color: Colors.black87, // Warna border
+                              color: blackColor, // Warna border
                               width: 1.0, // Lebar border
                             ),
                           ),
@@ -52,36 +49,29 @@ class ProfilPage extends StatelessWidget {
                         ),
                         Text(
                           "Username",
-                          style: GoogleFonts.poppins(
-                              fontSize: 12,
-                              fontWeight: FontWeight.w800,
-                              color: Colors.black),
+                          style: preSubTitles.copyWith(
+                              color: blackColor, fontWeight: FontWeight.w800),
                         ),
                         SizedBox(
                           height: 5,
                         ),
                         Text(
                           "Email",
-                          style: GoogleFonts.poppins(
-                              fontSize: 10,
-                              fontWeight: FontWeight.w400,
-                              color: Colors.black),
+                          style: keterangan.copyWith(color: blackColor),
                         ),
                       ],
                     ),
                   ),
                   Container(
-                    color: Color(0xffF6F7D4),
+                    color: separateColor,
                     child: Padding(
                       padding: EdgeInsets.symmetric(vertical: 10),
                       child: Row(
                         children: [
                           Text(
                             "General Settings",
-                            style: GoogleFonts.poppins(
-                                fontSize: 14,
-                                fontWeight: FontWeight.w400,
-                                color: Colors.black),
+                            style:
+                                subTitle.copyWith(fontWeight: FontWeight.w400),
                           ),
                         ],
                       ),
@@ -100,17 +90,15 @@ class ProfilPage extends StatelessWidget {
                     height: 10,
                   ),
                   Container(
-                    color: Color(0xffF6F7D4),
+                    color: separateColor,
                     child: Padding(
                       padding: EdgeInsets.symmetric(vertical: 10),
                       child: Row(
                         children: [
                           Text(
                             "General Settings",
-                            style: GoogleFonts.poppins(
-                                fontSize: 14,
-                                fontWeight: FontWeight.w400,
-                                color: Colors.black),
+                            style:
+                                subTitle.copyWith(fontWeight: FontWeight.w400),
                           ),
                         ],
                       ),
@@ -167,8 +155,8 @@ class ProfileDetailInfo extends StatelessWidget {
               flex: 2,
               child: Text(
                 value,
-                style: TextStyle(
-                    color: noValue == true ? Colors.grey : Colors.black),
+                style:
+                    TextStyle(color: noValue == true ? greyColor : blackColor),
               ),
             ),
             IconButton(
@@ -185,25 +173,25 @@ class ProfileDetailInfo extends StatelessWidget {
   }
 }
 
-class QuestionBorderMark extends StatelessWidget {
-  const QuestionBorderMark({super.key});
+// class QuestionBorderMark extends StatelessWidget {
+//   const QuestionBorderMark({super.key});
 
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: 18,
-      height: 18,
-      decoration: BoxDecoration(
-        shape: BoxShape.circle,
-        border: Border.all(
-          color: Colors.black,
-          width: 2,
-        ),
-      ),
-      child: const Icon(
-        size: 13,
-        Icons.question_mark_sharp,
-      ),
-    );
-  }
-}
+//   @override
+//   Widget build(BuildContext context) {
+//     return Container(
+//       width: 18,
+//       height: 18,
+//       decoration: BoxDecoration(
+//         shape: BoxShape.circle,
+//         border: Border.all(
+//           color: Colors.black,
+//           width: 2,
+//         ),
+//       ),
+//       child: const Icon(
+//         size: 13,
+//         Icons.question_mark_sharp,
+//       ),
+//     );
+//   }
+// }

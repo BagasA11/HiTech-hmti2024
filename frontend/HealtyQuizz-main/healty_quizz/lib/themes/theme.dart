@@ -6,13 +6,16 @@ const Color secondaryColor = Color(0xFF28DF99);
 const Color accentColor = Color(0xFFF00BF63);
 const Color blackColor = Color.fromARGB(255, 0, 0, 0);
 const Color whiteColor = Color(0xFFffffff);
-
-const Color greyColor = Color(0xFFaaaaaa);
+const Color separateColor = Color(0xffF6F7D4);
+const Color greyColor = Colors.grey;
+const Color blueColor = Colors.blue;
 
 TextStyle title = GoogleFonts.poppins(fontSize: 20, color: whiteColor);
 TextStyle subTitle = GoogleFonts.poppins(fontSize: 14, color: blackColor);
 TextStyle preSubTitles =
     GoogleFonts.poppins(fontSize: 12, fontWeight: FontWeight.w600);
+TextStyle keterangan =
+    GoogleFonts.poppins(fontSize: 10, fontWeight: FontWeight.w400);
 
 TextStyle heading =
     GoogleFonts.openSans(fontSize: 27, fontWeight: FontWeight.bold);
