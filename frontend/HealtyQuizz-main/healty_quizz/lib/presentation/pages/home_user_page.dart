@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:healty_quizz/presentation/pages/user/leaderboard_user_page.dart';
+import 'package:healty_quizz/presentation/makequiz_page.dart';
+import 'package:healty_quizz/presentation/pages/quizseting_page.dart';
+import 'package:healty_quizz/presentation/pages/leaderboard_user_page.dart';
 import 'package:healty_quizz/presentation/pages/profil_page.dart';
 import 'package:healty_quizz/presentation/pages/quizlist_page.dart';
 
@@ -242,7 +244,7 @@ class _HomePageState extends State<HomePage> {
                           Text(
                             "Leaderboard",
                             style: GoogleFonts.poppins(
-                                fontSize: 11, fontWeight: FontWeight.w200),
+                                fontSize: 12, fontWeight: FontWeight.w200),
                           )
                         ],
                       ),
@@ -268,14 +270,16 @@ class _HomePageState extends State<HomePage> {
                           Text(
                             "Quiz",
                             style: GoogleFonts.poppins(
-                                fontSize: 11, fontWeight: FontWeight.w200),
+                                fontSize: 12, fontWeight: FontWeight.w200),
                           )
                         ],
                       ),
                     ),
                   ),
                   InkWell(
-                    onTap: () {},
+                    onTap: () {
+                      Navigator.pushNamed(context, QuizSeting.routeName);
+                    },
                     child: Container(
                       padding: const EdgeInsets.all(9),
                       color: Color(0xffF6F7D4),
@@ -290,16 +294,18 @@ class _HomePageState extends State<HomePage> {
                             height: 2,
                           ),
                           Text(
-                            "Top up",
+                            "Tambah Soal",
                             style: GoogleFonts.poppins(
-                                fontSize: 11, fontWeight: FontWeight.w200),
+                                fontSize: 12, fontWeight: FontWeight.w200),
                           )
                         ],
                       ),
                     ),
                   ),
                   InkWell(
-                    onTap: () {},
+                    onTap: () {
+                      Navigator.pushNamed(context, MakeQuiz.routeName);
+                    },
                     child: Container(
                       padding: const EdgeInsets.all(9),
                       color: Color(0xffF6F7D4),
@@ -314,9 +320,9 @@ class _HomePageState extends State<HomePage> {
                             height: 2,
                           ),
                           Text(
-                            "Purchase Quiz",
+                            "Membuat Quiz",
                             style: GoogleFonts.poppins(
-                                fontSize: 10, fontWeight: FontWeight.w200),
+                                fontSize: 12, fontWeight: FontWeight.w200),
                           )
                         ],
                       ),
@@ -340,9 +346,7 @@ class _HomePageState extends State<HomePage> {
                     ),
                   ),
                   TextButton(
-                    onPressed: () {
-                     
-                    },
+                    onPressed: () {},
                     child: Text(
                       "Show All",
                       style: GoogleFonts.poppins(

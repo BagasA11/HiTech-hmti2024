@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:healty_quizz/presentation/pages/user/home_user_page.dart';
+import 'package:healty_quizz/presentation/pages/home_user_page.dart';
 import 'package:healty_quizz/presentation/pages/login_page.dart';
+import 'package:healty_quizz/themes/theme.dart';
 
 class RegisterPage extends StatefulWidget {
   static const routeName = '/register-page';
@@ -27,15 +28,12 @@ class _RegisterPageState extends State<RegisterPage> {
   Widget build(BuildContext context) {
     Size screenWidth = MediaQuery.of(context).size;
     return Scaffold(
-      backgroundColor: Color(0xffD2F6C5),
+      backgroundColor: primaryColor,
       appBar: AppBar(
-        backgroundColor: Color(0xff28DF99),
+        backgroundColor: secondaryColor,
         title: Text(
           "Register",
-          style: GoogleFonts.poppins(
-            fontSize: 20,
-            color: Colors.white,
-          ),
+          style: title,
         ),
         centerTitle: true,
       ),
@@ -69,7 +67,7 @@ class _RegisterPageState extends State<RegisterPage> {
               children: [
                 Text(
                   "Already registered?",
-                  style: GoogleFonts.poppins(color: Colors.black, fontSize: 14),
+                  style: subTitle,
                 ),
                 TextButton(
                   onPressed: () {
@@ -77,8 +75,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   },
                   child: Text(
                     "Login",
-                    style: GoogleFonts.poppins(
-                        color: Colors.black, fontWeight: FontWeight.bold),
+                    style: subTitle.copyWith(fontWeight: FontWeight.bold),
                   ),
                 ),
               ],
@@ -94,15 +91,12 @@ class _RegisterPageState extends State<RegisterPage> {
                   controller: _username,
                   decoration: InputDecoration(
                     hintText: 'username',
-                    hintStyle: GoogleFonts.poppins(
-                      fontSize: 12,
-                      fontWeight: FontWeight.w600,
-                    ),
+                    hintStyle: preSubTitles,
                     isDense: true,
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(40),
                       borderSide: BorderSide(
-                        color: Color(0xff00BF63),
+                        color: accentColor,
                       ),
                     ),
                     icon: Image.asset(
@@ -121,15 +115,12 @@ class _RegisterPageState extends State<RegisterPage> {
                   controller: _email,
                   decoration: InputDecoration(
                     hintText: 'email',
-                    hintStyle: GoogleFonts.poppins(
-                      fontSize: 12,
-                      fontWeight: FontWeight.w600,
-                    ),
+                    hintStyle: preSubTitles,
                     isDense: true,
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(40),
                       borderSide: BorderSide(
-                        color: Color(0xff00BF63),
+                        color: accentColor,
                       ),
                     ),
                     icon: Image.asset(
@@ -148,15 +139,12 @@ class _RegisterPageState extends State<RegisterPage> {
                   controller: _password,
                   decoration: InputDecoration(
                     hintText: 'password',
-                    hintStyle: GoogleFonts.poppins(
-                      fontSize: 12,
-                      fontWeight: FontWeight.w600,
-                    ),
+                    hintStyle: preSubTitles,
                     isDense: true,
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(40),
                       borderSide: BorderSide(
-                        color: Color(0xff00BF63),
+                        color: accentColor,
                       ),
                     ),
                     icon: Image.asset(
@@ -176,13 +164,10 @@ class _RegisterPageState extends State<RegisterPage> {
               },
               child: Text(
                 "SIGN UP",
-                style: GoogleFonts.openSans(
-                    fontWeight: FontWeight.w700,
-                    color: Colors.black,
-                    fontSize: 12),
+                style: subText.copyWith(color: blackColor),
               ),
               style: ElevatedButton.styleFrom(
-                backgroundColor: Color(0xff00BF63),
+                backgroundColor: accentColor,
               ),
             ),
           ],

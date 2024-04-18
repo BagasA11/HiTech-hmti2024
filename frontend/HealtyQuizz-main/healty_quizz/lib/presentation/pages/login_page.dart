@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:healty_quizz/presentation/pages/user/home_user_page.dart';
+import 'package:healty_quizz/presentation/pages/home_user_page.dart';
+import 'package:healty_quizz/themes/theme.dart';
 
 class LoginPage extends StatefulWidget {
   static const routeName = '/login-page';
@@ -26,16 +27,10 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     Size screenWidth = MediaQuery.of(context).size;
     return Scaffold(
-      backgroundColor: Color(0xffD2F6C5),
+      backgroundColor: primaryColor,
       appBar: AppBar(
-        backgroundColor: Color(0xff28DF99),
-        title: Text(
-          "Login",
-          style: GoogleFonts.poppins(
-            fontSize: 20,
-            color: Colors.white,
-          ),
-        ),
+        backgroundColor: secondaryColor,
+        title: Text("Login", style: title),
         centerTitle: true,
       ),
       body: SafeArea(
@@ -68,7 +63,7 @@ class _LoginPageState extends State<LoginPage> {
               children: [
                 Text(
                   "Sign in to continue",
-                  style: GoogleFonts.poppins(color: Colors.black, fontSize: 14),
+                  style: subTitle,
                 ),
               ],
             ),
@@ -83,10 +78,7 @@ class _LoginPageState extends State<LoginPage> {
                   controller: _username,
                   decoration: InputDecoration(
                     hintText: 'Username',
-                    hintStyle: GoogleFonts.poppins(
-                      fontSize: 12,
-                      fontWeight: FontWeight.w600,
-                    ),
+                    hintStyle: preSubTitles,
                     isDense: true,
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(40),
@@ -110,10 +102,7 @@ class _LoginPageState extends State<LoginPage> {
                   controller: _password,
                   decoration: InputDecoration(
                     hintText: 'Password',
-                    hintStyle: GoogleFonts.poppins(
-                      fontSize: 12,
-                      fontWeight: FontWeight.w600,
-                    ),
+                    hintStyle: preSubTitles,
                     isDense: true,
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(40),
@@ -137,10 +126,7 @@ class _LoginPageState extends State<LoginPage> {
                   controller: _verifypassword,
                   decoration: InputDecoration(
                     hintText: 'Verify Password',
-                    hintStyle: GoogleFonts.poppins(
-                      fontSize: 12,
-                      fontWeight: FontWeight.w600,
-                    ),
+                    hintStyle: preSubTitles,
                     isDense: true,
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(40),
@@ -165,13 +151,10 @@ class _LoginPageState extends State<LoginPage> {
               },
               child: Text(
                 "LOGIN",
-                style: GoogleFonts.openSans(
-                    fontWeight: FontWeight.w700,
-                    color: Colors.black,
-                    fontSize: 12),
+                style: subText.copyWith(color: blackColor),
               ),
               style: ElevatedButton.styleFrom(
-                backgroundColor: Color(0xff00BF63),
+                backgroundColor: accentColor,
               ),
             ),
           ],

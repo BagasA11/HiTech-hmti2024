@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:healty_quizz/presentation/pages/register_page.dart';
+import 'package:healty_quizz/themes/theme.dart';
 
 class SplashScreen extends StatelessWidget {
   static const routeName = '/splash-screen';
@@ -11,16 +11,10 @@ class SplashScreen extends StatelessWidget {
     Size screenWidth = MediaQuery.of(context).size;
 
     return Scaffold(
-        backgroundColor: Color(0xffD2F6C5),
+        backgroundColor: primaryColor,
         appBar: AppBar(
-          backgroundColor: Color(0xff28DF99),
-          title: Text(
-            "Welcome",
-            style: GoogleFonts.poppins(
-              fontSize: 20,
-              color: Colors.white,
-            ),
-          ),
+          backgroundColor: secondaryColor,
+          title: Text("Welcome", style: title),
           centerTitle: true,
         ),
         body: SafeArea(
@@ -49,23 +43,12 @@ class SplashScreen extends StatelessWidget {
               ),
               Text(
                 "Welcome",
-                style: GoogleFonts.openSans(
-                  fontSize: 26.9,
-                  fontWeight: FontWeight.bold,
-                  color: Color(0xff00BF63),
-                ),
+                style: heading.copyWith(color: accentColor),
               ),
               SizedBox(
                 height: 5,
               ),
-              Text(
-                "HealtyQuiz",
-                style: GoogleFonts.openSans(
-                  fontSize: 12.5,
-                  fontWeight: FontWeight.w200,
-                  color: Color(0xff00BF63),
-                ),
-              ),
+              Text("HealtyQuiz", style: text.copyWith(color: accentColor)),
               SizedBox(
                 height: 5,
               ),
@@ -76,13 +59,10 @@ class SplashScreen extends StatelessWidget {
                 },
                 child: Text(
                   "Get Started",
-                  style: GoogleFonts.openSans(
-                      fontWeight: FontWeight.bold,
-                      color: Colors.black,
-                      fontSize: 19.1),
+                  style: subHeading.copyWith(color: blackColor),
                 ),
                 style: ElevatedButton.styleFrom(
-                    backgroundColor: Color(0xff00BF63),
+                    backgroundColor: accentColor,
                     padding: EdgeInsets.symmetric(horizontal: 50)),
               ),
             ],
