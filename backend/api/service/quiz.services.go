@@ -21,7 +21,6 @@ func (qs *QuizService) CreateQuiz(req *dto.QuizCreate) error {
 		Title: req.Title,
 		Topic: req.Topic,
 		Desc:  req.Desc,
-		Dura:  req.Duration,
 	}
 	err := qs.repository.Create(q)
 	return err
@@ -71,7 +70,6 @@ func (qs *QuizService) Update(id uint, req *dto.QuizEdit) error {
 		ID:    id,
 		Title: req.Title,
 		Topic: req.Topic,
-		Dura:  req.Duration,
 	}
 	err := qs.repository.Update(q)
 	return err

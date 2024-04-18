@@ -17,6 +17,7 @@ type Question struct {
 	QuizID   uint
 	Quiz     Quiz `gorm:"constraint:OnDelete:CASCADE;"`
 	Option   []Option
+	Dura     int `gorm:"not null; default:1; check:dura<=30"`
 }
 
 // Before
@@ -25,6 +26,10 @@ func (q *Question) BeforeCreate(tx *gorm.DB) (err error) {
 	if !slices.Contains(s, strings.ToUpper(q.Answer)) {
 		err := errors.New("Answer column: " + strings.ToUpper(q.Answer) + " must be set in " + strings.Join(s, ","))
 		return err
+	}
+
+	if q.Dura <= 0 || q.Dura > 30 {
+		return errors.New("timer must be greater than 0 and less than 30 second")
 	}
 	return nil
 }

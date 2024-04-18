@@ -29,6 +29,7 @@ type User struct {
 	DeletedAt   uint `gorm:"type:integer; default:null"`
 	Score       []Score
 	TopUp       []TopUp
+	Quiz        []Quiz
 	Transaction []Transaction
 }
 
