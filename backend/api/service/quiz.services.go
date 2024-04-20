@@ -16,11 +16,12 @@ func NewQuizService() *QuizService {
 	}
 }
 
-func (qs *QuizService) CreateQuiz(req *dto.QuizCreate) (uint, error) {
+func (qs *QuizService) CreateQuiz(req *dto.QuizCreate, userID uint) (uint, error) {
 	q := models.Quiz{
-		Title: req.Title,
-		Topic: req.Topic,
-		Desc:  req.Desc,
+		Title:  req.Title,
+		Topic:  req.Topic,
+		Desc:   req.Desc,
+		UserID: userID,
 	}
 	return qs.repository.Create(q)
 

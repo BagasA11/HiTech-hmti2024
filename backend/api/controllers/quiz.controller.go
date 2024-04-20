@@ -28,15 +28,16 @@ func NewQuizController() *QuizController {
 }
 
 func (qc *QuizController) Create(c *gin.Context) {
-	typ, exist := c.Get("TokenType")
+	//token validation
+	//get user id in token
+	uID, exist := c.Get("ID")
 	if !exist {
-		c.JSON(http.StatusBadRequest, "token type not set")
+		c.JSON(http.StatusBadRequest, gin.H{
+			"massage": "cannot find ID from header",
+		})
 		return
 	}
-	if typ.(string) != "admin" {
-		c.JSON(http.StatusUnauthorized, "you are not allowed to modificate quiz entity")
-		return
-	}
+
 	//initial request data
 	req := new(dto.QuizCreate)
 	//bind data from request
@@ -59,7 +60,7 @@ func (qc *QuizController) Create(c *gin.Context) {
 		return
 	}
 
-	id, err := qc.service.CreateQuiz(req)
+	id, err := qc.service.CreateQuiz(req, uID.(uint))
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"massage": "failed to create data",
@@ -279,7 +280,7 @@ func (qc *QuizController) UploadImgCover(c *gin.Context) {
 
 	//upload image from form file type
 
-	filePath, err := upload(c, uID.(uint))
+	filePath, err := upload(c, uint(id))
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"massage": "failed to upload quiz image",
@@ -293,7 +294,7 @@ func (qc *QuizController) UploadImgCover(c *gin.Context) {
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"massage": "failed to upload quiz image",
-			"error":   err,
+			"error":   err.Error(),
 		})
 		return
 	}
@@ -314,7 +315,7 @@ func (qc *QuizController) Delete(c *gin.Context) {
 	id, err := strconv.Atoi(c.Param("id"))
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
-			"error": err,
+			"error": err.Error(),
 		})
 		return
 	}

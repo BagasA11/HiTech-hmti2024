@@ -3,6 +3,7 @@ package repository
 import (
 	"BagasA11/GSC-quizHealthEdu-BE/api/models"
 	"BagasA11/GSC-quizHealthEdu-BE/configs"
+	"errors"
 	"time"
 
 	"gorm.io/gorm"
@@ -81,7 +82,7 @@ func (qr *QuizRepository) FindTopic(topic string) ([]models.Quiz, error) {
 
 func (qr *QuizRepository) Self(userID uint) ([]models.Quiz, error) {
 	var quiz []models.Quiz
-	err := qr.Db.Where("user_id = ? AND public = ?", userID, false).Select("id", "topic", "desc", "free").Find(&quiz).Error
+	err := qr.Db.Where("user_id = ?", userID).Select("id", "topic", "desc", "free").Find(&quiz).Error
 	return quiz, err
 }
 
@@ -100,6 +101,9 @@ func (qr *QuizRepository) Update(quiz models.Quiz, userID uint) error {
 func (qr *QuizRepository) UploadImageCover(id uint, userID uint, file string) error {
 	tx := qr.Db.Begin()
 	err := tx.Model(&models.Quiz{}).Where("id = ? AND user_id = ?", id, userID).Update("img", file).Error
+	if tx.RowsAffected == 0 {
+		return errors.New("content not found or hidden")
+	}
 	if err != nil {
 		tx.Rollback()
 		return err

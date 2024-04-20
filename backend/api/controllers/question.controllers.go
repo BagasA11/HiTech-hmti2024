@@ -41,7 +41,7 @@ func (qc *QuestionController) Create(c *gin.Context) {
 	quizId, err := strconv.Atoi(c.Param("id"))
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
-			"error": err,
+			"error": err.Error(),
 		})
 		return
 	}
@@ -67,7 +67,7 @@ func (qc *QuestionController) Create(c *gin.Context) {
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"message": "failed to create Question",
-			"error":   err,
+			"error":   err.Error(),
 		})
 		return
 	}
