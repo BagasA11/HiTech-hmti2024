@@ -16,13 +16,13 @@ func NewOptionService() *OptionService {
 	}
 }
 
-func (ops *OptionService) Create(questId uint, req *dto.Option) error {
+func (ops *OptionService) Create(questId uint, userID uint, req *dto.Option) error {
 	o := models.Option{
 		Alphabet:   req.Alphabet,
 		Text:       req.Txt,
 		QuestionID: questId,
 	}
-	err := ops.repository.Create(o)
+	err := ops.repository.Create(o, userID)
 	return err
 }
 
@@ -31,17 +31,16 @@ func (ops *OptionService) FindID(id uint) (models.Option, error) {
 	return o, err
 }
 
-func (ops *OptionService) Edit(id uint, req *dto.Option) error {
+func (ops *OptionService) Edit(id uint, userID uint, req *dto.Option) error {
 	o := models.Option{
 		ID:       id,
 		Alphabet: req.Alphabet,
 		Text:     req.Txt,
 	}
-	err := ops.repository.Edit(o)
-	return err
+
+	return ops.repository.Edit(o, userID)
 }
 
-func (ops *OptionService) Delete(id uint) error {
-	err := ops.repository.Delete(id)
-	return err
+func (ops *OptionService) Delete(id uint, userID uint) error {
+	return ops.repository.Delete(id, userID)
 }

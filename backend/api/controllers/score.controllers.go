@@ -261,7 +261,7 @@ func (ss *ScoreController) Rank(c *gin.Context) {
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"massage": "cannot serve request",
-			"error":   err,
+			"error":   err.Error(),
 		})
 		return
 	}
@@ -282,7 +282,7 @@ func (sc *ScoreController) History(c *gin.Context) {
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"massage": "cannot serve request",
-			"error":   err,
+			"error":   err.Error(),
 		})
 		return
 	}

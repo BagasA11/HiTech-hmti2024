@@ -56,7 +56,7 @@ func (ac *AuthController) UserLogin(ctx *gin.Context) {
 	if err != nil {
 		ctx.JSON(http.StatusUnauthorized, gin.H{
 			"message": "invalid credentials",
-			"error":   err,
+			"error":   err.Error(),
 		})
 		return
 	}
@@ -96,7 +96,7 @@ func (ac *AuthController) AdmiLogin(c *gin.Context) {
 	if err != nil {
 		c.JSON(http.StatusUnauthorized, gin.H{
 			"message": "invalid credentials",
-			"error":   err,
+			"error":   err.Error(),
 		})
 		return
 	}
@@ -122,7 +122,7 @@ func (ac *AuthController) Logout(c *gin.Context) {
 	if err := ac.service.Logout(strings.Split(token, " ")[1]); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"massage": "failed to logout",
-			"error":   err,
+			"error":   err.Error(),
 		})
 		return
 	}
@@ -131,15 +131,4 @@ func (ac *AuthController) Logout(c *gin.Context) {
 		"massage": "logout success",
 	})
 
-}
-
-func (ac *AuthController) AllToken(c *gin.Context) {
-	bt, err := ac.service.ListAllToken()
-	if err != nil {
-		c.JSON(http.StatusBadRequest, "token are empty")
-		return
-	}
-	c.JSON(200, gin.H{
-		"all token": bt,
-	})
 }

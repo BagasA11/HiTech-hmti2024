@@ -3,6 +3,7 @@ package repository
 import (
 	"BagasA11/GSC-quizHealthEdu-BE/api/models"
 	"BagasA11/GSC-quizHealthEdu-BE/configs"
+	"errors"
 
 	"gorm.io/gorm"
 )
@@ -17,8 +18,13 @@ func NewOptRepository() *OptionRepository {
 	}
 }
 
-func (optRp *OptionRepository) Create(opt models.Option) error {
+func (optRp *OptionRepository) Create(opt models.Option, userID uint) error {
 	tx := optRp.Db.Begin()
+	// SELECT * FROM questions WHERE id = $opt->id AND quiz_id IN (SELECT id FROM quizzes WHERE user_id = $userID)
+	if tx.Where("id = ? AND quiz_id IN (SELECT id FROM quizzes WHERE user_id = ?)", opt.QuestionID, userID).First(&models.Question{}).RowsAffected == 0 {
+		return errors.New("you not allowed to modify this content")
+	}
+
 	err := tx.Create(&opt).Error
 	if err != nil {
 		tx.Rollback()
@@ -40,9 +46,16 @@ func (optRp *OptionRepository) ReferToQuestion(questID uint) ([]models.Option, e
 	return opts, err
 }
 
-func (optRp *OptionRepository) Edit(opt models.Option) error {
+func (optRp *OptionRepository) Edit(opt models.Option, userID uint) error {
 	tx := optRp.Db.Begin()
-	err := tx.Model(&models.Option{}).Where("id = ?", opt.ID).Updates(&opt).Error
+
+	// UPDATE options SET options{} = $opt WHERE id = $opt->id AND question_i IN (SELECT id FROM questions WHERE quiz_id IN ( SELECT id FROM quizzes WHERE user_id = $userID) )
+	err := tx.Model(&models.Option{}).Where("id = ? AND question_id IN (SELECT id FROM questions WHERE quiz_id IN (SELECT id FROM quizzes WHERE user_id = ?))", opt.ID, userID).Updates(&opt).Error
+
+	if tx.RowsAffected == 0 {
+		return errors.New("you not allowed to modify this content")
+	}
+
 	if err != nil {
 		tx.Rollback()
 		return err
@@ -51,9 +64,14 @@ func (optRp *OptionRepository) Edit(opt models.Option) error {
 	return nil
 }
 
-func (optRp *OptionRepository) Delete(id uint) error {
+func (optRp *OptionRepository) Delete(id uint, userID uint) error {
 	tx := optRp.Db.Begin()
-	err := tx.Delete(&models.Option{}, id).Error
+	err := tx.Where("id = ? AND question_id IN (SELECT id FROM questions WHERE quiz_id IN (SELECT id FROM quizzes WHERE user_id = ?))").Delete(&models.Option{}).Error
+
+	if tx.RowsAffected == 0 {
+		return errors.New("you not allowed to modify this content")
+	}
+
 	if err != nil {
 		tx.Rollback()
 		return err

@@ -58,5 +58,4 @@ func UserRoutes(group *gin.RouterGroup) {
 	group.PUT("/user/block/:id", middleware.JwtAuth(), uc.BlockUser)
 	//general
 
-	group.GET("/token", ac.AllToken)
 }

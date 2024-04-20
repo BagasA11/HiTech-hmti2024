@@ -87,7 +87,7 @@ func (qc *QuestionController) FindID(c *gin.Context) {
 	id, err := strconv.Atoi(c.Param("id"))
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
-			"error": err,
+			"error": err.Error(),
 		})
 		return
 	}
@@ -161,7 +161,7 @@ func (qc *QuestionController) ReferToQuiz(c *gin.Context) {
 	if err != nil {
 		c.JSON(http.StatusNotFound, gin.H{
 			"massage": "id not found",
-			"error":   err,
+			"error":   err.Error(),
 		})
 		return
 	}
@@ -195,7 +195,8 @@ func (qc *QuestionController) Edit(c *gin.Context) {
 	id, err := strconv.Atoi(c.Param("id"))
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
-			"error": err,
+			"massage": "failed to convert id to int",
+			"error":   err.Error(),
 		})
 		return
 	}
@@ -244,7 +245,8 @@ func (qc *QuestionController) UploadFile(c *gin.Context) {
 	id, err := strconv.Atoi(c.Param("id"))
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
-			"error": err,
+			"massage": "failed to convert id to int",
+			"error":   err.Error(),
 		})
 		return
 	}
@@ -252,7 +254,7 @@ func (qc *QuestionController) UploadFile(c *gin.Context) {
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"massage": "failed to upload file",
-			"error":   err,
+			"error":   err.Error(),
 		})
 		return
 	}
@@ -260,8 +262,8 @@ func (qc *QuestionController) UploadFile(c *gin.Context) {
 	err = qc.service.SetAvatar(uint(id), uID.(uint), dir)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
-			"massage": "failed",
-			"error":   err,
+			"massage": "failed to update avatar path",
+			"error":   err.Error(),
 		})
 		return
 	}
@@ -282,14 +284,18 @@ func moveFile(c *gin.Context, id uint) (string, error) {
 	if !slices.Contains([]string{"jpg", "png", "jpeg", "svg"}, ext) {
 		return "", errors.New("file is not image type")
 	}
-	rename, err := helpers.Rename("question", id, ext)
 
-	err = c.SaveUploadedFile(file, fmt.Sprintf("asset/img/question/%s", rename+"."+ext))
+	newname, err := helpers.Rename("question", id, ext)
 	if err != nil {
 		return "", err
 	}
 
-	return fmt.Sprintf("asset/img/question/%s", rename+"."+ext), nil
+	err = c.SaveUploadedFile(file, fmt.Sprintf("asset/img/question/%s", newname))
+	if err != nil {
+		return "", err
+	}
+
+	return fmt.Sprintf("asset/img/question/%s", newname), nil
 }
 
 func (qc *QuestionController) Delete(c *gin.Context) {
@@ -318,7 +324,7 @@ func (qc *QuestionController) Delete(c *gin.Context) {
 	err = qc.service.Delete(uint(id), uID.(uint))
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
-			"error": err,
+			"error": err.Error(),
 		})
 		return
 	}

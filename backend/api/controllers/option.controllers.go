@@ -43,7 +43,7 @@ func (oc *OptionController) Create(c *gin.Context) {
 	id, err := strconv.Atoi(c.Param("id"))
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
-			"error": err,
+			"error": err.Error(),
 		})
 		return
 	}
@@ -68,7 +68,7 @@ func (oc *OptionController) Create(c *gin.Context) {
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"message": "failed to create Option",
-			"error":   err,
+			"error":   err.Error(),
 		})
 		return
 	}
@@ -91,7 +91,7 @@ func (oc *OptionController) FindID(c *gin.Context) {
 	id, err := strconv.Atoi(c.Param("id"))
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
-			"error": err,
+			"error": err.Error(),
 		})
 		return
 	}
@@ -99,7 +99,7 @@ func (oc *OptionController) FindID(c *gin.Context) {
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"massage": "failed to get data",
-			"error":   err,
+			"error":   err.Error(),
 		})
 		return
 	}
@@ -131,7 +131,7 @@ func (oc *OptionController) Edit(c *gin.Context) {
 	id, err := strconv.Atoi(c.Param("id"))
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
-			"error": err,
+			"error": err.Error(),
 		})
 		return
 	}
@@ -158,7 +158,7 @@ func (oc *OptionController) Edit(c *gin.Context) {
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"message": "failed to Update Option",
-			"err":     err,
+			"err":     err.Error(),
 		})
 		return
 	}
@@ -188,7 +188,7 @@ func (oc *OptionController) Delete(c *gin.Context) {
 	id, err := strconv.Atoi(c.Param("id"))
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
-			"error": err,
+			"error": err.Error(),
 		})
 		return
 	}
@@ -197,7 +197,7 @@ func (oc *OptionController) Delete(c *gin.Context) {
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"message": "failed to Delete Option",
-			"err":     err,
+			"err":     err.Error(),
 		})
 		return
 	}

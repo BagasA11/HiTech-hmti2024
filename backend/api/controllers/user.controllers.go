@@ -3,6 +3,7 @@ package controllers
 import (
 	"BagasA11/GSC-quizHealthEdu-BE/api/dto"
 	"BagasA11/GSC-quizHealthEdu-BE/api/service"
+	"BagasA11/GSC-quizHealthEdu-BE/helpers"
 	"errors"
 	"fmt"
 	"net/http"
@@ -12,7 +13,6 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/go-playground/validator/v10"
-	"github.com/google/uuid"
 )
 
 type UserController struct {
@@ -47,7 +47,7 @@ func (uc *UserController) CreateUser(c *gin.Context) {
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"message": "failed to create user",
-			"error":   err,
+			"error":   err.Error(),
 		})
 		return
 	}
@@ -94,7 +94,7 @@ func (uc *UserController) CreateAdmin(c *gin.Context) {
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"message": "failed to create admin",
-			"error":   err,
+			"error":   err.Error(),
 		})
 		return
 	}
@@ -188,6 +188,7 @@ func (uc *UserController) FindAdminbyUsername(c *gin.Context) {
 	if err != nil {
 		c.JSON(http.StatusNotFound, gin.H{
 			"message": "username not found",
+			"error":   err.Error(),
 		})
 		return
 	}
@@ -219,7 +220,7 @@ func (uc *UserController) AdminID(c *gin.Context) {
 	id, err := strconv.Atoi(c.Param("id"))
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
-			"error": err,
+			"error": err.Error(),
 		})
 		return
 	}
@@ -270,7 +271,7 @@ func (uc *UserController) GetUserByID(c *gin.Context) {
 	id, err := strconv.Atoi(c.Param("id"))
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
-			"error": err,
+			"error": err.Error(),
 		})
 		return
 	}
@@ -278,6 +279,7 @@ func (uc *UserController) GetUserByID(c *gin.Context) {
 	if err != nil {
 		c.JSON(http.StatusNotFound, gin.H{
 			"massage": "user not found",
+			"error":   err.Error(),
 		})
 		return
 	}
@@ -302,7 +304,7 @@ func (uc *UserController) Me(c *gin.Context) {
 	if err != nil {
 		c.JSON(http.StatusNotFound, gin.H{
 			"massage": "not found",
-			"error":   err,
+			"error":   err.Error(),
 		})
 		return
 	}
@@ -356,7 +358,7 @@ func (uc *UserController) UpdateUsername(ctx *gin.Context) {
 	if err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{
 			"message": "failed to update password",
-			"error":   err,
+			"error":   err.Error(),
 		})
 		return
 	}
@@ -375,11 +377,11 @@ func (uc *UserController) UpdateAvatar(c *gin.Context) {
 		return
 	}
 
-	filename, err := uploadAvatar(c)
+	filename, err := uploadAvatar(c, id.(uint))
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"massage": "failed to upload avatar",
-			"error":   err,
+			"error":   err.Error(),
 		})
 		return
 	}
@@ -395,7 +397,7 @@ func (uc *UserController) UpdateAvatar(c *gin.Context) {
 }
 
 /*return path of image and nil error if success, else: return empty string and error*/
-func uploadAvatar(c *gin.Context) (string, error) {
+func uploadAvatar(c *gin.Context, id uint) (string, error) {
 	file, err := c.FormFile("file")
 	if err != nil {
 		return "", err
@@ -409,13 +411,16 @@ func uploadAvatar(c *gin.Context) (string, error) {
 		return "", errors.New("file not image type")
 	}
 
-	filename := uuid.New().String() + "." + ext //img.jpg
+	filename, err := helpers.Rename("user", id, ext)
+	if err != nil {
+		return "", err
+	}
 
 	err = c.SaveUploadedFile(file, fmt.Sprintf("asset/img/user/%s", filename))
 	if err != nil {
 		return "", err
 	}
-	path := "/asset/img/user/" + filename
+	path := fmt.Sprintf("asset/img/user/%s", filename)
 	return path, nil
 }
 
@@ -450,7 +455,7 @@ func (uc *UserController) UpdatePassword(c *gin.Context) {
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"message": "failed to update password",
-			"error":   err,
+			"error":   err.Error(),
 		})
 		return
 	}
@@ -477,7 +482,7 @@ func (uc *UserController) BlockUser(c *gin.Context) {
 	id, err := strconv.Atoi(c.Param("id"))
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
-			"error": err,
+			"error": err.Error(),
 		})
 		return
 	}
@@ -485,7 +490,7 @@ func (uc *UserController) BlockUser(c *gin.Context) {
 	if err != nil {
 		c.JSON(http.StatusNotFound, gin.H{
 			"message": "user id not found",
-			"error":   err,
+			"error":   err.Error(),
 		})
 		return
 	}
@@ -523,7 +528,7 @@ func (uc *UserController) Delete(c *gin.Context) {
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"message": "failed to update password",
-			"error":   err,
+			"error":   err.Error(),
 		})
 		return
 	}

@@ -64,7 +64,7 @@ func (qc *QuizController) Create(c *gin.Context) {
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"massage": "failed to create data",
-			"error":   err,
+			"error":   err.Error(),
 		})
 		return
 	}
@@ -168,7 +168,7 @@ func (qc *QuizController) FindID(c *gin.Context) {
 	id, err := strconv.Atoi(c.Param("id"))
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
-			"error": err,
+			"error": err.Error(),
 		})
 		return
 	}
@@ -240,7 +240,8 @@ func (qc *QuizController) Edit(c *gin.Context) {
 	id, err := strconv.Atoi(c.Param("id"))
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
-			"error": err,
+			"massage": "failed convert id to int",
+			"error":   err.Error(),
 		})
 		return
 	}
@@ -273,7 +274,8 @@ func (qc *QuizController) UploadImgCover(c *gin.Context) {
 	id, err := strconv.Atoi(c.Param("id"))
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
-			"error": err,
+			"massage": "failed convert id to int",
+			"error":   err.Error(),
 		})
 		return
 	}
@@ -284,7 +286,7 @@ func (qc *QuizController) UploadImgCover(c *gin.Context) {
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"massage": "failed to upload quiz image",
-			"error":   err,
+			"error":   err.Error(),
 		})
 		return
 	}
@@ -344,7 +346,7 @@ func upload(c *gin.Context, id uint) (string, error) {
 	if ext == "" {
 		return "", errors.New("file has not extension")
 	}
-	if !slices.Contains([]string{"jpg", "jpeg", "png", "svg"}, ext) {
+	if !slices.Contains([]string{"jpg", "jpeg", "png", "svg"}, strings.ToLower(ext)) {
 		return "", errors.New("file not image type")
 	}
 
@@ -357,6 +359,6 @@ func upload(c *gin.Context, id uint) (string, error) {
 	if err != nil {
 		return "", err
 	}
-	path := "/asset/img/question/" + newname
+	path := fmt.Sprintf("asset/img/quiz/%s", newname)
 	return path, nil
 }
