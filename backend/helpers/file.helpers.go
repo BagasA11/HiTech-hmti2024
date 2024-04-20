@@ -66,7 +66,7 @@ func RemoveFile(filename string, ety string) error {
 /*
 rename a file name
 */
-func Rename(typ string, id int, ext string) (string, error) {
+func Rename(typ string, id uint, ext string) (string, error) {
 	tyFile := []string{"quiz", "user", "question"}
 	exts := []string{"jpg", "jpeg", "png", "svg"}
 

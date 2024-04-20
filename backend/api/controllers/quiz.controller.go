@@ -15,7 +15,6 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/go-playground/validator/v10"
-	"github.com/google/uuid"
 )
 
 type QuizController struct {
@@ -60,7 +59,7 @@ func (qc *QuizController) Create(c *gin.Context) {
 		return
 	}
 
-	err = qc.service.CreateQuiz(req)
+	id, err := qc.service.CreateQuiz(req)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"massage": "failed to create data",
@@ -68,7 +67,10 @@ func (qc *QuizController) Create(c *gin.Context) {
 		})
 		return
 	}
-	c.JSON(http.StatusOK, "success create data")
+	c.JSON(http.StatusOK, gin.H{
+		"massage": "success create data",
+		"id":      id,
+	})
 }
 
 func (qc *QuizController) FindCheapest(c *gin.Context) {
@@ -96,32 +98,6 @@ func (qc *QuizController) All(c *gin.Context) {
 	}
 	c.JSON(http.StatusOK, gin.H{
 		"massage": "ok",
-		"data":    q,
-	})
-}
-
-func (qc *QuizController) NotVerified(c *gin.Context) {
-	//token validation
-	typ, exist := c.Get("TokenType")
-	if !exist {
-		c.JSON(http.StatusBadRequest, "Token type not set in header")
-		return
-	}
-	if typ.(string) != "admin" {
-		c.JSON(http.StatusForbidden, "this resource is for admin only")
-		return
-	}
-
-	q, err := qc.service.NotVerified()
-	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{
-			"massages": "failed to get data",
-			"error":    err,
-		})
-		return
-	}
-	c.JSON(http.StatusOK, gin.H{
-		"massage": "success",
 		"data":    q,
 	})
 }
@@ -208,18 +184,40 @@ func (qc *QuizController) FindID(c *gin.Context) {
 	})
 }
 
+func (qc *QuizController) Self(c *gin.Context) {
+	//token validation
+	//get user id in token
+	uID, exist := c.Get("ID")
+	if !exist {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"massage": "cannot find ID from header",
+		})
+		return
+	}
+	data, err := qc.service.Self(uID.(uint))
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"massage": "failed to get quiz data",
+			"error":   err.Error(),
+		})
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{
+		"data": data,
+	})
+}
+
 func (qc *QuizController) Edit(c *gin.Context) {
 	//token validation
-	//get token type
-	tokenType, exist := c.Get("TokenType")
+	//get user id in token
+	uID, exist := c.Get("ID")
 	if !exist {
-		c.JSON(http.StatusBadRequest, "token type not set")
+		c.JSON(http.StatusBadRequest, gin.H{
+			"massage": "cannot find ID from header",
+		})
 		return
 	}
-	if tokenType.(string) != "admin" {
-		c.JSON(http.StatusUnauthorized, "you are not allowed to modificate quiz entity")
-		return
-	}
+
 	//parsing request body
 	req := new(dto.QuizEdit)
 	err := c.ShouldBindJSON(&req)
@@ -246,7 +244,7 @@ func (qc *QuizController) Edit(c *gin.Context) {
 		return
 	}
 	//serving to update data
-	err = qc.service.Update(uint(id), req)
+	err = qc.service.Update(uint(id), uID.(uint), req)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"massage": "Failed to update Quiz",
@@ -260,13 +258,12 @@ func (qc *QuizController) Edit(c *gin.Context) {
 
 func (qc *QuizController) UploadImgCover(c *gin.Context) {
 	//token validation
-	tokenType, exist := c.Get("TokenType")
+	//get user id in token
+	uID, exist := c.Get("ID")
 	if !exist {
-		c.JSON(http.StatusBadRequest, "token type not set")
-		return
-	}
-	if tokenType.(string) != "admin" {
-		c.JSON(http.StatusForbidden, "user are not allowed to upload quiz image")
+		c.JSON(http.StatusBadRequest, gin.H{
+			"massage": "cannot find ID from header",
+		})
 		return
 	}
 
@@ -281,8 +278,8 @@ func (qc *QuizController) UploadImgCover(c *gin.Context) {
 	}
 
 	//upload image from form file type
-	oldFile, exist := qc.service.CheckIMG(uint(id))
-	filePath, err := upload(c, oldFile, exist)
+
+	filePath, err := upload(c, uID.(uint))
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"massage": "failed to upload quiz image",
@@ -291,7 +288,7 @@ func (qc *QuizController) UploadImgCover(c *gin.Context) {
 		return
 	}
 	//save file path to database
-	err = qc.service.UploadImgCover(uint(id), filePath)
+	err = qc.service.UploadImgCover(uint(id), uID.(uint), filePath)
 	//error validation
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
@@ -303,7 +300,39 @@ func (qc *QuizController) UploadImgCover(c *gin.Context) {
 	c.JSON(http.StatusOK, "upload success")
 }
 
-func upload(c *gin.Context, oldFile string, exist bool) (string, error) {
+func (qc *QuizController) Delete(c *gin.Context) {
+	//token validation
+	//get user id in token
+	uID, exist := c.Get("ID")
+	if !exist {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"massage": "cannot find ID from header",
+		})
+		return
+	}
+	//retrieve id from url parameter
+	id, err := strconv.Atoi(c.Param("id"))
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": err,
+		})
+		return
+	}
+
+	err = qc.service.Delete(uint(id), uID.(uint))
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"massage": "Failed to delete Quiz",
+		})
+
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{
+		"massage": "success to delete quiz object",
+	})
+}
+
+func upload(c *gin.Context, id uint) (string, error) {
 	file, err := c.FormFile("file")
 	//request validation
 	if err != nil {
@@ -318,83 +347,15 @@ func upload(c *gin.Context, oldFile string, exist bool) (string, error) {
 		return "", errors.New("file not image type")
 	}
 
-	//check if image exist in dir
-	//img will be deleted
-	if exist {
-		//remove file from directory
-		err := helpers.RemoveFile(oldFile, "quiz")
-		//if error occur ... function will terminated with error
-		if err != nil {
-			return "", err
-		}
-
-	}
-	var filename string = uuid.NewString() + "." + ext
-	err = c.SaveUploadedFile(file, fmt.Sprintf("asset/img/quiz/%s", filename))
+	newname, err := helpers.Rename("quiz", id, ext)
 	if err != nil {
 		return "", err
 	}
-	path := "/asset/img/question/" + filename
+
+	err = c.SaveUploadedFile(file, fmt.Sprintf("asset/img/quiz/%s", newname))
+	if err != nil {
+		return "", err
+	}
+	path := "/asset/img/question/" + newname
 	return path, nil
-}
-
-func (qc *QuizController) Verify(c *gin.Context) {
-	//token validation
-	typ, exist := c.Get("TokenType")
-	if !exist {
-		c.JSON(http.StatusBadRequest, "token type value is not set")
-		return
-	}
-	if typ.(string) != "admin" {
-		c.JSON(http.StatusForbidden, "user cannot access this resource")
-	}
-	//get id from url
-	id, err := strconv.Atoi(c.Param("id"))
-	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{
-			"error": err,
-		})
-		return
-	}
-	err = qc.service.Verify(uint(id))
-	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{
-			"massage": "failed to verifying quiz",
-			"error":   err,
-		})
-		return
-	}
-	c.JSON(http.StatusOK, "success")
-}
-
-func (qc *QuizController) Delete(c *gin.Context) {
-	//token validation
-	//get token type
-	tokenType, exist := c.Get("TokenType")
-	if !exist {
-		c.JSON(http.StatusBadRequest, "token type not set")
-		return
-	}
-	if tokenType.(string) != "admin" {
-		c.JSON(http.StatusUnauthorized, "user are not allowed to delete quiz entity")
-		return
-	}
-	//retrieve id from url parameter
-	id, err := strconv.Atoi(c.Param("id"))
-	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{
-			"error": err,
-		})
-		return
-	}
-	err = qc.service.Delete(uint(id))
-	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{
-			"massage": "Failed to delete Quiz",
-		})
-		return
-	}
-	c.JSON(http.StatusOK, gin.H{
-		"massage": "success to delete quiz object",
-	})
 }

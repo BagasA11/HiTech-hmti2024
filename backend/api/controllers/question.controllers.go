@@ -3,6 +3,7 @@ package controllers
 import (
 	"BagasA11/GSC-quizHealthEdu-BE/api/dto"
 	"BagasA11/GSC-quizHealthEdu-BE/api/service"
+	"BagasA11/GSC-quizHealthEdu-BE/helpers"
 	"errors"
 	"fmt"
 	"net/http"
@@ -13,7 +14,6 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/go-playground/validator/v10"
-	"github.com/google/uuid"
 )
 
 type QuestionController struct {
@@ -28,16 +28,12 @@ func NewQuestionController() *QuestionController {
 
 func (qc *QuestionController) Create(c *gin.Context) {
 	//token validation
-	tkType, exist := c.Get("TokenType")
+	//token validation
+	//get user id in token
+	uID, exist := c.Get("ID")
 	if !exist {
-		c.JSON(http.StatusInternalServerError, gin.H{
-			"message": "TokenType value not set",
-		})
-		return
-	}
-	if tkType.(string) != "admin" {
-		c.JSON(http.StatusForbidden, gin.H{
-			"message": "User are not allowed to create Question",
+		c.JSON(http.StatusBadRequest, gin.H{
+			"massage": "cannot find ID from header",
 		})
 		return
 	}
@@ -49,6 +45,7 @@ func (qc *QuestionController) Create(c *gin.Context) {
 		})
 		return
 	}
+
 	//get request data
 	req := new(dto.Question)
 	err = c.ShouldBindJSON(&req)
@@ -66,7 +63,7 @@ func (qc *QuestionController) Create(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, errorMessage)
 		return
 	}
-	err = qc.service.Create(uint(quizId), req)
+	err = qc.service.Create(uint(quizId), uID.(uint), req)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"message": "failed to create Question",
@@ -185,16 +182,12 @@ func (qc *QuestionController) ReferToQuiz(c *gin.Context) {
 }
 
 func (qc *QuestionController) Edit(c *gin.Context) {
-	tkType, exist := c.Get("TokenType")
+	//token validation
+	//get user id in token
+	uID, exist := c.Get("ID")
 	if !exist {
-		c.JSON(http.StatusInternalServerError, gin.H{
-			"message": "TokenType value not set",
-		})
-		return
-	}
-	if tkType.(string) != "admin" {
-		c.JSON(http.StatusForbidden, gin.H{
-			"message": "User are not allowed to modify Question",
+		c.JSON(http.StatusBadRequest, gin.H{
+			"massage": "cannot find ID from header",
 		})
 		return
 	}
@@ -224,7 +217,7 @@ func (qc *QuestionController) Edit(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, errorMessage)
 		return
 	}
-	err = qc.service.Updates(uint(id), req)
+	err = qc.service.Updates(uint(id), req, uID.(uint))
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"message": "failed to update Question",
@@ -238,15 +231,15 @@ func (qc *QuestionController) Edit(c *gin.Context) {
 
 func (qc *QuestionController) UploadFile(c *gin.Context) {
 	//token validation
-	typ, exist := c.Get("TokenType")
+	//get user id in token
+	uID, exist := c.Get("ID")
 	if !exist {
-		c.JSON(http.StatusBadRequest, "token type not set")
+		c.JSON(http.StatusBadRequest, gin.H{
+			"massage": "cannot find ID from header",
+		})
 		return
 	}
-	if typ.(string) != "admin" {
-		c.JSON(http.StatusForbidden, "forbidden access for user")
-		return
-	}
+
 	//get id parameter from url
 	id, err := strconv.Atoi(c.Param("id"))
 	if err != nil {
@@ -255,7 +248,7 @@ func (qc *QuestionController) UploadFile(c *gin.Context) {
 		})
 		return
 	}
-	dir, err := moveFile(c)
+	dir, err := moveFile(c, uint(id))
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"massage": "failed to upload file",
@@ -264,7 +257,7 @@ func (qc *QuestionController) UploadFile(c *gin.Context) {
 		return
 	}
 
-	err = qc.service.SetAvatar(uint(id), dir)
+	err = qc.service.SetAvatar(uint(id), uID.(uint), dir)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"massage": "failed",
@@ -276,7 +269,7 @@ func (qc *QuestionController) UploadFile(c *gin.Context) {
 
 }
 
-func moveFile(c *gin.Context) (string, error) {
+func moveFile(c *gin.Context, id uint) (string, error) {
 	file, err := c.FormFile("file")
 	if err != nil {
 		return "", err
@@ -289,28 +282,27 @@ func moveFile(c *gin.Context) (string, error) {
 	if !slices.Contains([]string{"jpg", "png", "jpeg", "svg"}, ext) {
 		return "", errors.New("file is not image type")
 	}
-	filename := uuid.New().String() + "." + ext
-	err = c.SaveUploadedFile(file, fmt.Sprintf("asset/img/question/%s", filename))
+	rename, err := helpers.Rename("question", id, ext)
+
+	err = c.SaveUploadedFile(file, fmt.Sprintf("asset/img/question/%s", rename+"."+ext))
 	if err != nil {
 		return "", err
 	}
 
-	return fmt.Sprintf("asset/img/question/%s", filename), nil
+	return fmt.Sprintf("asset/img/question/%s", rename+"."+ext), nil
 }
 
 func (qc *QuestionController) Delete(c *gin.Context) {
 	//token validation
-	typ, exist := c.Get("TokenType")
+	//get user id in token
+	uID, exist := c.Get("ID")
 	if !exist {
 		c.JSON(http.StatusBadRequest, gin.H{
-			"massage": "token not found",
+			"massage": "cannot find ID from header",
 		})
 		return
 	}
-	if typ.(string) != "admin" {
-		c.JSON(http.StatusForbidden, "user not allowed to delete question")
-		return
-	}
+
 	//get id from url
 	//url/question/id
 	id, err := strconv.Atoi(c.Param("id"))
@@ -321,8 +313,9 @@ func (qc *QuestionController) Delete(c *gin.Context) {
 		})
 		return
 	}
+
 	//serving delete behavior
-	err = qc.service.Delete(uint(id))
+	err = qc.service.Delete(uint(id), uID.(uint))
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"error": err,

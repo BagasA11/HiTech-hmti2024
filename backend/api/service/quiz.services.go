@@ -16,14 +16,14 @@ func NewQuizService() *QuizService {
 	}
 }
 
-func (qs *QuizService) CreateQuiz(req *dto.QuizCreate) error {
+func (qs *QuizService) CreateQuiz(req *dto.QuizCreate) (uint, error) {
 	q := models.Quiz{
 		Title: req.Title,
 		Topic: req.Topic,
 		Desc:  req.Desc,
 	}
-	err := qs.repository.Create(q)
-	return err
+	return qs.repository.Create(q)
+
 }
 
 func (qs *QuizService) All() ([]models.Quiz, error) {
@@ -46,6 +46,10 @@ func (qs *QuizService) FindTitle(title string) ([]models.Quiz, error) {
 	return q, err
 }
 
+func (qs *QuizService) Self(userID uint) ([]models.Quiz, error) {
+	return qs.repository.Self(userID)
+}
+
 func (qs *QuizService) CheckIMG(id uint) (string, bool) {
 	return qs.repository.CheckIMG(id)
 }
@@ -60,32 +64,22 @@ func (qs *QuizService) FindTopic(topic string) ([]models.Quiz, error) {
 	return q, err
 }
 
-func (qs *QuizService) NotVerified() ([]models.Quiz, error) {
-	q, err := qs.repository.NotVerified()
-	return q, err
-}
-
-func (qs *QuizService) Update(id uint, req *dto.QuizEdit) error {
+func (qs *QuizService) Update(id uint, userID uint, req *dto.QuizEdit) error {
 	q := models.Quiz{
 		ID:    id,
 		Title: req.Title,
 		Topic: req.Topic,
 	}
-	err := qs.repository.Update(q)
+	err := qs.repository.Update(q, userID)
 	return err
 }
 
-func (qs *QuizService) UploadImgCover(id uint, file string) error {
-	err := qs.repository.UploadImageCover(id, file)
+func (qs *QuizService) UploadImgCover(id uint, userID uint, file string) error {
+	err := qs.repository.UploadImageCover(id, userID, file)
 	return err
 }
 
-func (qs *QuizService) Delete(id uint) error {
-	err := qs.repository.Delete(id)
-	return err
-}
-
-func (qs *QuizService) Verify(id uint) error {
-	err := qs.repository.Verify(id)
+func (qs *QuizService) Delete(id uint, userID uint) error {
+	err := qs.repository.Delete(id, userID)
 	return err
 }

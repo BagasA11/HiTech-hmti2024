@@ -3,6 +3,7 @@ package repository
 import (
 	"BagasA11/GSC-quizHealthEdu-BE/api/models"
 	"BagasA11/GSC-quizHealthEdu-BE/configs"
+	"errors"
 
 	"gorm.io/gorm"
 )
@@ -17,8 +18,12 @@ func NewQuestionRepository() *QuestionRepository {
 	}
 }
 
-func (qstRepo *QuestionRepository) Create(quest models.Question) error {
+func (qstRepo *QuestionRepository) Create(quest models.Question, userID uint) error {
 	tx := qstRepo.Db.Begin()
+	if tx.Where("id = ? AND user_id = ?", quest.QuizID, userID).First(&models.Quiz{}).RowsAffected == 0 {
+		return errors.New("you not allowed modify this content")
+	}
+
 	err := tx.Create(&quest).Error
 	if err != nil {
 		tx.Rollback()
@@ -47,9 +52,10 @@ func (qr *QuestionRepository) QuestionAndOption(quizID uint) ([]models.Question,
 	return quest, err
 }
 
-func (qstRepo *QuestionRepository) Updates(quest models.Question) error {
+func (qstRepo *QuestionRepository) Updates(quest models.Question, userID uint) error {
 	tx := qstRepo.Db.Begin()
-	err := tx.Model(&models.Question{}).Where("id = ?", quest.ID).Updates(&quest).Error
+
+	err := tx.Model(&models.Question{}).Where("id = ? AND quiz_id IN (SELECT id FROM quizzes WHERE user_id = ?)", quest.ID, userID).Updates(&quest).Error
 	if err != nil {
 		tx.Rollback()
 		return err
@@ -58,9 +64,10 @@ func (qstRepo *QuestionRepository) Updates(quest models.Question) error {
 	return nil
 }
 
-func (qr *QuestionRepository) SetAvatar(id uint, file string) error {
+func (qr *QuestionRepository) SetAvatar(id uint, userID uint, file string) error {
 	tx := qr.Db.Begin()
-	err := tx.Model(&models.Question{}).Where("id = ?", id).Update("img", file).Error
+
+	err := tx.Model(&models.Question{}).Where("id = ? AND quiz_id IN (SELECT id FROM quizzes WHERE user_id = ?)", id, userID).Update("img", file).Error
 	if err != nil {
 		tx.Rollback()
 		return err
@@ -69,10 +76,11 @@ func (qr *QuestionRepository) SetAvatar(id uint, file string) error {
 	return nil
 }
 
-func (qstRepo *QuestionRepository) Delete(id uint) error {
+func (qstRepo *QuestionRepository) Delete(id uint, userID uint) error {
 	tx := qstRepo.Db.Begin()
+
 	//DELETE FROM questions WHERE id = {id}
-	err := tx.Delete(&models.Question{}, id).Error
+	err := tx.Where("id = ? AND quiz_id IN (SELECT id FROM quizzes WHERE user_id = ?)", id, userID).Delete(&models.Question{}).Error
 	if err != nil {
 		tx.Rollback()
 		return err
