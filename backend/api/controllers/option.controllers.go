@@ -23,23 +23,16 @@ func NewOptionController() *OptionController {
 
 func (oc *OptionController) Create(c *gin.Context) {
 	//token validation
-	_, exist := c.Get("ID")
+	//get user id in token
+	uID, exist := c.Get("ID")
 	if !exist {
-		c.JSON(http.StatusBadRequest, "token id not set")
+		c.JSON(http.StatusBadRequest, gin.H{
+			"massage": "cannot find ID from header",
+		})
 		return
 	}
 
-	typ, exist := c.Get("TokenType")
-	if !exist {
-		c.JSON(http.StatusBadRequest, "token type not set")
-		return
-	}
-	if typ.(string) != "admin" {
-		c.JSON(http.StatusForbidden, "User are not allowed to create Option")
-		return
-	}
 	//get id from url
-
 	id, err := strconv.Atoi(c.Param("id"))
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
@@ -64,7 +57,7 @@ func (oc *OptionController) Create(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, errorMessage)
 		return
 	}
-	err = oc.service.Create(uint(id), req)
+	err = oc.service.Create(uint(id), uID.(uint), req)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"message": "failed to create Option",
@@ -111,19 +104,12 @@ func (oc *OptionController) FindID(c *gin.Context) {
 
 func (oc *OptionController) Edit(c *gin.Context) {
 	//token validation
-	_, exist := c.Get("ID")
+	//get user id in token
+	uID, exist := c.Get("ID")
 	if !exist {
-		c.JSON(http.StatusBadRequest, "token id not set")
-		return
-	}
-
-	typ, exist := c.Get("TokenType")
-	if !exist {
-		c.JSON(http.StatusBadRequest, "token type not set")
-		return
-	}
-	if typ.(string) != "admin" {
-		c.JSON(http.StatusForbidden, "User are not allowed to edit Option")
+		c.JSON(http.StatusBadRequest, gin.H{
+			"massage": "cannot find ID from header",
+		})
 		return
 	}
 
@@ -154,7 +140,7 @@ func (oc *OptionController) Edit(c *gin.Context) {
 		return
 	}
 
-	err = oc.service.Edit(uint(id), req)
+	err = oc.service.Edit(uint(id), uID.(uint), req)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"message": "failed to Update Option",
@@ -168,22 +154,17 @@ func (oc *OptionController) Edit(c *gin.Context) {
 }
 
 func (oc *OptionController) Delete(c *gin.Context) {
+
 	//token validation
-	_, exist := c.Get("ID")
+	//get user id in token
+	uID, exist := c.Get("ID")
 	if !exist {
-		c.JSON(http.StatusBadRequest, "token id not set")
+		c.JSON(http.StatusBadRequest, gin.H{
+			"massage": "cannot find ID from header",
+		})
 		return
 	}
 
-	typ, exist := c.Get("TokenType")
-	if !exist {
-		c.JSON(http.StatusBadRequest, "token type not set")
-		return
-	}
-	if typ.(string) != "admin" {
-		c.JSON(http.StatusForbidden, "User are not allowed to create Option")
-		return
-	}
 	//get id from url
 	id, err := strconv.Atoi(c.Param("id"))
 	if err != nil {
@@ -193,7 +174,7 @@ func (oc *OptionController) Delete(c *gin.Context) {
 		return
 	}
 	//serving to delete option
-	err = oc.service.Delete(uint(id))
+	err = oc.service.Delete(uint(id), uID.(uint))
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"message": "failed to Delete Option",

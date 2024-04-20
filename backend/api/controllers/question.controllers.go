@@ -63,7 +63,7 @@ func (qc *QuestionController) Create(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, errorMessage)
 		return
 	}
-	err = qc.service.Create(uint(quizId), uID.(uint), req)
+	id, err := qc.service.Create(uint(quizId), uID.(uint), req)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"message": "failed to create Question",
@@ -73,6 +73,7 @@ func (qc *QuestionController) Create(c *gin.Context) {
 	}
 	c.JSON(http.StatusOK, gin.H{
 		"message": "success",
+		"id":      id,
 	})
 }
 

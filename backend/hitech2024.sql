@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 18, 2024 at 06:44 PM
+-- Generation Time: Apr 21, 2024 at 01:30 AM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 8.1.12
 
@@ -129,7 +129,8 @@ CREATE TABLE `quizzes` (
 --
 
 INSERT INTO `quizzes` (`id`, `created_at`, `updated_at`, `deleted_at`, `title`, `topic`, `img`, `desc`, `verified`, `free`, `price`, `disc`, `user_id`, `public`) VALUES
-(1, '2024-02-19 16:29:51.564', '2024-02-19 16:43:18.002', NULL, 'Makanan Sehat Lezat dan Bergizi', 'pangan', NULL, 'desc', 1, 1, NULL, 0, NULL, 1);
+(1, '2024-02-19 16:29:51.564', '2024-02-19 16:43:18.002', NULL, 'Makanan Sehat Lezat dan Bergizi', 'pangan', NULL, 'desc', 1, 1, NULL, 0, NULL, 1),
+(2, '2024-04-20 21:50:33.602', '2024-04-20 22:03:33.839', NULL, 'Test', 'test', '/asset/img/question/quiz3-6wgUk.jpg', '...', 0, 1, NULL, 0, 3, 1);
 
 -- --------------------------------------------------------
 
@@ -317,7 +318,7 @@ ALTER TABLE `questions`
 -- AUTO_INCREMENT for table `quizzes`
 --
 ALTER TABLE `quizzes`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `scores`

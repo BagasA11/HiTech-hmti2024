@@ -16,14 +16,14 @@ func NewQuestionService() *QuestionService {
 	}
 }
 
-func (qst *QuestionService) Create(quizId uint, userID uint, req *dto.Question) error {
+func (qst *QuestionService) Create(quizId uint, userID uint, req *dto.Question) (uint, error) {
 	q := models.Question{
 		Question: req.Question,
 		Answer:   req.Answer,
 		QuizID:   quizId,
 	}
-	err := qst.repository.Create(q, userID)
-	return err
+	return qst.repository.Create(q, userID)
+
 }
 
 // get all question which correspondent with quiz id
