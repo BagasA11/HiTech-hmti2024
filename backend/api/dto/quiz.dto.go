@@ -1,7 +1,7 @@
 package dto
 
 type QuizCreate struct {
-	Title  string `form:"title"json:"title" binding:"required"`
+	Title  string `form:"title" json:"title" binding:"required"`
 	Topic  string `form:"topic" json:"topic"`
 	Desc   string `form:"desc" json:"desc"`
 	Public bool   `form:"public" json:"public"`

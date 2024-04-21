@@ -3,11 +3,11 @@ package controllers
 import (
 	"BagasA11/GSC-quizHealthEdu-BE/api/dto"
 	"BagasA11/GSC-quizHealthEdu-BE/api/service"
+	"BagasA11/GSC-quizHealthEdu-BE/configs"
 	"BagasA11/GSC-quizHealthEdu-BE/helpers"
 	"errors"
 	"fmt"
 	"net/http"
-
 	"slices"
 	"strconv"
 	"strings"
@@ -107,7 +107,7 @@ func (qc *QuestionController) FindID(c *gin.Context) {
 
 func (qc *QuestionController) AttemptQuiz(c *gin.Context) {
 	//token validation
-	_, exist := c.Get("ID")
+	uID, exist := c.Get("ID")
 	if !exist {
 		c.JSON(http.StatusBadRequest, "token id not found")
 		return
@@ -124,6 +124,15 @@ func (qc *QuestionController) AttemptQuiz(c *gin.Context) {
 		return
 	}
 
+	//session object instance
+	session, err := configs.Store.Get(c.Request, fmt.Sprintf("attempt-quiz%d-user%d", uint(quizID), uID.(uint)))
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"error": err.Error(),
+		})
+		return
+	}
+
 	q, err := qc.service.AttemptQuiz(uint(quizID))
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
@@ -132,29 +141,27 @@ func (qc *QuestionController) AttemptQuiz(c *gin.Context) {
 		return
 	}
 
-	num := number(len(q))
+	// var point float32 = 0
+	session.Values["rows"] = len(q)
+	err = session.Save(c.Request, c.Writer)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"massage": "failed to save session",
+			"error":   err.Error(),
+		})
+		return
+	}
 
 	c.JSON(200, gin.H{
 		"question": q,
-		"num":      num,
 		"rows":     len(q),
 	})
 }
 
 func (qc *QuestionController) ReferToQuiz(c *gin.Context) {
-	_, exist := c.Get("ID")
+	user_id, exist := c.Get("ID")
 	if !exist {
 		c.JSON(http.StatusBadRequest, "token id not found")
-		return
-	}
-
-	typ, exist := c.Get("TokenType")
-	if !exist {
-		c.JSON(http.StatusBadRequest, "token access type not set")
-		return
-	}
-	if typ.(string) != "admin" {
-		c.JSON(http.StatusForbidden, "tihs page is admin only")
 		return
 	}
 
@@ -166,7 +173,7 @@ func (qc *QuestionController) ReferToQuiz(c *gin.Context) {
 		})
 		return
 	}
-	q, err := qc.service.ReferToQuiz(uint(id))
+	q, err := qc.service.ReferToQuiz(uint(id), user_id.(uint))
 	//q: [{id, question, answer}, {id, question, answer}]
 	//[{1, ".......", A}, {3, ....., C}, {11, ......, E}]
 	if err != nil {
@@ -332,10 +339,10 @@ func (qc *QuestionController) Delete(c *gin.Context) {
 	c.JSON(http.StatusOK, "delete question success")
 }
 
-func number(rows int) []uint {
-	num := []uint{}
-	for i := 1; i <= rows; i++ {
-		num = append(num, uint(i))
-	}
-	return num
-}
+// func number(rows int) []uint {
+// 	num := []uint{}
+// 	for i := 1; i <= rows; i++ {
+// 		num = append(num, uint(i))
+// 	}
+// 	return num
+// }

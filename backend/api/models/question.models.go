@@ -29,7 +29,7 @@ func (q *Question) BeforeCreate(tx *gorm.DB) (err error) {
 		return err
 	}
 
-	if q.Dura <= 0 || q.Dura > 30 {
+	if (q.Dura <= 0) || (q.Dura > 30) {
 		return errors.New("timer must be greater than 0 and less than 30 second")
 
 	}

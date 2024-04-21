@@ -71,6 +71,22 @@ func (sr *ScoreRepository) Rank(quizID uint) ([]models.Score, error) {
 	return ranks, err
 }
 
+func (sr *ScoreRepository) You(quizID uint, userid uint) (uint, error) {
+	var ranks []models.Score
+	// SELECT * FROM scores ORDER BY point DESC
+	err := sr.Db.Where("quiz_id = ?", quizID).Find(&ranks).Order("point DESC").Error
+	return you(ranks, userid), err
+}
+
+func you(score []models.Score, userid uint) uint {
+	for x, y := range score {
+		if y.ID == userid {
+			return uint(x + 1)
+		}
+	}
+	return 0
+}
+
 // history
 func (sr *ScoreRepository) GetHistory(userId uint) ([]models.Score, error) {
 	var s []models.Score

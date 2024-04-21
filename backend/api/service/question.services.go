@@ -21,20 +21,25 @@ func (qst *QuestionService) Create(quizId uint, userID uint, req *dto.Question) 
 		Question: req.Question,
 		Answer:   req.Answer,
 		QuizID:   quizId,
+		Dura:     req.Dura,
 	}
 	return qst.repository.Create(q, userID)
 
 }
 
 // get all question which correspondent with quiz id
-func (qst *QuestionService) ReferToQuiz(quizID uint) ([]models.Question, error) {
-	q, err := qst.repository.ReferToQuiz(quizID)
+func (qst *QuestionService) ReferToQuiz(quizID uint, userID uint) ([]models.Question, error) {
+	q, err := qst.repository.ReferToQuiz(quizID, userID)
 	return q, err
 }
 
 func (qs *QuestionService) FindID(id uint) (models.Question, error) {
 	q, err := qs.repository.FindID(id)
 	return q, err
+}
+
+func (qs *QuestionService) GetAnswer(id uint) (string, error) {
+	return qs.repository.GetAnswer(id)
 }
 
 func (qs *QuestionService) AttemptQuiz(quizID uint) ([]models.Question, error) {

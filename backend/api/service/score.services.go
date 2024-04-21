@@ -4,6 +4,7 @@ import (
 	"BagasA11/GSC-quizHealthEdu-BE/api/dto"
 	"BagasA11/GSC-quizHealthEdu-BE/api/models"
 	"BagasA11/GSC-quizHealthEdu-BE/api/repository"
+	"errors"
 )
 
 type ScoreService struct {
@@ -32,6 +33,14 @@ func (ss *ScoreService) GetHistory(userID uint) ([]models.Score, error) {
 
 func (ss *ScoreService) Rank(quizID uint) ([]models.Score, error) {
 	return ss.repository.Rank(quizID)
+}
+
+func (ss *ScoreService) You(quizID uint, userid uint) (uint, error) {
+	r, err := ss.repository.You(quizID, userid)
+	if r == 0 {
+		err = errors.New("not found")
+	}
+	return r, err
 }
 
 func (ss *ScoreService) Update(id uint, req dto.Score) error {

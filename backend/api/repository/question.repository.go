@@ -34,9 +34,10 @@ func (qstRepo *QuestionRepository) Create(quest models.Question, userID uint) (u
 }
 
 /*get all question which connected to quiz id*/
-func (qstRepo *QuestionRepository) ReferToQuiz(quizId uint) ([]models.Question, error) {
+// untuk review soal
+func (qr *QuestionRepository) ReferToQuiz(quizID uint, userID uint) ([]models.Question, error) {
 	var quest []models.Question
-	err := qstRepo.Db.Where("quiz_id = ?", quizId).Order("id ASC").Find(&quest).Error
+	err := qr.Db.Where("quiz_id = ? AND quiz_id IN (SELECT id FROM quizzes WHERE user_id = ?)", quizID, userID).Preload("Option").Order("id ASC").Find(&quest).Error
 	return quest, err
 }
 
@@ -44,6 +45,12 @@ func (qr *QuestionRepository) FindID(id uint) (models.Question, error) {
 	var q models.Question
 	err := qr.Db.Where("id = ?", id).Preload("Option").First(&q).Error
 	return q, err
+}
+
+func (qr *QuestionRepository) GetAnswer(id uint) (string, error) {
+	var q models.Question
+	err := qr.Db.Where("id = ?", id).Preload("Option").First(&q).Error
+	return q.Answer, err
 }
 
 func (qr *QuestionRepository) QuestionAndOption(quizID uint) ([]models.Question, error) {

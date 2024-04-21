@@ -2,12 +2,13 @@ package controllers
 
 import (
 	"BagasA11/GSC-quizHealthEdu-BE/api/dto"
+
 	"BagasA11/GSC-quizHealthEdu-BE/api/service"
 	"BagasA11/GSC-quizHealthEdu-BE/configs"
 	"fmt"
 	"net/http"
-
 	"strconv"
+	_ "time"
 
 	"github.com/gin-gonic/gin"
 	"github.com/go-playground/validator/v10"
@@ -33,38 +34,27 @@ func NewScoreController() *ScoreController {
 }
 
 func (sc *ScoreController) CreateOrUpdate(c *gin.Context) {
-
-	//session object instance
-	session, err := configs.Store.Get(c.Request, "attempt-quiz")
-	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{
-			"error": err.Error(),
+	var quest service.QuestionService
+	uID, exist := c.Get("ID")
+	if !exist {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"massage": "cannot find ID from header",
 		})
 		return
 	}
 
-	//token validation
-	//get user id from header
-
-	userID, exist := c.Get("ID")
-	if !exist {
-		c.JSON(400, gin.H{
-			"error": "user id is not exist",
-		})
-	}
-	//get quiz id from url
 	quizID, err := strconv.Atoi(c.Param("id"))
 	if err != nil {
-		c.JSON(400, gin.H{
-			"massage": "id on url not found or Failed to convert string into integer",
-			"error":   err.Error(),
+		c.JSON(http.StatusBadRequest, gin.H{
+			"massage": "cannot convert string to integer or url id is unavailable",
+			"error":   err,
 		})
 		return
 	}
 
 	req := new(dto.Answer)
-	// request validation
-	if err = c.ShouldBindJSON(&req); err != nil {
+	err = c.ShouldBindJSON(&req)
+	if err != nil {
 		validationErrs, ok := err.(validator.ValidationErrors)
 		if !ok {
 			c.JSON(http.StatusBadRequest, "Invalid request")
@@ -78,168 +68,166 @@ func (sc *ScoreController) CreateOrUpdate(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, errorMessage)
 		return
 	}
-	//length validation
-	if req.Num > req.Length {
-		c.JSON(400, gin.H{
-			"massage": "num is overide max number",
+
+	//session object instance
+	session, err := configs.Store.Get(c.Request, fmt.Sprintf("attempt-quiz:%d-user:%d", uint(quizID), uID.(uint)))
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"error": err.Error(),
 		})
 		return
 	}
 
-	if req.Num <= 0 || req.Length <= 0 {
-		c.JSON(400, gin.H{
-			"error": "Num must be greater than 0",
-		})
+	if session.Values["rows"] == nil {
+		c.JSON(http.StatusBadRequest, "session.rows value not set")
+		return
 	}
+	step := session.Values["step"].(uint)
+	if step > req.Ids[step] {
+		c.JSON(http.StatusBadRequest, "cannot override question")
+	}
+	var pts float32 = 0
 
-	var point float32 = 0
-	// var i float32 = float32(1)/float32(int32(5)) * 100
-
-	if req.Num == 1 {
-
-		if session.Values["id"] != nil {
-			c.JSON(400, gin.H{
-				"massage": "number 1st only can be accessed once",
-			})
-			return
-		}
-
-		if req.Answer == req.Checkbox {
-			point = float32(1) / float32(int32(req.Length)) * 100
-		}
-
-		s := dto.Score{
-			QuizID: uint(quizID),
-			UserID: userID.(uint),
-			Score:  point,
-		}
-
-		id, err := sc.service.Create(s)
+	if step == 0 {
+		ans, err := quest.GetAnswer(req.Ids[step])
 		if err != nil {
 			c.JSON(http.StatusInternalServerError, gin.H{
-				"massage": "failed to initializating score",
-				"error":   err.Error(),
+				"massage": fmt.Sprintf("cannot refers question on %d", req.Ids[step]),
 			})
 			return
 		}
 
-		session.Values["point"] = point
-		session.Values["id"] = id
+		if req.Checkbox == ans {
+			pts = 1 / (float32(session.Values["rows"].(int)))
+		}
 
+		SID, err := sc.service.Create(dto.Score{
+			QuizID: uint(quizID),
+			UserID: uID.(uint),
+			Score:  pts,
+		})
+
+		if err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{
+				"massage": "failed to save score",
+				"error":   err.Error(),
+			})
+
+			return
+		}
+
+		session.Values["point"] = pts
+		session.Values["step"] = step + 1
+		session.Values["sid"] = SID
 		err = session.Save(c.Request, c.Writer)
 		if err != nil {
-			c.JSON(500, gin.H{"error": err.Error()})
+			c.JSON(http.StatusInternalServerError, gin.H{
+				"massage": "failed to save point",
+				"error":   err.Error(),
+			})
 			return
 		}
 
 		c.JSON(http.StatusOK, gin.H{
-			"masssage": "continoue",
-			"result":   req.Answer == req.Checkbox,
-			"answer":   req.Answer,
-			"point":    point,
+			"point":  pts,
+			"answer": ans,
 		})
 		return
-	}
 
-	if req.Num == req.Length {
+	} else if (step > 0) && (int(step+1) < session.Values["rows"].(int)) {
 
-		if session.Values["id"] == nil {
-			c.JSON(400, "cannot skip 1st number")
-			return
-		}
-		// get id from session
-		scoreId := session.Values["id"].(uint)
-
-		if req.Answer == req.Checkbox {
-			point = float32(1) / float32(int32(req.Length)) * 100
-		}
-
-		if session.Values["point"] != nil {
-			point += session.Values["point"].(float32)
-		}
-
-		s := dto.Score{
-			QuizID: uint(quizID),
-			UserID: userID.(uint),
-			Score:  point,
-		}
-
-		//update score
-		err := sc.service.Update(scoreId, s)
+		ans, err := quest.GetAnswer(req.Ids[step])
 		if err != nil {
 			c.JSON(http.StatusInternalServerError, gin.H{
-				"massage": "failed to update score",
+				"massage": fmt.Sprintf("cannot refers question on %d", req.Ids[step]),
+			})
+			return
+		}
+
+		pts = session.Values["point"].(float32)
+		if req.Checkbox == ans {
+			pts += 1 / float32(session.Values["rows"].(int))
+		}
+
+		sid := session.Values["sid"].(uint)
+		err = sc.service.Update(sid, dto.Score{
+			Score:  pts,
+			QuizID: uint(quizID),
+			UserID: uID.(uint),
+		})
+		if err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{
+				"massage": "failed to save score",
 				"error":   err.Error(),
 			})
 			return
 		}
 
-		//delete session
-		session.Options.MaxAge = -1
+		session.Values["point"] = pts
+		session.Values["step"] = step + 1
+		session.Values["sid"] = sid
 		err = session.Save(c.Request, c.Writer)
 		if err != nil {
-			c.JSON(500, gin.H{
-				"massage": "failed to delete session",
+			c.JSON(http.StatusInternalServerError, gin.H{
+				"massage": "failed to save point",
 				"error":   err.Error(),
 			})
 			return
 		}
-		c.JSON(200, gin.H{
-			"massage": "you have completed quiz",
-			"score":   point,
+
+		c.JSON(http.StatusOK, gin.H{
+			"point":  pts,
+			"answer": ans,
 		})
 		return
 	}
 
-	//ensure that session was created
-	if session.Values["id"] == nil {
-		c.JSON(400, gin.H{
-			"massage": "cannot skip 1st number ",
-		})
-		return
-	}
-	//get score id from session
-	scoreID := session.Values["id"].(uint)
+	step = session.Values["step"].(uint)
+	sid := session.Values["sid"].(uint)
+	ans, err := quest.GetAnswer(req.Ids[step])
 
-	if req.Answer == req.Checkbox {
-		point = float32(1) / float32(int32(req.Length)) * 100
-	}
-	if session.Values["point"] != nil {
-		point += session.Values["point"].(float32)
-	}
-
-	//update score based on score id
-	s := dto.Score{
-		UserID: userID.(uint),
-		QuizID: uint(quizID),
-		Score:  point,
-	}
-	err = sc.service.Update(scoreID, s)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
-			"massage": "failed to update score",
+			"massage": fmt.Sprintf("cannot refers question on %d", req.Ids[step]),
+		})
+		return
+	}
+
+	if req.Checkbox == ans {
+		pts += 1 / (float32(session.Values["rows"].(int)))
+	}
+
+	err = sc.service.Update(sid, dto.Score{
+		UserID: uID.(uint),
+		QuizID: uint(quizID),
+		Score:  pts,
+	})
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"massage": "failed to save score",
 			"error":   err.Error(),
 		})
 		return
 	}
 
-	//save session
-	session.Values["point"] = point
-	session.Values["id"] = scoreID
+	session.Options.MaxAge = -1
 	err = session.Save(c.Request, c.Writer)
 	if err != nil {
-		c.JSON(500, gin.H{
-			"massage": "failed to save session",
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"massage": "failed to save point",
 			"error":   err.Error(),
 		})
 		return
 	}
-	c.JSON(200, gin.H{
-		"point":   point,
-		"massage": "continue",
-		"result":  req.Answer == req.Checkbox,
-		"answer":  req.Answer,
+
+	rank, _ := sc.service.You(uint(quizID), uID.(uint))
+
+	c.JSON(http.StatusOK, gin.H{
+		"massage":     "congratulations",
+		"total score": pts,
+		"rank":        rank,
 	})
+
 }
 
 func (ss *ScoreController) Rank(c *gin.Context) {

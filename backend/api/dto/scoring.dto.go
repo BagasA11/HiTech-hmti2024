@@ -7,8 +7,7 @@ type Score struct {
 }
 
 type Answer struct {
-	Num      uint   `json:"num" binding:"required"`
 	Length   uint   `json:"length" binding:"required"`
-	Answer   string `json:"answer" binding:"required,max=1"`
+	Ids      []uint `json:"id" binding:"required"`
 	Checkbox string `json:"checkbox" binding:"required,max=1"`
 }
