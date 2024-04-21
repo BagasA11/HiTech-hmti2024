@@ -1,5 +1,6 @@
 import 'package:countdown_progress_indicator/countdown_progress_indicator.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:healty_quizz/presentation/pages/coba/model/question_model.dart';
 import 'package:healty_quizz/presentation/pages/coba/result_page.dart';
@@ -14,33 +15,26 @@ class Test extends StatefulWidget {
 }
 
 class _TestState extends State<Test> {
+  final _controller = CountDownController();
+  int index = 0;
+  int result = 0;
   @override
   Widget build(BuildContext context) {
-    final _controller = CountDownController();
-    int index = 0;
-    int result = 0;
-
-    int test = 0;
-
-    void tester() {
-      setState(() {
-        test++;
-      });
-      print(test);
-    }
-
+    int jumlahSoal = widget.questionModel.data.length - 1;
     void navigate(String optionChar) {
       setState(() {
         if (optionChar == (widget.questionModel.data[index].correctOption)) {
           result++;
         }
         index++;
-        if (index == (widget.questionModel.data.length)) {
+        if (index == (widget.questionModel.data.length-1)) {
           Navigator.push(context, MaterialPageRoute(builder: (context) {
             return ResultPage(
               result: result,
             );
           }));
+          print("full ");
+          print(widget.questionModel.data.length);
         }
       });
       print(index);
@@ -58,11 +52,11 @@ class _TestState extends State<Test> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                            ' ${index + 1} / ${widget.questionModel.data.length.toString()}'),
+                            ' ${index + 1} / ${jumlahSoal.toString()}'),
                         Text(widget.username)
                       ],
                     ),
-                    SizedBox(
+                    Container(
                       height: 150,
                       width: 150,
                       child: CountDownProgressIndicator(
@@ -98,13 +92,12 @@ class _TestState extends State<Test> {
                     ),
                     InkWell(
                       onTap: () {
-                        // navigate("a");
-                        tester();
+                        navigate("a");
                       },
                       child: OptionWidget(
                           optionChar: "A",
-                          optionDetail:
-                              widget.questionModel.data[index].optionA,
+                          optionDetail: widget.questionModel.data[index].optionA
+                              .toString(),
                           color: Colors.red),
                     ),
                     SizedBox(
@@ -116,8 +109,8 @@ class _TestState extends State<Test> {
                       },
                       child: OptionWidget(
                           optionChar: "B",
-                          optionDetail:
-                              widget.questionModel.data[index].optionB,
+                          optionDetail: widget.questionModel.data[index].optionB
+                              .toString(),
                           color: Colors.green),
                     ),
                     SizedBox(
@@ -129,8 +122,8 @@ class _TestState extends State<Test> {
                       },
                       child: OptionWidget(
                           optionChar: "C",
-                          optionDetail:
-                              widget.questionModel.data[index].optionC,
+                          optionDetail: widget.questionModel.data[index].optionC
+                              .toString(),
                           color: Colors.blue),
                     ),
                     SizedBox(
@@ -142,8 +135,8 @@ class _TestState extends State<Test> {
                       },
                       child: OptionWidget(
                           optionChar: "D",
-                          optionDetail:
-                              widget.questionModel.data[index].optionD,
+                          optionDetail: widget.questionModel.data[index].optionD
+                              .toString(),
                           color: Colors.pink),
                     ),
                   ],
@@ -159,11 +152,10 @@ class OptionWidget extends StatelessWidget {
   final Color color;
 
   OptionWidget(
-      {Key? key,
+      {super.key,
       required this.optionChar,
       required this.optionDetail,
-      required this.color})
-      : super(key: key);
+      required this.color});
 
   @override
   Widget build(BuildContext context) {
