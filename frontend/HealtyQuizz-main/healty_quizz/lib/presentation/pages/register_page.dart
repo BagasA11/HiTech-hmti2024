@@ -160,7 +160,7 @@ class _RegisterPageState extends State<RegisterPage> {
             ),
             ElevatedButton(
               onPressed: () {
-                Navigator.pushReplacementNamed(context, HomePage.routeName);
+                Navigator.pushReplacementNamed(context, HomePageHealty.routeName);
               },
               child: Text(
                 "SIGN UP",

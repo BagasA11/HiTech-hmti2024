@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:healty_quizz/presentation/makequiz_page.dart';
+import 'package:healty_quizz/presentation/pages/coba/homepage_page.dart';
+import 'package:healty_quizz/presentation/pages/coba/result_page.dart';
+import 'package:healty_quizz/presentation/pages/coba/test_page.dart';
 import 'package:healty_quizz/presentation/pages/home_user_page.dart';
 import 'package:healty_quizz/presentation/pages/leaderboard_user_page.dart';
 import 'package:healty_quizz/presentation/pages/login_page.dart';
@@ -23,19 +26,20 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
-      initialRoute: SplashScreen.routeName,
-      routes: {
-        SplashScreen.routeName: (context) => SplashScreen(),
-        RegisterPage.routeName: (context) => RegisterPage(),
-        LoginPage.routeName: (context) => LoginPage(),
-        HomePage.routeName: (context) => HomePage(),
-        ProfilPage.routeName: (context) => ProfilPage(),
-        LeaderboardPage.routeName: (context) => LeaderboardPage(),
-        QuizList.routeName: (context) => QuizList(),
-        QuizSeting.routeName: (context) => QuizSeting(),
-        QuizPage.routeName: (context) => QuizPage(),
-        MakeQuiz.routeName:(context) => MakeQuiz()
-      },
+      // initialRoute: SplashScreen.routeName,
+      // routes: {
+      //   SplashScreen.routeName: (context) => SplashScreen(),
+      //   RegisterPage.routeName: (context) => RegisterPage(),
+      //   LoginPage.routeName: (context) => LoginPage(),
+      //   HomePage.routeName: (context) => HomePage(),
+      //   ProfilPage.routeName: (context) => ProfilPage(),
+      //   LeaderboardPage.routeName: (context) => LeaderboardPage(),
+      //   QuizList.routeName: (context) => QuizList(),
+      //   QuizSeting.routeName: (context) => QuizSeting(),
+      //   QuizPage.routeName: (context) => QuizPage(),
+      //   MakeQuiz.routeName:(context) => MakeQuiz()
+      // },
+      home: HomePage(),
     );
   }
 }

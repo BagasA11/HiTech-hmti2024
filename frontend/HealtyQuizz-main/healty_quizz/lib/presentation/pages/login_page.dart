@@ -147,7 +147,8 @@ class _LoginPageState extends State<LoginPage> {
             ),
             ElevatedButton(
               onPressed: () {
-                Navigator.pushReplacementNamed(context, HomePage.routeName);
+                Navigator.pushReplacementNamed(
+                    context, HomePageHealty.routeName);
               },
               child: Text(
                 "LOGIN",

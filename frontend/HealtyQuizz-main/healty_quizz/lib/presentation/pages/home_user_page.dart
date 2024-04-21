@@ -6,16 +6,16 @@ import 'package:healty_quizz/presentation/pages/leaderboard_user_page.dart';
 import 'package:healty_quizz/presentation/pages/profil_page.dart';
 import 'package:healty_quizz/presentation/pages/quizlist_page.dart';
 
-class HomePage extends StatefulWidget {
+class HomePageHealty extends StatefulWidget {
   static const routeName = '/home-page';
 
-  HomePage({super.key});
+  HomePageHealty({super.key});
 
   @override
-  State<HomePage> createState() => _HomePageState();
+  State<HomePageHealty> createState() => _HomePageHealty();
 }
 
-class _HomePageState extends State<HomePage> {
+class _HomePageHealty extends State<HomePageHealty> {
   bool _isvisibleSaldo = false;
 
   void togleVisibility() {
