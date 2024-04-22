@@ -349,6 +349,13 @@ func (qc *QuizController) Verify(c *gin.Context) {
 	if typ.(string) != "admin" {
 		c.JSON(http.StatusForbidden, "user cannot access this resource")
 	}
+
+	userID, exist := c.Get("ID")
+	if !exist {
+		c.JSON(http.StatusBadRequest, "token type value is not set")
+		return
+	}
+
 	//get id from url
 	id, err := strconv.Atoi(c.Param("id"))
 	if err != nil {
@@ -357,7 +364,7 @@ func (qc *QuizController) Verify(c *gin.Context) {
 		})
 		return
 	}
-	err = qc.service.Verify(uint(id))
+	err = qc.service.Verify(uint(id), userID.(uint))
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"massage": "failed to verifying quiz",

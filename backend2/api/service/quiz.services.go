@@ -87,7 +87,7 @@ func (qs *QuizService) Delete(id uint) error {
 	return err
 }
 
-func (qs *QuizService) Verify(id uint) error {
-	err := qs.repository.Verify(id)
+func (qs *QuizService) Verify(id uint, userID uint) error {
+	err := qs.repository.Verify(id, userID)
 	return err
 }

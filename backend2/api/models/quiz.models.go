@@ -10,7 +10,7 @@ import (
 type Quiz struct {
 	gorm.Model
 	ID        uint   `gorm:"primaryKey"`
-	Title     string `gorm:"not null;unique"`
+	Title     string `gorm:"not null;"`
 	Topic     string `gorm:"not null; size:50"`
 	Img       *string
 	Desc      string `gorm:"not null"`
@@ -19,9 +19,10 @@ type Quiz struct {
 	Price     *uint64
 	Disc      uint8 `gorm:"type:integer; not null; default:0"`
 	Dura      int   `gorm:"not null; default:1; check:dura<=30"`
+	UserID    uint
 	CreatedAt time.Time
 	UpdatedAt time.Time
-	DeletedAt *time.Time
+	DeletedAt gorm.DeletedAt
 	Score     []Score
 	TopUp     []TopUp
 	Question  []Question

@@ -26,7 +26,7 @@ type User struct {
 	Admin       bool    `gorm:"type:boolean; not null; default:false"`
 	CreatedAt   time.Time
 	UpdatedAt   time.Time
-	DeletedAt   uint `gorm:"type:integer; default:null"`
+	DeletedAt   gorm.DeletedAt `gorm:"type:integer; default:null"`
 	Score       []Score
 	TopUp       []TopUp
 	Transaction []Transaction
