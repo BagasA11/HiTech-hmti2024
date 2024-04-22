@@ -3,17 +3,17 @@ package controllers
 import (
 	"BagasA11/GSC-quizHealthEdu-BE/api/dto"
 	"BagasA11/GSC-quizHealthEdu-BE/api/service"
-	"BagasA11/GSC-quizHealthEdu-BE/configs"
-	"BagasA11/GSC-quizHealthEdu-BE/helpers"
 	"errors"
 	"fmt"
 	"net/http"
+
 	"slices"
 	"strconv"
 	"strings"
 
 	"github.com/gin-gonic/gin"
 	"github.com/go-playground/validator/v10"
+	"github.com/google/uuid"
 )
 
 type QuestionController struct {
@@ -28,12 +28,16 @@ func NewQuestionController() *QuestionController {
 
 func (qc *QuestionController) Create(c *gin.Context) {
 	//token validation
-	//token validation
-	//get user id in token
-	uID, exist := c.Get("ID")
+	tkType, exist := c.Get("TokenType")
 	if !exist {
-		c.JSON(http.StatusBadRequest, gin.H{
-			"massage": "cannot find ID from header",
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"message": "TokenType value not set",
+		})
+		return
+	}
+	if tkType.(string) != "admin" {
+		c.JSON(http.StatusForbidden, gin.H{
+			"message": "User are not allowed to create Question",
 		})
 		return
 	}
@@ -41,11 +45,10 @@ func (qc *QuestionController) Create(c *gin.Context) {
 	quizId, err := strconv.Atoi(c.Param("id"))
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
-			"error": err.Error(),
+			"error": err,
 		})
 		return
 	}
-
 	//get request data
 	req := new(dto.Question)
 	err = c.ShouldBindJSON(&req)
@@ -63,17 +66,17 @@ func (qc *QuestionController) Create(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, errorMessage)
 		return
 	}
-	id, err := qc.service.Create(uint(quizId), uID.(uint), req)
+	qID, err := qc.service.Create(uint(quizId), req)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"message": "failed to create Question",
-			"error":   err.Error(),
+			"error":   err,
 		})
 		return
 	}
 	c.JSON(http.StatusOK, gin.H{
 		"message": "success",
-		"id":      id,
+		"quiz id": qID,
 	})
 }
 
@@ -88,7 +91,7 @@ func (qc *QuestionController) FindID(c *gin.Context) {
 	id, err := strconv.Atoi(c.Param("id"))
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
-			"error": err.Error(),
+			"error": err,
 		})
 		return
 	}
@@ -107,7 +110,7 @@ func (qc *QuestionController) FindID(c *gin.Context) {
 
 func (qc *QuestionController) AttemptQuiz(c *gin.Context) {
 	//token validation
-	uID, exist := c.Get("ID")
+	_, exist := c.Get("ID")
 	if !exist {
 		c.JSON(http.StatusBadRequest, "token id not found")
 		return
@@ -124,18 +127,6 @@ func (qc *QuestionController) AttemptQuiz(c *gin.Context) {
 		return
 	}
 
-	var sessname = fmt.Sprintf("quiz%duser%d", uint(quizID), uID.(uint))
-	//session object instance
-	session, err := configs.Store.Get(c.Request, sessname)
-	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{
-			"massage":       "failed to start session",
-			"error":         err.Error(),
-			"sessions name": sessname,
-		})
-		return
-	}
-
 	q, err := qc.service.AttemptQuiz(uint(quizID))
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
@@ -144,26 +135,17 @@ func (qc *QuestionController) AttemptQuiz(c *gin.Context) {
 		return
 	}
 
-	// var point float32 = 0
-	session.Values["rows"] = uint(len(q))
-	rws := session.Values["rows"].(uint)
-	err = session.Save(c.Request, c.Writer)
-	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{
-			"massage": "failed to save session",
-			"error":   err.Error(),
-		})
-		return
-	}
+	num := number(len(q))
 
 	c.JSON(200, gin.H{
 		"question": q,
+		"num":      num,
 		"rows":     len(q),
-		"rws":      rws,
 	})
 }
 
 func (qc *QuestionController) ReferToQuiz(c *gin.Context) {
+
 	if _, exist := c.Get("ID"); !exist {
 		c.JSON(http.StatusBadRequest, "token id not found")
 		return
@@ -173,7 +155,7 @@ func (qc *QuestionController) ReferToQuiz(c *gin.Context) {
 	if err != nil {
 		c.JSON(http.StatusNotFound, gin.H{
 			"massage": "id not found",
-			"error":   err.Error(),
+			"error":   err,
 		})
 		return
 	}
@@ -194,12 +176,16 @@ func (qc *QuestionController) ReferToQuiz(c *gin.Context) {
 }
 
 func (qc *QuestionController) Edit(c *gin.Context) {
-	//token validation
-	//get user id in token
-	uID, exist := c.Get("ID")
+	tkType, exist := c.Get("TokenType")
 	if !exist {
-		c.JSON(http.StatusBadRequest, gin.H{
-			"massage": "cannot find ID from header",
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"message": "TokenType value not set",
+		})
+		return
+	}
+	if tkType.(string) != "admin" {
+		c.JSON(http.StatusForbidden, gin.H{
+			"message": "User are not allowed to modify Question",
 		})
 		return
 	}
@@ -207,8 +193,7 @@ func (qc *QuestionController) Edit(c *gin.Context) {
 	id, err := strconv.Atoi(c.Param("id"))
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
-			"massage": "failed to convert id to int",
-			"error":   err.Error(),
+			"error": err,
 		})
 		return
 	}
@@ -230,11 +215,10 @@ func (qc *QuestionController) Edit(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, errorMessage)
 		return
 	}
-	err = qc.service.Updates(uint(id), req, uID.(uint))
+	err = qc.service.Updates(uint(id), req)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"message": "failed to update Question",
-			"error":   err.Error(),
 		})
 		return
 	}
@@ -245,38 +229,37 @@ func (qc *QuestionController) Edit(c *gin.Context) {
 
 func (qc *QuestionController) UploadFile(c *gin.Context) {
 	//token validation
-	//get user id in token
-	uID, exist := c.Get("ID")
+	typ, exist := c.Get("TokenType")
 	if !exist {
-		c.JSON(http.StatusBadRequest, gin.H{
-			"massage": "cannot find ID from header",
-		})
+		c.JSON(http.StatusBadRequest, "token type not set")
 		return
 	}
-
+	if typ.(string) != "admin" {
+		c.JSON(http.StatusForbidden, "forbidden access for user")
+		return
+	}
 	//get id parameter from url
 	id, err := strconv.Atoi(c.Param("id"))
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
-			"massage": "failed to convert id to int",
-			"error":   err.Error(),
+			"error": err,
 		})
 		return
 	}
-	dir, err := moveFile(c, uint(id))
+	dir, err := moveFile(c)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"massage": "failed to upload file",
-			"error":   err.Error(),
+			"error":   err,
 		})
 		return
 	}
 
-	err = qc.service.SetImg(uint(id), uID.(uint), dir)
+	err = qc.service.SetAvatar(uint(id), dir)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
-			"massage": "failed to update avatar path",
-			"error":   err.Error(),
+			"massage": "failed",
+			"error":   err,
 		})
 		return
 	}
@@ -284,7 +267,7 @@ func (qc *QuestionController) UploadFile(c *gin.Context) {
 
 }
 
-func moveFile(c *gin.Context, id uint) (string, error) {
+func moveFile(c *gin.Context) (string, error) {
 	file, err := c.FormFile("file")
 	if err != nil {
 		return "", err
@@ -297,31 +280,28 @@ func moveFile(c *gin.Context, id uint) (string, error) {
 	if !slices.Contains([]string{"jpg", "png", "jpeg", "svg"}, ext) {
 		return "", errors.New("file is not image type")
 	}
-
-	newname, err := helpers.Rename("question", id, ext)
+	filename := uuid.New().String() + "." + ext
+	err = c.SaveUploadedFile(file, fmt.Sprintf("asset/img/question/%s", filename))
 	if err != nil {
 		return "", err
 	}
 
-	err = c.SaveUploadedFile(file, fmt.Sprintf("asset/img/question/%s", newname))
-	if err != nil {
-		return "", err
-	}
-
-	return fmt.Sprintf("asset/img/question/%s", newname), nil
+	return fmt.Sprintf("asset/img/question/%s", filename), nil
 }
 
 func (qc *QuestionController) Delete(c *gin.Context) {
 	//token validation
-	//get user id in token
-	uID, exist := c.Get("ID")
+	typ, exist := c.Get("TokenType")
 	if !exist {
 		c.JSON(http.StatusBadRequest, gin.H{
-			"massage": "cannot find ID from header",
+			"massage": "token not found",
 		})
 		return
 	}
-
+	if typ.(string) != "admin" {
+		c.JSON(http.StatusForbidden, "user not allowed to delete question")
+		return
+	}
 	//get id from url
 	//url/question/id
 	id, err := strconv.Atoi(c.Param("id"))
@@ -332,22 +312,21 @@ func (qc *QuestionController) Delete(c *gin.Context) {
 		})
 		return
 	}
-
 	//serving delete behavior
-	err = qc.service.Delete(uint(id), uID.(uint))
+	err = qc.service.Delete(uint(id))
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
-			"error": err.Error(),
+			"error": err,
 		})
 		return
 	}
 	c.JSON(http.StatusOK, "delete question success")
 }
 
-// func number(rows int) []uint {
-// 	num := []uint{}
-// 	for i := 1; i <= rows; i++ {
-// 		num = append(num, uint(i))
-// 	}
-// 	return num
-// }
+func number(rows int) []uint {
+	num := []uint{}
+	for i := 1; i <= rows; i++ {
+		num = append(num, uint(i))
+	}
+	return num
+}

@@ -91,109 +91,7 @@ func (sc *ScoreController) CreateOrUpdate(c *gin.Context) {
 
 	step := session.Values["step"].(uint)
 
-	if step+1 > session.Values["rows"].(uint) {
-		c.JSON(http.StatusBadRequest, "cannot override question")
-	}
-	var pts float32 = 0
-
-	if step == 0 {
-		ans, err := quest.GetAnswer(req.Ids[step])
-		if err != nil {
-			c.JSON(http.StatusInternalServerError, gin.H{
-				"massage": fmt.Sprintf("cannot refers question on %d", req.Ids[step]),
-			})
-			return
-		}
-
-		if req.Checkbox == ans {
-			pts = 1 / (float32(session.Values["rows"].(uint)))
-		}
-
-		SID, err := sc.service.Create(dto.Score{
-			QuizID: uint(quizID),
-			UserID: uID.(uint),
-			Score:  pts,
-		})
-
-		if err != nil {
-			c.JSON(http.StatusInternalServerError, gin.H{
-				"massage": "failed to save score",
-				"error":   err.Error(),
-			})
-
-			return
-		}
-
-		session.Values["point"] = pts
-		session.Values["step"] = step + 1
-		session.Values["sid"] = SID
-		err = session.Save(c.Request, c.Writer)
-		if err != nil {
-			c.JSON(http.StatusInternalServerError, gin.H{
-				"massage": "failed to save point",
-				"error":   err.Error(),
-			})
-			return
-		}
-
-		c.JSON(http.StatusOK, gin.H{
-			"point":  pts,
-			"answer": ans,
-		})
-		return
-
-	} else if (step > 0) && (int(step+1) < session.Values["rows"].(int)) {
-
-		ans, err := quest.GetAnswer(req.Ids[step])
-		if err != nil {
-			c.JSON(http.StatusInternalServerError, gin.H{
-				"massage": fmt.Sprintf("cannot refers question on %d", req.Ids[step]),
-			})
-			return
-		}
-
-		pts = session.Values["point"].(float32)
-		if req.Checkbox == ans {
-			pts += 1 / float32(session.Values["rows"].(int))
-		}
-
-		sid := session.Values["sid"].(uint)
-		err = sc.service.Update(sid, dto.Score{
-			Score:  pts,
-			QuizID: uint(quizID),
-			UserID: uID.(uint),
-		})
-		if err != nil {
-			c.JSON(http.StatusInternalServerError, gin.H{
-				"massage": "failed to save score",
-				"error":   err.Error(),
-			})
-			return
-		}
-
-		session.Values["point"] = pts
-		session.Values["step"] = step + 1
-		session.Values["sid"] = sid
-		err = session.Save(c.Request, c.Writer)
-		if err != nil {
-			c.JSON(http.StatusInternalServerError, gin.H{
-				"massage": "failed to save point",
-				"error":   err.Error(),
-			})
-			return
-		}
-
-		c.JSON(http.StatusOK, gin.H{
-			"point":  pts,
-			"answer": ans,
-		})
-		return
-	}
-
-	step = session.Values["step"].(uint)
-	sid := session.Values["sid"].(uint)
-	ans, err := quest.GetAnswer(req.Ids[step])
-
+	_, err = quest.GetAnswer(req.Ids[step])
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"massage": fmt.Sprintf("cannot refers question on %d", req.Ids[step]),
@@ -201,40 +99,163 @@ func (sc *ScoreController) CreateOrUpdate(c *gin.Context) {
 		return
 	}
 
-	if req.Checkbox == ans {
-		pts += 1 / (float32(session.Values["rows"].(int)))
-	}
-
-	err = sc.service.Update(sid, dto.Score{
-		UserID: uID.(uint),
-		QuizID: uint(quizID),
-		Score:  pts,
-	})
-	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{
-			"massage": "failed to save score",
-			"error":   err.Error(),
-		})
-		return
-	}
-
-	session.Options.MaxAge = -1
-	err = session.Save(c.Request, c.Writer)
-	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{
-			"massage": "failed to save point",
-			"error":   err.Error(),
-		})
-		return
-	}
-
-	rank, _ := sc.service.You(uint(quizID), uID.(uint))
-
 	c.JSON(http.StatusOK, gin.H{
-		"massage":     "congratulations",
-		"total score": pts,
-		"rank":        rank,
+		"step": step,
+		"rows": session.Values["rows"].(uint),
+		"id":   req.Ids[step],
 	})
+
+	// if step+1 > session.Values["rows"].(uint) {
+	// 	c.JSON(http.StatusBadRequest, "cannot override question")
+	// }
+	// var pts float32 = 0
+
+	// if step == 0 {
+	// ans, err := quest.GetAnswer(req.Ids[step])
+	// if err != nil {
+	// 	c.JSON(http.StatusInternalServerError, gin.H{
+	// 		"massage": fmt.Sprintf("cannot refers question on %d", req.Ids[step]),
+	// 	})
+	// 	return
+	// }
+
+	// if ans == "" {
+	// 	c.JSON(http.StatusInternalServerError, gin.H{
+	// 		"massage": fmt.Sprintf("cannot refers question on %d", req.Ids[step]),
+	// 	})
+	// 	return
+	// }
+
+	// 	if req.Checkbox == ans {
+	// 		pts = 1 / (float32(session.Values["rows"].(uint)))
+	// 	}
+
+	// 	SID, err := sc.service.Create(dto.Score{
+	// 		QuizID: uint(quizID),
+	// 		UserID: uID.(uint),
+	// 		Score:  pts,
+	// 	})
+
+	// 	if err != nil {
+	// 		c.JSON(http.StatusInternalServerError, gin.H{
+	// 			"massage": "failed to save score",
+	// 			"error":   err.Error(),
+	// 		})
+
+	// 		return
+	// 	}
+
+	// 	session.Values["point"] = pts
+	// 	session.Values["step"] = step + 1
+	// 	session.Values["sid"] = SID
+	// 	err = session.Save(c.Request, c.Writer)
+	// 	if err != nil {
+	// 		c.JSON(http.StatusInternalServerError, gin.H{
+	// 			"massage": "failed to save point",
+	// 			"error":   err.Error(),
+	// 		})
+	// 		return
+	// 	}
+
+	// 	c.JSON(http.StatusOK, gin.H{
+	// 		"point":  pts,
+	// 		"answer": ans,
+	// 	})
+	// 	return
+
+	// } else if (step > 0) && (int(step+1) < session.Values["rows"].(int)) {
+
+	// 	ans, err := quest.GetAnswer(req.Ids[step])
+	// 	if err != nil {
+	// 		c.JSON(http.StatusInternalServerError, gin.H{
+	// 			"massage": fmt.Sprintf("cannot refers question on %d", req.Ids[step]),
+	// 		})
+	// 		return
+	// 	}
+
+	// 	pts = session.Values["point"].(float32)
+	// 	if req.Checkbox == ans {
+	// 		pts += 1 / float32(session.Values["rows"].(int))
+	// 	}
+
+	// 	sid := session.Values["sid"].(uint)
+	// 	err = sc.service.Update(sid, dto.Score{
+	// 		Score:  pts,
+	// 		QuizID: uint(quizID),
+	// 		UserID: uID.(uint),
+	// 	})
+	// 	if err != nil {
+	// 		c.JSON(http.StatusInternalServerError, gin.H{
+	// 			"massage": "failed to save score",
+	// 			"error":   err.Error(),
+	// 		})
+	// 		return
+	// 	}
+
+	// 	session.Values["point"] = pts
+	// 	session.Values["step"] = step + 1
+	// 	session.Values["sid"] = sid
+	// 	err = session.Save(c.Request, c.Writer)
+	// 	if err != nil {
+	// 		c.JSON(http.StatusInternalServerError, gin.H{
+	// 			"massage": "failed to save point",
+	// 			"error":   err.Error(),
+	// 		})
+	// 		return
+	// 	}
+
+	// 	c.JSON(http.StatusOK, gin.H{
+	// 		"point":  pts,
+	// 		"answer": ans,
+	// 	})
+	// 	return
+	// }
+
+	// step = session.Values["step"].(uint)
+	// sid := session.Values["sid"].(uint)
+	// ans, err := quest.GetAnswer(req.Ids[step])
+
+	// if err != nil {
+	// 	c.JSON(http.StatusInternalServerError, gin.H{
+	// 		"massage": fmt.Sprintf("cannot refers question on %d", req.Ids[step]),
+	// 	})
+	// 	return
+	// }
+
+	// if req.Checkbox == ans {
+	// 	pts += 1 / (float32(session.Values["rows"].(int)))
+	// }
+
+	// err = sc.service.Update(sid, dto.Score{
+	// 	UserID: uID.(uint),
+	// 	QuizID: uint(quizID),
+	// 	Score:  pts,
+	// })
+	// if err != nil {
+	// 	c.JSON(http.StatusInternalServerError, gin.H{
+	// 		"massage": "failed to save score",
+	// 		"error":   err.Error(),
+	// 	})
+	// 	return
+	// }
+
+	// session.Options.MaxAge = -1
+	// err = session.Save(c.Request, c.Writer)
+	// if err != nil {
+	// 	c.JSON(http.StatusInternalServerError, gin.H{
+	// 		"massage": "failed to save point",
+	// 		"error":   err.Error(),
+	// 	})
+	// 	return
+	// }
+
+	// rank, _ := sc.service.You(uint(quizID), uID.(uint))
+
+	// c.JSON(http.StatusOK, gin.H{
+	// 	"massage":     "congratulations",
+	// 	"total score": pts,
+	// 	"rank":        rank,
+	// })
 
 }
 

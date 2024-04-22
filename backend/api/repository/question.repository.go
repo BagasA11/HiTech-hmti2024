@@ -35,21 +35,15 @@ func (qstRepo *QuestionRepository) Create(quest models.Question, userID uint) (u
 	return quest.ID, err
 }
 
-/*get all question which connected to quiz id*/
 // untuk review soal
-func (qr *QuestionRepository) ReferToQuiz(quizID uint, userID uint) ([]models.Question, error) {
+func (qr *QuestionRepository) ReferToQuiz(quizID uint) ([]models.Question, error) {
 	var quest []models.Question
-	tx := qr.Db.Begin()
-	err := tx.Where("quiz_id = ? AND quiz_id IN (SELECT id FROM quizzes WHERE user_id = ?)", quizID, userID).Preload("Option").Order("id ASC").Find(&quest).Error
-
-	if tx.RowsAffected == 0 {
-		tx.Rollback()
-		return nil, fmt.Errorf("unauthorized, you not allowed modify this content")
-	}
+	err := qr.Db.Where("quiz_id = ?", quizID).Find(&quest).Error
 
 	return quest, err
 }
 
+/*get question by id*/
 func (qr *QuestionRepository) FindID(id uint) (models.Question, error) {
 	var q models.Question
 	err := qr.Db.Where("id = ?", id).Preload("Option").First(&q).Error
@@ -58,8 +52,15 @@ func (qr *QuestionRepository) FindID(id uint) (models.Question, error) {
 
 func (qr *QuestionRepository) GetAnswer(id uint) (string, error) {
 	var q models.Question
-	err := qr.Db.Where("id = ?", id).First(&q).Error
-	return q.Answer, err
+	if qr.Db.Where("id = ?", id).First(&q).RowsAffected == 0 {
+		return "", fmt.Errorf("question id [%d] not found", id)
+	}
+
+	if q.Answer == "" {
+		return "", fmt.Errorf("question id [%d] not found", id)
+	}
+
+	return q.Answer, nil
 }
 
 func (qr *QuestionRepository) QuestionAndOption(quizID uint) ([]models.Question, error) {
@@ -71,7 +72,8 @@ func (qr *QuestionRepository) QuestionAndOption(quizID uint) ([]models.Question,
 func (qstRepo *QuestionRepository) Updates(quest models.Question, userID uint) error {
 	tx := qstRepo.Db.Begin()
 
-	// UPDATE questions SET ({}) WHERE id = $id AND quiz_id IN (SELECT id FROM quizzes WHERE user_id = $user_id)
+	// UPDATE questions SET (models.Question{}) WHERE id = $id AND quiz_id IN (SELECT id FROM quizzes WHERE user_id = $user_id)
+	// SELECT * FROM questions WHERE id = 6 AND quiz_id IN (SELECT id FROM quizzes WHERE user_id = 1)
 	err := tx.Model(&models.Question{}).Where("id = ? AND quiz_id IN (SELECT id FROM quizzes WHERE user_id = ?)", quest.ID, userID).Updates(&quest).Error
 
 	if tx.RowsAffected == 0 {
@@ -86,7 +88,7 @@ func (qstRepo *QuestionRepository) Updates(quest models.Question, userID uint) e
 	return nil
 }
 
-func (qr *QuestionRepository) SetAvatar(id uint, userID uint, file string) error {
+func (qr *QuestionRepository) SetImg(id uint, userID uint, file string) error {
 	tx := qr.Db.Begin()
 
 	// UPDATE questions SET img = $file WHERE id = $id AND quiz_id IN (SELECT id FROM quizzes WHERE user_id = $user_id)

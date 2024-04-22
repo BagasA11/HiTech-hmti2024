@@ -16,14 +16,13 @@ func NewQuestionService() *QuestionService {
 	}
 }
 
-func (qst *QuestionService) Create(quizId uint, userID uint, req *dto.Question) (uint, error) {
+func (qst *QuestionService) Create(quizId uint, req *dto.Question) (uint, error) {
 	q := models.Question{
 		Question: req.Question,
 		Answer:   req.Answer,
 		QuizID:   quizId,
-		Dura:     req.Dura,
 	}
-	return qst.repository.Create(q, userID)
+	return qst.repository.Create(q)
 
 }
 
@@ -38,31 +37,26 @@ func (qs *QuestionService) FindID(id uint) (models.Question, error) {
 	return q, err
 }
 
-func (qs *QuestionService) GetAnswer(id uint) (string, error) {
-	return qs.repository.GetAnswer(id)
-}
-
 func (qs *QuestionService) AttemptQuiz(quizID uint) ([]models.Question, error) {
 	q, err := qs.repository.QuestionAndOption(quizID)
 	return q, err
 }
 
-func (qst *QuestionService) Updates(id uint, req *dto.Question, userID uint) error {
-
+func (qst *QuestionService) Updates(id uint, req *dto.Question) error {
 	q := models.Question{
 		ID:       id,
 		Question: req.Question,
 		Answer:   req.Answer,
-		Dura:     req.Dura,
 	}
-	err := qst.repository.Updates(q, userID)
+	err := qst.repository.Updates(q)
 	return err
 }
 
-func (qs *QuestionService) SetImg(id uint, userID uint, file string) error {
-	return qs.repository.SetImg(id, userID, file)
+func (qs *QuestionService) SetAvatar(id uint, file string) error {
+	return qs.repository.SetAvatar(id, file)
 }
 
-func (qst *QuestionService) Delete(id uint, userID uint) error {
-	return qst.repository.Delete(id, userID)
+func (qst *QuestionService) Delete(id uint) error {
+	err := qst.repository.Delete(id)
+	return err
 }
