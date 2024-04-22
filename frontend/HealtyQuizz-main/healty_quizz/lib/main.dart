@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:healty_quizz/presentation/makequiz_page.dart';
-import 'package:healty_quizz/presentation/pages/home_user_page.dart';
-import 'package:healty_quizz/presentation/pages/leaderboard_user_page.dart';
+import 'package:healty_quizz/presentation/pages/user/home_user_page.dart';
+import 'package:healty_quizz/presentation/pages/user/leaderboard_user_page.dart';
 import 'package:healty_quizz/presentation/pages/login_page.dart';
 import 'package:healty_quizz/presentation/pages/profil_page.dart';
 import 'package:healty_quizz/presentation/pages/quizlist_page.dart';
-import 'package:healty_quizz/presentation/pages/quizseting_page.dart';
+import 'package:healty_quizz/presentation/pages/admin/quizseting_page.dart';
 
 import 'package:healty_quizz/presentation/pages/register_page.dart';
 import 'package:healty_quizz/presentation/pages/splashscreen_page.dart';
-import 'package:healty_quizz/presentation/pages/quiz_user_page.dart';
+import 'package:healty_quizz/presentation/pages/user/quiz_user_page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -22,6 +21,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       initialRoute: SplashScreen.routeName,
       routes: {
@@ -33,8 +33,7 @@ class MyApp extends StatelessWidget {
         LeaderboardPage.routeName: (context) => LeaderboardPage(),
         QuizList.routeName: (context) => QuizList(),
         QuizSeting.routeName: (context) => QuizSeting(),
-        QuizPage.routeName: (context) => QuizPage(),
-        MakeQuiz.routeName:(context) => MakeQuiz()
+        QuizPage.routeName: (context) => QuizPage()
       },
     );
   }

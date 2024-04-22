@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:healty_quizz/themes/theme.dart';
 
 class LeaderboardPage extends StatelessWidget {
   static const routeName = '/leaderboard-screen';
@@ -10,13 +9,16 @@ class LeaderboardPage extends StatelessWidget {
   Widget build(BuildContext context) {
     Size screenWidth = MediaQuery.of(context).size;
     return Scaffold(
-        backgroundColor: primaryColor,
+        backgroundColor: Color(0xffD2F6C5),
         appBar: AppBar(
-          backgroundColor: secondaryColor,
+          backgroundColor: Color(0xff28DF99),
           centerTitle: true,
           title: Text(
             'Leaderboard',
-            style: title,
+            style: GoogleFonts.poppins(
+              fontSize: 20,
+              color: Colors.white,
+            ),
           ),
         ),
         body: SafeArea(
@@ -43,7 +45,7 @@ class LeaderboardPage extends StatelessWidget {
                         child: Icon(
                           Icons.leaderboard,
                           size: 100,
-                          color: accentColor,
+                          color: Color(0xff00BF63),
                         )),
                   ],
                 ),
@@ -126,13 +128,15 @@ class Leaderboard extends StatelessWidget {
       children: [
         Container(
           decoration: BoxDecoration(
-              color: accentColor, borderRadius: BorderRadius.circular(30)),
+              color: Color(0xff00BF63),
+              borderRadius: BorderRadius.circular(30)),
           width: width,
           child: Padding(
             padding: EdgeInsets.symmetric(horizontal: 10, vertical: 3),
             child: Text(
               "Nama User Leaderboard 1 ",
-              style: keterangan.copyWith(fontWeight: FontWeight.bold),
+              style: GoogleFonts.poppins(
+                  fontSize: 10, fontWeight: FontWeight.bold),
               textAlign: TextAlign.center,
             ),
           ),
@@ -142,7 +146,8 @@ class Leaderboard extends StatelessWidget {
         ),
         Container(
           decoration: BoxDecoration(
-              color: separateColor, borderRadius: BorderRadius.circular(30)),
+              color: Color(0xffF6F7D4),
+              borderRadius: BorderRadius.circular(30)),
           width: width2,
           child: Padding(
               padding: EdgeInsets.symmetric(horizontal: 10, vertical: 3),
@@ -151,7 +156,7 @@ class Leaderboard extends StatelessWidget {
                   Container(
                     width: 20,
                     height: 20,
-                    decoration: BoxDecoration(color: blueColor),
+                    decoration: BoxDecoration(color: Colors.blue),
                   ),
                   SizedBox(
                     width: 5,
