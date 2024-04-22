@@ -4,6 +4,7 @@ import (
 	"BagasA11/GSC-quizHealthEdu-BE/api/models"
 	"BagasA11/GSC-quizHealthEdu-BE/configs"
 	"errors"
+	"fmt"
 
 	"gorm.io/gorm"
 )
@@ -21,7 +22,8 @@ func NewQuestionRepository() *QuestionRepository {
 func (qstRepo *QuestionRepository) Create(quest models.Question, userID uint) (uint, error) {
 	tx := qstRepo.Db.Begin()
 	if tx.Where("id = ? AND user_id = ?", quest.QuizID, userID).First(&models.Quiz{}).RowsAffected == 0 {
-		return 0, errors.New("you not allowed modify this content")
+		tx.Rollback()
+		return 0, errors.New("Unauthorized_You do not have permission to modify this content")
 	}
 
 	err := tx.Create(&quest).Error
@@ -30,14 +32,21 @@ func (qstRepo *QuestionRepository) Create(quest models.Question, userID uint) (u
 		return 0, err
 	}
 	tx.Commit()
-	return 0, err
+	return quest.ID, err
 }
 
 /*get all question which connected to quiz id*/
 // untuk review soal
 func (qr *QuestionRepository) ReferToQuiz(quizID uint, userID uint) ([]models.Question, error) {
 	var quest []models.Question
-	err := qr.Db.Where("quiz_id = ? AND quiz_id IN (SELECT id FROM quizzes WHERE user_id = ?)", quizID, userID).Preload("Option").Order("id ASC").Find(&quest).Error
+	tx := qr.Db.Begin()
+	err := tx.Where("quiz_id = ? AND quiz_id IN (SELECT id FROM quizzes WHERE user_id = ?)", quizID, userID).Preload("Option").Order("id ASC").Find(&quest).Error
+
+	if tx.RowsAffected == 0 {
+		tx.Rollback()
+		return nil, fmt.Errorf("unauthorized, you not allowed modify this content")
+	}
+
 	return quest, err
 }
 
@@ -49,7 +58,7 @@ func (qr *QuestionRepository) FindID(id uint) (models.Question, error) {
 
 func (qr *QuestionRepository) GetAnswer(id uint) (string, error) {
 	var q models.Question
-	err := qr.Db.Where("id = ?", id).Preload("Option").First(&q).Error
+	err := qr.Db.Where("id = ?", id).First(&q).Error
 	return q.Answer, err
 }
 

@@ -175,6 +175,7 @@ func (qc *QuizController) FindID(c *gin.Context) {
 	data, err := qc.service.GetByID(uint(id))
 	if err != nil {
 		c.JSON(http.StatusNotFound, gin.H{
+			"error":   err.Error(),
 			"massage": "Quiz id not found",
 		})
 		return

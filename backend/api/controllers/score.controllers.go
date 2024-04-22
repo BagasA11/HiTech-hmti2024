@@ -47,7 +47,7 @@ func (sc *ScoreController) CreateOrUpdate(c *gin.Context) {
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"massage": "cannot convert string to integer or url id is unavailable",
-			"error":   err,
+			"error":   err.Error(),
 		})
 		return
 	}
@@ -68,12 +68,14 @@ func (sc *ScoreController) CreateOrUpdate(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, errorMessage)
 		return
 	}
-
+	var sessname = fmt.Sprintf("quiz%duser%d", uint(quizID), uID.(uint))
 	//session object instance
-	session, err := configs.Store.Get(c.Request, fmt.Sprintf("attempt-quiz:%d-user:%d", uint(quizID), uID.(uint)))
+	session, err := configs.Store.Get(c.Request, sessname)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
-			"error": err.Error(),
+			"massage":       "failed to start session",
+			"error":         err.Error(),
+			"sessions name": sessname,
 		})
 		return
 	}
@@ -82,8 +84,14 @@ func (sc *ScoreController) CreateOrUpdate(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, "session.rows value not set")
 		return
 	}
+
+	if session.Values["step"] == nil {
+		session.Values["step"] = uint(0)
+	}
+
 	step := session.Values["step"].(uint)
-	if step > req.Ids[step] {
+
+	if step+1 > session.Values["rows"].(uint) {
 		c.JSON(http.StatusBadRequest, "cannot override question")
 	}
 	var pts float32 = 0
@@ -98,7 +106,7 @@ func (sc *ScoreController) CreateOrUpdate(c *gin.Context) {
 		}
 
 		if req.Checkbox == ans {
-			pts = 1 / (float32(session.Values["rows"].(int)))
+			pts = 1 / (float32(session.Values["rows"].(uint)))
 		}
 
 		SID, err := sc.service.Create(dto.Score{

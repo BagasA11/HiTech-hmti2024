@@ -124,11 +124,14 @@ func (qc *QuestionController) AttemptQuiz(c *gin.Context) {
 		return
 	}
 
+	var sessname = fmt.Sprintf("quiz%duser%d", uint(quizID), uID.(uint))
 	//session object instance
-	session, err := configs.Store.Get(c.Request, fmt.Sprintf("attempt-quiz%d-user%d", uint(quizID), uID.(uint)))
+	session, err := configs.Store.Get(c.Request, sessname)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
-			"error": err.Error(),
+			"massage":       "failed to start session",
+			"error":         err.Error(),
+			"sessions name": sessname,
 		})
 		return
 	}
@@ -142,7 +145,8 @@ func (qc *QuestionController) AttemptQuiz(c *gin.Context) {
 	}
 
 	// var point float32 = 0
-	session.Values["rows"] = len(q)
+	session.Values["rows"] = uint(len(q))
+	rws := session.Values["rows"].(uint)
 	err = session.Save(c.Request, c.Writer)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
@@ -155,6 +159,7 @@ func (qc *QuestionController) AttemptQuiz(c *gin.Context) {
 	c.JSON(200, gin.H{
 		"question": q,
 		"rows":     len(q),
+		"rws":      rws,
 	})
 }
 

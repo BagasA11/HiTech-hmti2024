@@ -2,7 +2,6 @@ package models
 
 import (
 	"errors"
-	"fmt"
 	"slices"
 	"strings"
 
@@ -32,10 +31,6 @@ func (q *Question) BeforeCreate(tx *gorm.DB) (err error) {
 	if (q.Dura <= 0) || (q.Dura > 30) {
 		return errors.New("timer must be greater than 0 and less than 30 second")
 
-	}
-
-	if tx.Where("quiz_id IN (SELECT id FROM quizzes WHERE id = ?)", q.QuizID).Find(&Question{}).RowsAffected == 0 {
-		return fmt.Errorf("unknown quiz id for %d", int(q.QuizID))
 	}
 
 	return nil
