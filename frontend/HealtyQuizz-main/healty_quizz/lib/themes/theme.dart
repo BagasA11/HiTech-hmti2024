@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-const Color primaryColor = Color(0xFFD2F6C5);
-const Color secondaryColor = Color(0xFF28DF99);
-const Color accentColor = Color(0xFFF00BF63);
+const Color primaryColor = Color(0xFF58A399);
+const Color secondaryColor = Color(0xFFA8CD9F);
+const Color accentColor = Color(0xFF496989);
 const Color blackColor = Color.fromARGB(255, 0, 0, 0);
 const Color whiteColor = Color(0xFFffffff);
 const Color separateColor = Color(0xffF6F7D4);

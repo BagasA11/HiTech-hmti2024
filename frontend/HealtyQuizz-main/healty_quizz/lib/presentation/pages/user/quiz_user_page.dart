@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:healty_quizz/themes/theme.dart';
 
 class QuizPage extends StatefulWidget {
   static const routeName = '/quiz-page';
@@ -17,12 +16,15 @@ class _QuizPageState extends State<QuizPage> {
   Widget build(BuildContext context) {
     Size screenWidth = MediaQuery.of(context).size;
     return Scaffold(
-      backgroundColor: primaryColor,
+      backgroundColor: Color(0xffD2F6C5),
       appBar: AppBar(
-        backgroundColor: secondaryColor,
+        backgroundColor: Color(0xff28DF99),
         title: Text(
           "Welcome",
-          style: title,
+          style: GoogleFonts.poppins(
+            fontSize: 20,
+            color: Colors.white,
+          ),
         ),
         centerTitle: true,
       ),
@@ -42,8 +44,10 @@ class _QuizPageState extends State<QuizPage> {
           ),
           Text(
             "PERTANYAAN",
-            style:
-                title.copyWith(color: blackColor, fontWeight: FontWeight.bold),
+            style: GoogleFonts.poppins(
+                color: Colors.black,
+                fontWeight: FontWeight.bold,
+                fontSize: 20.6),
           ),
           SizedBox(
             height: 30,
@@ -70,10 +74,13 @@ class _QuizPageState extends State<QuizPage> {
             onPressed: () {},
             child: Text(
               "Next",
-              style: subHeading.copyWith(color: blackColor),
+              style: GoogleFonts.openSans(
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black,
+                  fontSize: 19.1),
             ),
             style: ElevatedButton.styleFrom(
-                backgroundColor: accentColor,
+                backgroundColor: Color(0xff00BF63),
                 padding: EdgeInsets.symmetric(horizontal: 50)),
           ),
         ],
@@ -110,7 +117,8 @@ class _OpsiJawabanState extends State<OpsiJawaban> {
           child: Text(
             "JAWABAN 1",
             textAlign: TextAlign.center,
-            style: preSubTitles,
+            style: GoogleFonts.poppins(
+                fontSize: 12, fontWeight: FontWeight.w500, color: Colors.black),
           ),
         ),
       ),

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:healty_quizz/themes/theme.dart';
 
 class ProfilPage extends StatelessWidget {
@@ -8,13 +10,15 @@ class ProfilPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: primaryColor,
       appBar: AppBar(
-        backgroundColor: secondaryColor,
+        backgroundColor: primaryColor,
         centerTitle: true,
         title: Text(
           'Profile',
-          style: title,
+          style: GoogleFonts.poppins(
+            fontSize: 20,
+            color: Colors.white,
+          ),
         ),
       ),
       body: SafeArea(
@@ -39,7 +43,7 @@ class ProfilPage extends StatelessWidget {
                             image: const DecorationImage(
                                 image: AssetImage("assets/guest.png")),
                             border: Border.all(
-                              color: blackColor, // Warna border
+                              color: Colors.black87, // Warna border
                               width: 1.0, // Lebar border
                             ),
                           ),
@@ -49,76 +53,106 @@ class ProfilPage extends StatelessWidget {
                         ),
                         Text(
                           "Username",
-                          style: preSubTitles.copyWith(
-                              color: blackColor, fontWeight: FontWeight.w800),
+                          style: GoogleFonts.poppins(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w600,
+                              color: blackColor),
                         ),
                         SizedBox(
-                          height: 5,
+                          height: 0,
                         ),
                         Text(
-                          "Email",
-                          style: keterangan.copyWith(color: blackColor),
+                          "email@gmail.com",
+                          style: GoogleFonts.poppins(
+                              fontSize: 12,
+                              fontWeight: FontWeight.w400,
+                              color: greyColor),
+                        ),
+                        SizedBox(
+                          height: 20,
                         ),
                       ],
                     ),
                   ),
-                  Container(
-                    color: separateColor,
-                    child: Padding(
-                      padding: EdgeInsets.symmetric(vertical: 10),
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(10.0),
+                    child: Container(
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                      color: accentColor,
                       child: Row(
                         children: [
                           Text(
                             "General Settings",
-                            style:
-                                subTitle.copyWith(fontWeight: FontWeight.w400),
+                            style: GoogleFonts.poppins(
+                                fontSize: 14,
+                                fontWeight: FontWeight.w500,
+                                color: whiteColor),
                           ),
                         ],
                       ),
                     ),
                   ),
-                  const ProfileDetailInfo(
-                    cat: 'Password',
-                    value: '',
-                  ),
-                  const ProfileDetailInfo(
-                    cat: 'Language',
-                    value: '',
-                    noValue: true,
+                  Padding(
+                    padding: const EdgeInsets.only(left: 10),
+                    child: Column(
+                      children: [
+                        const ProfileDetailInfo(
+                          cat: 'Password',
+                          value: '',
+                        ),
+                        const ProfileDetailInfo(
+                          cat: 'Language',
+                          value: '',
+                          noValue: true,
+                        ),
+                      ],
+                    ),
                   ),
                   SizedBox(
                     height: 10,
                   ),
-                  Container(
-                    color: separateColor,
-                    child: Padding(
-                      padding: EdgeInsets.symmetric(vertical: 10),
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(10.0),
+                    child: Container(
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                      color: accentColor,
                       child: Row(
                         children: [
                           Text(
                             "General Settings",
-                            style:
-                                subTitle.copyWith(fontWeight: FontWeight.w400),
+                            style: GoogleFonts.poppins(
+                                fontSize: 14,
+                                fontWeight: FontWeight.w500,
+                                color: whiteColor),
                           ),
                         ],
                       ),
                     ),
                   ),
-                  const ProfileDetailInfo(
-                    cat: 'About App',
-                    value: '',
-                  ),
-                  const ProfileDetailInfo(
-                    cat: 'Terms',
-                    value: '',
-                  ),
-                  const ProfileDetailInfo(
-                    cat: 'Privacy Policy',
-                    value: '',
-                  ),
-                  const ProfileDetailInfo(
-                    cat: 'Share This App',
-                    value: '',
+                  const Padding(
+                    padding: EdgeInsets.only(left: 10),
+                    child: Column(
+                      children: [
+                        ProfileDetailInfo(
+                          cat: 'About App',
+                          value: '',
+                        ),
+                        ProfileDetailInfo(
+                          cat: 'Terms',
+                          value: '',
+                        ),
+                        ProfileDetailInfo(
+                          cat: 'Privacy Policy',
+                          value: '',
+                        ),
+                        ProfileDetailInfo(
+                          cat: 'Share This App',
+                          value: '',
+                        ),
+                      ],
+                    ),
                   ),
                 ],
               ),
@@ -149,14 +183,15 @@ class ProfileDetailInfo extends StatelessWidget {
               flex: 1,
               child: Text(
                 cat,
+                style: TextStyle(color: blackColor, fontSize: 12),
               ),
             ),
             Expanded(
               flex: 2,
               child: Text(
                 value,
-                style:
-                    TextStyle(color: noValue == true ? greyColor : blackColor),
+                style: TextStyle(
+                    color: noValue == true ? Colors.grey : Colors.black),
               ),
             ),
             IconButton(
@@ -173,25 +208,25 @@ class ProfileDetailInfo extends StatelessWidget {
   }
 }
 
-// class QuestionBorderMark extends StatelessWidget {
-//   const QuestionBorderMark({super.key});
+class QuestionBorderMark extends StatelessWidget {
+  const QuestionBorderMark({super.key});
 
-//   @override
-//   Widget build(BuildContext context) {
-//     return Container(
-//       width: 18,
-//       height: 18,
-//       decoration: BoxDecoration(
-//         shape: BoxShape.circle,
-//         border: Border.all(
-//           color: Colors.black,
-//           width: 2,
-//         ),
-//       ),
-//       child: const Icon(
-//         size: 13,
-//         Icons.question_mark_sharp,
-//       ),
-//     );
-//   }
-// }
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: 18,
+      height: 18,
+      decoration: BoxDecoration(
+        shape: BoxShape.circle,
+        border: Border.all(
+          color: Colors.black,
+          width: 2,
+        ),
+      ),
+      child: const Icon(
+        size: 13,
+        Icons.question_mark_sharp,
+      ),
+    );
+  }
+}
