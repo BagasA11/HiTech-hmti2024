@@ -18,6 +18,8 @@ func QuizRoutes(group *gin.RouterGroup) {
 	//get quiz detail by id
 	group.GET("/quiz/:id", qc.FindID)
 
+	group.GET("/quiz/:id/detail", middleware.JwtAuth(), qc.QuizDetail)
+
 	//show all quiz where not verified by admin
 	//admin only
 	group.GET("/quiz/not-verified", middleware.JwtAuth(), qc.NotVerified)

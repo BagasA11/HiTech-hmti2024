@@ -79,6 +79,12 @@ func (qr *QuizRepository) FindTopic(topic string) ([]models.Quiz, error) {
 	return quiz, err
 }
 
+func (qr *QuizRepository) QuizDetail(id uint) (models.Quiz, error) {
+	var quiz models.Quiz
+	err := qr.Db.Where("id = ? AND verified = ?", id, true).Preload("Question").First(&quiz).Error
+	return quiz, err
+}
+
 func (qr *QuizRepository) NotVerified() ([]models.Quiz, error) {
 	var quiz []models.Quiz
 	err := qr.Db.Where("verified = ?", false).Find(&quiz).Error

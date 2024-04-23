@@ -26,12 +26,6 @@ func (qst *QuestionService) Create(quizId uint, req *dto.Question) (uint, error)
 
 }
 
-// get all question which correspondent with quiz id
-func (qst *QuestionService) ReferToQuiz(quizID uint) ([]models.Question, error) {
-	q, err := qst.repository.ReferToQuiz(quizID)
-	return q, err
-}
-
 func (qs *QuestionService) FindID(id uint) (models.Question, error) {
 	q, err := qs.repository.FindID(id)
 	return q, err

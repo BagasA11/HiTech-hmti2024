@@ -37,6 +37,10 @@ func (qs *QuizService) GetByID(id uint) (models.Quiz, error) {
 	return q, err
 }
 
+func (qs *QuizService) QuizDetail(id uint) (models.Quiz, error) {
+	return qs.repository.QuizDetail(id)
+}
+
 func (qs *QuizService) GetFree() ([]models.Quiz, error) {
 	q, err := qs.repository.Free()
 	return q, err

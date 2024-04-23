@@ -14,8 +14,7 @@ type Question struct {
 	Question string `gorm:"not null"`
 	Img      *string
 	Answer   string `gorm:"not null;size:1"`
-	QuizID   uint
-	Quiz     Quiz `gorm:"constraint:OnDelete:CASCADE;"`
+	QuizID   uint   `gorm:"constraint:OnDelete:CASCADE;"`
 	Option   []Option
 }
 
