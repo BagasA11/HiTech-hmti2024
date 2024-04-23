@@ -144,37 +144,6 @@ func (qc *QuestionController) AttemptQuiz(c *gin.Context) {
 	})
 }
 
-func (qc *QuestionController) ReferToQuiz(c *gin.Context) {
-
-	if _, exist := c.Get("ID"); !exist {
-		c.JSON(http.StatusBadRequest, "token id not found")
-		return
-	}
-
-	id, err := strconv.Atoi(c.Param("id"))
-	if err != nil {
-		c.JSON(http.StatusNotFound, gin.H{
-			"massage": "id not found",
-			"error":   err,
-		})
-		return
-	}
-	q, err := qc.service.ReferToQuiz(uint(id))
-	//q: [{id, question, answer}, {id, question, answer}]
-	//[{1, ".......", A}, {3, ....., C}, {11, ......, E}]
-	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{
-			"error": err.Error(),
-		})
-		return
-	}
-
-	c.JSON(200, gin.H{
-		"massages": "success",
-		"data":     q,
-	})
-}
-
 func (qc *QuestionController) Edit(c *gin.Context) {
 	tkType, exist := c.Get("TokenType")
 	if !exist {

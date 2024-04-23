@@ -187,6 +187,34 @@ func (qc *QuizController) FindTitle(c *gin.Context) {
 	})
 }
 
+func (qc *QuizController) QuizDetail(c *gin.Context) {
+	if _, exist := c.Get("ID"); !exist {
+		c.JSON(http.StatusBadRequest, "user id not found")
+		return
+	}
+
+	//retrieve id from url
+	id, err := strconv.Atoi(c.Param("id"))
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": err,
+		})
+		return
+	}
+
+	data, err := qc.service.QuizDetail(uint(id))
+	if err != nil {
+		c.JSON(http.StatusNotFound, gin.H{
+			"massage": "Quiz id not found",
+		})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"data": data,
+	})
+}
+
 func (qc *QuizController) FindID(c *gin.Context) {
 	//retrieve id from url
 	id, err := strconv.Atoi(c.Param("id"))

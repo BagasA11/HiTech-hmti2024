@@ -12,7 +12,7 @@ func QuestionRoutes(group *gin.RouterGroup) {
 	//get question detail by id
 	group.GET("/question/:id", middleware.JwtAuth(), qc.FindID)
 	//get all question to reviewed by admin
-	group.GET("/quiz/:id/refer-quiz", middleware.JwtAuth(), qc.ReferToQuiz)
+
 	//get all question to be attempt by user
 	group.GET("/quiz/:id/attempt", middleware.JwtAuth(), qc.AttemptQuiz)
 	//create new quiz
