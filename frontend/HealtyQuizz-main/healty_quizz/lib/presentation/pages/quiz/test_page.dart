@@ -1,4 +1,3 @@
-
 import 'package:countdown_progress_indicator/countdown_progress_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -8,8 +7,15 @@ import 'package:healty_quizz/presentation/pages/quiz/widget/option_widget.dart';
 
 class Test extends StatefulWidget {
   final QuestionModel questionModel;
+  final String id;
   final String username;
-  const Test({super.key, required this.questionModel, required this.username});
+  final String score;
+  const Test(
+      {super.key,
+      required this.questionModel,
+      required this.id,
+      required this.username,
+      required this.score});
 
   @override
   State<Test> createState() => _TestState();
@@ -28,10 +34,13 @@ class _TestState extends State<Test> {
           result++;
         }
         index++;
-        if (index == (widget.questionModel.data.length-1)) {
+        if (index == (widget.questionModel.data.length - 1)) {
           Navigator.push(context, MaterialPageRoute(builder: (context) {
             return ResultPage(
               result: result,
+              score: widget.score,
+              id: widget.id,
+              username: widget.username,
             );
           }));
           print("full ");
@@ -52,8 +61,7 @@ class _TestState extends State<Test> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(
-                            ' ${index + 1} / ${jumlahSoal.toString()}'),
+                        Text(' ${index + 1} / ${jumlahSoal.toString()}'),
                         Text(widget.username)
                       ],
                     ),
@@ -72,6 +80,9 @@ class _TestState extends State<Test> {
                               MaterialPageRoute(builder: (context) {
                             return ResultPage(
                               result: result,
+                              score: widget.score,
+                              id: widget.id,
+                              username: widget.username,
                             );
                           })).then((value) {
                             setState(() {});
@@ -146,4 +157,3 @@ class _TestState extends State<Test> {
     );
   }
 }
-

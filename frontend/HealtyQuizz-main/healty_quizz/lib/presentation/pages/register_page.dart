@@ -1,8 +1,10 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:healty_quizz/presentation/pages/user/home_user_page.dart';
 import 'package:healty_quizz/presentation/pages/login_page.dart';
 import 'package:healty_quizz/themes/theme.dart';
+import 'package:http/http.dart' as http;
 
 class RegisterPage extends StatefulWidget {
   static const routeName = '/register-page';
@@ -16,6 +18,22 @@ class _RegisterPageState extends State<RegisterPage> {
   final TextEditingController _username = TextEditingController();
   final TextEditingController _email = TextEditingController();
   final TextEditingController _password = TextEditingController();
+
+  Future<void> _register() async {
+    String Url =
+        "http://192.168.100.11/belajar/HiTech-hmti2024/frontend/HealtyQuizz-main/healty_quizz/lib/data/register.php";
+    final response = await http.post(Uri.parse(Url), body: {
+      "username": _username.text,
+      "password": _password.text,
+      "email": _email.text
+    });
+
+    if (response.statusCode == 200) {
+      Navigator.push(context, MaterialPageRoute(builder: (context) {
+        return LoginPage();
+      }));
+    }
+  }
 
   void dispose() {
     super.dispose();
@@ -211,7 +229,8 @@ class _RegisterPageState extends State<RegisterPage> {
 
             ElevatedButton(
               onPressed: () {
-                Navigator.pushReplacementNamed(context, HomePage.routeName);
+                // Navigator.pushReplacementNamed(context, HomePage.routeName);
+                _register();
               },
               child: Text(
                 "SIGN UP",
@@ -237,10 +256,10 @@ class _RegisterPageState extends State<RegisterPage> {
                 TextButton(
                   onPressed: () {
                     // Navigator.pushNamed(context, LoginPage.routeName);
-                    // Navigator.push(context,
-                    //     MaterialPageRoute(builder: (Context) {
-                    //   return HomePage();
-                    // }));
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (Context) {
+                      return LoginPage();
+                    }));
                   },
                   child: Text(
                     "Login",

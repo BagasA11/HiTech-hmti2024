@@ -1,3 +1,4 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:healty_quizz/presentation/pages/profil_page.dart';
@@ -12,8 +13,22 @@ import 'package:healty_quizz/widget/quiz_card.dart';
 
 class HomePage extends StatefulWidget {
   static const routeName = '/home-page';
+  String id;
+  String username;
+  String password;
+  String email;
+  String level;
+  String score;
 
-  HomePage({super.key});
+  HomePage({
+    Key? key,
+    required this.id,
+    required this.username,
+    required this.password,
+    required this.email,
+    required this.level,
+    required this.score,
+  }) : super(key: key);
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -39,7 +54,11 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     List<Widget> _widgetOptions = <Widget>[
-      HomeMain(),
+      HomeMain(
+        id: widget.id,
+        username: widget.username,
+        score: widget.score,
+      ),
       CreateQuiz(),
       ProfilePage(),
     ];

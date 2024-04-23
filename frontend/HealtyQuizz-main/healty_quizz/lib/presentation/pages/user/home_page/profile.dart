@@ -7,7 +7,9 @@ class ProfilePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListView(
+    return Scaffold(
+      body: SafeArea(
+        child: ListView(
           children: [
             SizedBox(
               height: 20,
@@ -143,7 +145,9 @@ class ProfilePage extends StatelessWidget {
               ),
             ),
           ],
-        );
+        ),
+      ),
+    );
   }
 }
 

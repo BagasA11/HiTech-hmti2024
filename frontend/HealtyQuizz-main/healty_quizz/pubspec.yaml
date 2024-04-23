@@ -37,6 +37,7 @@ dependencies:
   cupertino_icons: ^1.0.2
   google_fonts: ^6.1.0
   flutter_inner_shadow: ^0.0.1
+  countdown_progress_indicator: ^0.1.2
 
 dev_dependencies:
   flutter_test:

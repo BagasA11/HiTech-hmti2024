@@ -29,9 +29,16 @@ class _LoginPageState extends State<LoginPage> {
 
     var datauser = json.decode(response.body);
 
-    if (datauser[0]['level'] == 'admin') {
+    if (response.statusCode == 200) {
       Navigator.push(context, MaterialPageRoute(builder: (context) {
-        return HomePage(username: datauser[0]['username']);
+        return HomePage(
+          id: datauser[0]['id'],
+          username: datauser[0]['username'],
+          password: datauser[0]['password'],
+          email: datauser[0]['email'],
+          level: datauser[0]['level'],
+          score: datauser[0]['score'],
+        );
       }));
     }
     return datauser;
