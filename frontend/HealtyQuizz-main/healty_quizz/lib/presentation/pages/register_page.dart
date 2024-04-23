@@ -41,213 +41,218 @@ class _RegisterPageState extends State<RegisterPage> {
       // ),
       body: SafeArea(
           child: Container(
-            width: screenWidth.width,
-            height: screenWidth.height,
-            child: Flex(
-              direction: Axis.vertical,
-              children: [
-                // Container(
-                //   width: screenWidth.width,
-                //   height: screenWidth.height / 3,
-                //   child: Image.asset(
-                //     'assets/register_image.png',
-                //     fit: BoxFit.fitHeight,
-                //   ),
-                // ),
-                Spacer(
-                  flex: 1,),
-                Container(
-                    width: screenWidth.width * 0.8,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text("Register",
-                            style: GoogleFonts.poppins().copyWith(
-                              fontSize: 32,
-                              fontWeight: FontWeight.bold,
-                            )),
-                        SizedBox(
-                          height: 8,
+        width: screenWidth.width,
+        height: screenWidth.height,
+        child: Flex(
+          direction: Axis.vertical,
+          children: [
+            // Container(
+            //   width: screenWidth.width,
+            //   height: screenWidth.height / 3,
+            //   child: Image.asset(
+            //     'assets/register_image.png',
+            //     fit: BoxFit.fitHeight,
+            //   ),
+            // ),
+            Spacer(
+              flex: 1,
+            ),
+            Container(
+                width: screenWidth.width * 0.8,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text("Register",
+                        style: GoogleFonts.poppins().copyWith(
+                          fontSize: 32,
+                          fontWeight: FontWeight.bold,
+                        )),
+                    SizedBox(
+                      height: 8,
+                    ),
+                    Text(
+                        "Daftarin diri kamu dan bersiap uji wawasan bersama temanmu",
+                        style: GoogleFonts.poppins().copyWith(
+                          color: greyColor,
+                          fontSize: 14,
+                          fontWeight: FontWeight.w400,
+                        )),
+                  ],
+                )),
+            Spacer(
+              flex: 1,
+            ),
+            Container(
+              padding: EdgeInsets.symmetric(horizontal: 20),
+              margin: EdgeInsets.only(bottom: 20),
+              child: Column(
+                children: [
+                  SizedBox(
+                    height: 40,
+                    child: TextField(
+                      controller: _username,
+                      decoration: InputDecoration(
+                        hintText: 'masukkan nama pengguna',
+                        hintStyle: GoogleFonts.poppins(
+                          fontSize: 12,
                         ),
-                        Text(
-                            "Daftarin diri kamu dan bersiap uji wawasan bersama temanmu",
-                            style: GoogleFonts.poppins().copyWith(
-                              color: greyColor,
-                              fontSize: 14,
-                              fontWeight: FontWeight.w400,
-                            )),
-                      ],
-                    )),
-                Spacer(
-                  flex: 1,
-                ),
-                Container(
-                  padding: EdgeInsets.symmetric(horizontal: 20),
-                  margin: EdgeInsets.only(bottom: 20),
-                  child: Column(
-                    children: [
-                      SizedBox(
-                        height: 40,
-                        child: TextField(
-                          controller: _username,
-                          decoration: InputDecoration(
-                            hintText: 'masukkan nama pengguna',
-                            hintStyle: GoogleFonts.poppins(
-                              fontSize: 12,
-                              
-                            ),
-                            focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(40),
-                              borderSide: BorderSide(
-                                color: primaryColor,
-                              ),
-                            ),
-                            isDense: true,
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(40),
-                              borderSide: BorderSide(
-                                color: primaryColor,
-                              ),
-                            ),
-                            icon: ClipRRect(
-                              borderRadius: BorderRadius.circular(40),
-                              child: Container(
-                                width: 40,
-                                height: 40,
-                                color: primaryColor,
-                                child: Icon(
-                                  Icons.person,
-                                  color: whiteColor,
-                                ),
-                              ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(40),
+                          borderSide: BorderSide(
+                            color: primaryColor,
+                          ),
+                        ),
+                        isDense: true,
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(40),
+                          borderSide: BorderSide(
+                            color: primaryColor,
+                          ),
+                        ),
+                        icon: ClipRRect(
+                          borderRadius: BorderRadius.circular(40),
+                          child: Container(
+                            width: 40,
+                            height: 40,
+                            color: primaryColor,
+                            child: Icon(
+                              Icons.person,
+                              color: whiteColor,
                             ),
                           ),
                         ),
                       ),
-                      SizedBox(height: 20,),
-                      SizedBox(
-                        height: 40,
-                        child: TextField(
-                          controller: _email,
-                          decoration: InputDecoration(
-                            hintText: 'masukkan email',
-                            hintStyle: GoogleFonts.poppins(
-                              fontSize: 12,
-                              
-                            ),
-                            focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(40),
-                              borderSide: BorderSide(
-                                color: primaryColor,
-                              ),
-                            ),
-                            isDense: true,
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(40),
-                              borderSide: BorderSide(
-                                color: primaryColor,
-                              ),
-                            ),
-                            icon: ClipRRect(
-                              borderRadius: BorderRadius.circular(40),
-                              child: Container(
-                                width: 40,
-                                height: 40,
-                                color: primaryColor,
-                                child: Icon(
-                                  Icons.email,
-                                  color: whiteColor,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                      SizedBox(height: 20,),
-                      SizedBox(
-                        height: 40,
-                        child: TextField(
-                          controller: _password,
-                          decoration: InputDecoration(
-                            hintText: 'masukkan password',
-                            hintStyle: GoogleFonts.poppins(
-                              fontSize: 12,
-                              
-                            ),
-                            
-                            focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(40),
-                              borderSide: BorderSide(
-                                color: primaryColor,
-                              ),
-                            ),
-                            isDense: true,
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(40),
-                              borderSide: BorderSide(
-                                color: primaryColor,
-                              ),
-                            ),
-                            icon: ClipRRect(
-                              borderRadius: BorderRadius.circular(40),
-                              child: Container(
-                                width: 40,
-                                height: 40,
-                                color: primaryColor,
-                                child: Icon(
-                                  Icons.key,
-                                  color: whiteColor,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
+                    ),
                   ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  SizedBox(
+                    height: 40,
+                    child: TextField(
+                      controller: _email,
+                      decoration: InputDecoration(
+                        hintText: 'masukkan email',
+                        hintStyle: GoogleFonts.poppins(
+                          fontSize: 12,
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(40),
+                          borderSide: BorderSide(
+                            color: primaryColor,
+                          ),
+                        ),
+                        isDense: true,
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(40),
+                          borderSide: BorderSide(
+                            color: primaryColor,
+                          ),
+                        ),
+                        icon: ClipRRect(
+                          borderRadius: BorderRadius.circular(40),
+                          child: Container(
+                            width: 40,
+                            height: 40,
+                            color: primaryColor,
+                            child: Icon(
+                              Icons.email,
+                              color: whiteColor,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  SizedBox(
+                    height: 40,
+                    child: TextField(
+                      controller: _password,
+                      decoration: InputDecoration(
+                        hintText: 'masukkan password',
+                        hintStyle: GoogleFonts.poppins(
+                          fontSize: 12,
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(40),
+                          borderSide: BorderSide(
+                            color: primaryColor,
+                          ),
+                        ),
+                        isDense: true,
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(40),
+                          borderSide: BorderSide(
+                            color: primaryColor,
+                          ),
+                        ),
+                        icon: ClipRRect(
+                          borderRadius: BorderRadius.circular(40),
+                          child: Container(
+                            width: 40,
+                            height: 40,
+                            color: primaryColor,
+                            child: Icon(
+                              Icons.key,
+                              color: whiteColor,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+
+            ElevatedButton(
+              onPressed: () {
+                Navigator.pushReplacementNamed(context, HomePage.routeName);
+              },
+              child: Text(
+                "SIGN UP",
+                style: GoogleFonts.openSans(
+                    fontWeight: FontWeight.w700,
+                    color: whiteColor,
+                    fontSize: 12),
+              ),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: primaryColor,
+              ),
+            ),
+            Spacer(
+              flex: 1,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  "Already registered?",
+                  style: GoogleFonts.poppins(color: greyColor, fontSize: 14),
                 ),
-          
-                ElevatedButton(
+                TextButton(
                   onPressed: () {
-                    Navigator.pushReplacementNamed(context, HomePage.routeName);
+                    // Navigator.pushNamed(context, LoginPage.routeName);
+                    // Navigator.push(context,
+                    //     MaterialPageRoute(builder: (Context) {
+                    //   return HomePage();
+                    // }));
                   },
                   child: Text(
-                    "SIGN UP",
-                    style: GoogleFonts.openSans(
-                        fontWeight: FontWeight.w700,
-                        color: whiteColor,
-                        fontSize: 12),
+                    "Login",
+                    style: GoogleFonts.poppins(
+                        color: primaryColor, fontWeight: FontWeight.w600),
                   ),
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: primaryColor,
-                  ),
-                ),
-                Spacer(
-                  flex: 1,),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      "Already registered?",
-                      style:
-                          GoogleFonts.poppins(color: greyColor, fontSize: 14),
-                    ),
-                    TextButton(
-                      onPressed: () {
-                        Navigator.pushNamed(context, LoginPage.routeName);
-                      },
-                      child: Text(
-                        "Login",
-                        style: GoogleFonts.poppins(
-                            color: primaryColor, fontWeight: FontWeight.w600),
-                      ),
-                    ),
-                  ],
                 ),
               ],
             ),
-          )),
+          ],
+        ),
+      )),
     );
   }
 }

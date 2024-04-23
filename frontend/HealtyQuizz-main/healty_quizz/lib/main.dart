@@ -23,18 +23,19 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
-      initialRoute: SplashScreen.routeName,
-      routes: {
-        SplashScreen.routeName: (context) => SplashScreen(),
-        RegisterPage.routeName: (context) => RegisterPage(),
-        LoginPage.routeName: (context) => LoginPage(),
-        HomePage.routeName: (context) => HomePage(),
-        ProfilPage.routeName: (context) => ProfilPage(),
-        LeaderboardPage.routeName: (context) => LeaderboardPage(),
-        QuizList.routeName: (context) => QuizList(),
-        QuizSeting.routeName: (context) => QuizSeting(),
-        QuizPage.routeName: (context) => QuizPage()
-      },
+      home: SplashScreen(),
+      // initialRoute: SplashScreen.routeName,
+      // routes: {
+      //   SplashScreen.routeName: (context) => SplashScreen(),
+      //   RegisterPage.routeName: (context) => RegisterPage(),
+      //   LoginPage.routeName: (context) => LoginPage(),
+      //   HomePage.routeName: (context) => HomePage(),
+      //   ProfilPage.routeName: (context) => ProfilPage(),
+      //   LeaderboardPage.routeName: (context) => LeaderboardPage(),
+      //   QuizList.routeName: (context) => QuizList(),
+      //   QuizSeting.routeName: (context) => QuizSeting(),
+      //   QuizPage.routeName: (context) => QuizPage()
+      // },
     );
   }
 }

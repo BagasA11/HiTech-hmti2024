@@ -9,8 +9,9 @@ import 'package:healty_quizz/widget/quiz_card.dart';
 
 class HomePage extends StatefulWidget {
   static const routeName = '/home-page';
+  String username;
 
-  HomePage({super.key});
+  HomePage({super.key, required this.username});
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -42,7 +43,7 @@ class _HomePageState extends State<HomePage> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        "Hai, ryo50",
+                        "Hai, ${widget.username}",
                         style: GoogleFonts.poppins().copyWith(
                             fontSize: 20, fontWeight: FontWeight.w600),
                       ),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:healty_quizz/presentation/pages/login_page.dart';
 import 'package:healty_quizz/presentation/pages/register_page.dart';
 import 'package:healty_quizz/themes/theme.dart';
 
@@ -13,7 +14,7 @@ class SplashScreen extends StatelessWidget {
     Size screenWidth = MediaQuery.of(context).size;
 
     return Scaffold(
-      backgroundColor: whiteColor,
+        backgroundColor: whiteColor,
         // appBar: AppBar(
         //   backgroundColor: primaryColor,
         //   title: Text(
@@ -33,13 +34,14 @@ class SplashScreen extends StatelessWidget {
               direction: Axis.vertical,
               children: [
                 Spacer(
-                  flex: 1,),
+                  flex: 1,
+                ),
                 ClipRRect(
                   borderRadius: BorderRadius.circular(50.0),
                   child: Image.asset(
                     'assets/splashscreen.png',
-                    height: screenWidth.height * 50/100,
-                    width: screenWidth.width * 80/100,
+                    height: screenWidth.height * 50 / 100,
+                    width: screenWidth.width * 80 / 100,
                     fit: BoxFit.cover,
                   ),
                 ),
@@ -47,7 +49,7 @@ class SplashScreen extends StatelessWidget {
                   flex: 3,
                 ),
                 SizedBox(
-                  width: screenWidth.width * 80/100,
+                  width: screenWidth.width * 80 / 100,
                   child: Text(
                     "Quiz App",
                     style: GoogleFonts.openSans(
@@ -60,7 +62,7 @@ class SplashScreen extends StatelessWidget {
                 ),
                 Container(
                   margin: EdgeInsets.only(top: 8, bottom: 20),
-                  width: screenWidth.width * 80/100,
+                  width: screenWidth.width * 80 / 100,
                   child: Text(
                     "Temukan keasyikan dalam petualangan belajar dengan aplikasi quiz kami. Mulailah hari ini dan uji pengetahuanmu bersama!",
                     style: GoogleFonts.openSans(
@@ -73,8 +75,12 @@ class SplashScreen extends StatelessWidget {
                 ),
                 ElevatedButton(
                   onPressed: () {
-                    Navigator.pushReplacementNamed(
-                        context, RegisterPage.routeName);
+                    // Navigator.pushReplacementNamed(
+                    //     context, RegisterPage.routeName);
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) {
+                      return LoginPage();
+                    }));
                   },
                   child: Text(
                     "Get Started",
@@ -85,7 +91,8 @@ class SplashScreen extends StatelessWidget {
                   ),
                   style: ElevatedButton.styleFrom(
                       backgroundColor: primaryColor,
-                      padding: EdgeInsets.symmetric(horizontal: screenWidth.width * 20/100)),
+                      padding: EdgeInsets.symmetric(
+                          horizontal: screenWidth.width * 20 / 100)),
                 ),
                 Spacer(
                   flex: 1,
