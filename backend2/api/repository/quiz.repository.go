@@ -106,7 +106,7 @@ func (qr *QuizRepository) Update(quiz models.Quiz) error {
 func (qr *QuizRepository) Verify(id uint, userID uint) error {
 	tx := qr.Db.Begin()
 	//update quiz set values Varified = true
-	err := tx.Model(&models.Quiz{}).Where("id = ? AND user_id", id, userID).Update("verified", true).Error
+	err := tx.Model(&models.Quiz{}).Where("id = ? AND user_id = ?", id, userID).Update("verified", true).Error
 	// error validation
 	if err != nil {
 		tx.Rollback()

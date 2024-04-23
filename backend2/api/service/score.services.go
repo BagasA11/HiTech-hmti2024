@@ -16,7 +16,7 @@ func NewScoreService() *ScoreService {
 	}
 }
 
-func (ss *ScoreService) Create(req dto.Score) (uint, error) {
+func (ss *ScoreService) Create(req dto.Score) error {
 
 	s := models.Score{
 		QuizID: req.QuizID,

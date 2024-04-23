@@ -396,7 +396,7 @@ func (qc *QuizController) Verify(c *gin.Context) {
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"massage": "failed to verifying quiz",
-			"error":   err,
+			"error":   err.Error(),
 		})
 		return
 	}

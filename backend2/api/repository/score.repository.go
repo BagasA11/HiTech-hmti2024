@@ -19,15 +19,15 @@ func NewScoreRepository() *ScoreRepository {
 	}
 }
 
-func (sr *ScoreRepository) CreateScore(score models.Score) (uint, error) {
+func (sr *ScoreRepository) CreateScore(score models.Score) error {
 	tx := sr.Db.Begin()
 	err := tx.Create(&score).Error
 	if err != nil {
 		tx.Rollback()
-		return 0, err
+		return err
 	}
 	tx.Commit()
-	return score.ID, err
+	return err
 }
 
 // ===

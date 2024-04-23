@@ -34,6 +34,12 @@ func (qr *QuestionRepository) FindID(id uint) (models.Question, error) {
 	return q, err
 }
 
+func (qr *QuestionRepository) FindAnswer(id uint) (string, error) {
+	var q models.Question
+	err := qr.Db.Where("id = ?", id).Preload("Option").First(&q).Error
+	return q.Answer, err
+}
+
 func (qr *QuestionRepository) QuestionAndOption(quizID uint) ([]models.Question, error) {
 	var quest []models.Question
 	err := qr.Db.Where("quiz_id = ?", quizID).Preload("Option").Order("id ASC").Find(&quest).Error
