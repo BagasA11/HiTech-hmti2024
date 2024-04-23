@@ -2,6 +2,7 @@ package helpers
 
 import (
 	"errors"
+	"fmt"
 	"math/rand"
 	"os"
 	"slices"
@@ -15,16 +16,6 @@ import (
 //
 // fmt
 // strings
-
-func RandomString() string {
-	n := 10
-	var letters = []rune("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789")
-	s := make([]rune, n)
-	for i := range s {
-		s[i] = letters[rand.Intn(len(letters))]
-	}
-	return string(s)
-}
 
 /*check if file in directory: true if exist, false is not exist*/
 func FileExist(filename string, e string) bool {
@@ -56,4 +47,26 @@ func RemoveFile(filename string, ety string) error {
 	}
 	return nil
 	// path := "asset/img/" + strings.ToLower(ety) + "/"
+}
+
+func Rename(filename string, typ string, ext string, id uint) (string, error) {
+	tys := []string{"user", "quiz", "questions"}
+	if !slices.Contains(tys, strings.ToLower(typ)) {
+		return "", fmt.Errorf("type must be in %s", strings.Join(tys, ","))
+	}
+
+	if !slices.Contains([]string{"jpg", "jpeg", "png", "webp"}, strings.ToLower(ext)) {
+		return "", errors.New("not image file")
+	}
+
+	return fmt.Sprintf("%s_%s.%s", typ, random(), ext), nil
+}
+
+func random() string {
+	var letters = []rune("asfddhd46789")
+	s := make([]rune, 5)
+	for i := range s {
+		s[i] = letters[rand.Intn(len(letters))]
+	}
+	return string(s)
 }
