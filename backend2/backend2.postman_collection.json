@@ -1,0 +1,997 @@
+{
+	"info": {
+		"_postman_id": "af420ada-078c-4847-9677-9cfbd5616c1c",
+		"name": "backend2",
+		"description": "# 📄 Get started here\n\nThis template contains a boilerplate for documentation that you can quickly customize and reuse.\n\n## 🔖 How to use this template\n\n- Replace the content given brackets (()) with your API's details.\n- Tips are formatted in `codespan` - feel free to read and remove them.\n    \n\n---\n\n`Start with a brief overview of what your API offers.`\n\nThe ((product name)) provides many API products, tools, and resources that enable you to ((add product value here)).\n\n`You can also list the APIs you offer, link to the relevant pages, or do both in this section.`\n\n## **Getting started guide**\n\n`List the steps or points required to start using your APIs. Make sure to cover everything required to reach success with your API as quickly as possible.`\n\nTo start using the ((add APIs here)), you need to -\n\n`The points given below are from The Postman API's documentation. You can reference it to write your own getting started guide.`\n\n- You must use a valid API Key to send requests to the API endpoints. You can get your API key from Postman's [integrations dashboard](https://go.postman.co/settings/me/api-keys).\n- The API has [rate and usage limits](https://postman.postman.co/workspace/Collection-Templates~6311738d-2e70-441f-ae12-78caf078c5b7/collection/22517504-e9c28f47-1253-44af-a2f3-20dce4da1f18?ctx=documentation#rate-and-usage-limits).\n- The API only responds to HTTPS-secured communications. Any requests sent via HTTP return an HTTP 301 redirect to the corresponding HTTPS resources.\n- The API returns request responses in JSON format. When an API request returns an error, it is sent in the JSON response as an error key.\n    \n\n## Authentication\n\n`Autentikasi digunakan untuk mengakses layanan yang memiliki lapisan keamanan, dan mendapatkan id user`\n\n`Proses Autentikasi menggunakan json Web Token (JWT) dan dipassing pada header \"Authorization\" ketika mengirim request. Token didapat setelah proses login`\n\n> header - Authorization: Bearer {jwt token}  \nNote: Kata \"Bearer\" dan token dipisah dengan 1 spasi \n  \n\nAda 2 tipe token:\n\n- User: Digunakan untuk mengakses layanan user\n- Admin: Digunakan untuk mengakses layanan Admin\n    \n\nNote: Jika User mengakses layanan admin atau sebaliknya, maka akan menghasilkan pesan error.\n\n## Rate and usage limits\n\n`Use this section to cover your APIs' terms of use. Include API limits, constraints, and relevant error codes, so consumers understand the permitted API usage and practices.`\n\n`The example given below is from The Postman API's documentation. Use it as a reference to write your APIs' terms of use.`\n\nAPI access rate limits apply at a per-API key basis in unit time. The limit is 300 requests per minute. Also, depending on your plan, you may have usage limits. If you exceed either limit, your request will return an HTTP 429 Too Many Requests status code.\n\nEach API response returns the following set of headers to help you identify your use status:\n\n|  |  |  |\n| --- | --- | --- |\n|  |  |  |\n|  |  |  |\n|  |  |  |\n\n### 503 response\n\nAn HTTP `503` response from our servers indicates there is an unexpected spike in API access traffic. The server is usually operational within the next five minutes. If the outage persists or you receive any other form of an HTTP `5XX` error, [contact support](https://support.postman.com/hc/en-us/requests/new/).",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "34412920"
+	},
+	"item": [
+		{
+			"name": "User",
+			"item": [
+				{
+					"name": "user registration",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\":\"ryo12345\",\r\n    \"email\":\"ryo1234@gmail.com\",\r\n    \"password\":\"ryo12345\",\r\n    \"c-password\":\"ryo12345\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "localhost:8080/api/user/register",
+						"description": "Ketentuan:\n\n1. jumlah karakter/huruf pada username minimal 8 karakter\n2. jumlah karakter/huruf pada password dan c_password minimal 8 karakter\n3. password dan c_password harus bernilai sama"
+					},
+					"response": []
+				},
+				{
+					"name": "user login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\":\"userFiktif2\",\r\n    \"password\":\"fictive02\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "localhost:8080/api/user/login",
+						"description": "Mendapatkan token akses dari server"
+					},
+					"response": []
+				},
+				{
+					"name": "Find username",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NywidXNlcm5hbWUiOiJ1c2VyVXJ1dEtlMyIsInRva2VuVHlwZSI6InVzZXIiLCJleHAiOjE3MDc3MTE1MTh9.0sBIbBMv-XQHDDORc0RgdCmW-amX-olEIW7-40nD6oY"
+							}
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\":\"userUrutKe3\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "localhost:8080/api/user/username",
+						"description": "mencari user berdasarkan username"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Profile",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NywidXNlcm5hbWUiOiJ1c2VyVXJ1dEtlMyIsInRva2VuVHlwZSI6InVzZXIiLCJleHAiOjE3MDc3MDYyMDN9.PgDnWNkhdnyT9rya-p7IxLFbcq_Hd5kCsJea3nIerP4"
+							}
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NywidXNlcm5hbWUiOiJ1c2VyVXJ1dEtlMyIsInRva2VuVHlwZSI6InVzZXIiLCJleHAiOjE3MDc2NTMzODV9.HGSpkuc_c0TLSDUDDsGEdxPA7AMcRqEzHSV8q9frHw4",
+								"type": "text"
+							}
+						],
+						"url": "localhost:8080/api/user"
+					},
+					"response": []
+				},
+				{
+					"name": "Logout",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NywidXNlcm5hbWUiOiJ1c2VyVXJ1dEtlMyIsInRva2VuVHlwZSI6InVzZXIiLCJleHAiOjE3MDc3MDk3NTB9.pR6pNiWQdF__MFxMvpigjjshmf-vMSprlM0w8ANOPSI"
+							}
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": "localhost:8080/api/user/logout",
+						"description": "digunakan untuk menghapus sesi dan melakukan blacklist pada token"
+					},
+					"response": []
+				},
+				{
+					"name": "Find user by id",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NywidXNlcm5hbWUiOiJ1c2VyVXJ1dEtlMyIsInRva2VuVHlwZSI6InVzZXIiLCJleHAiOjE3MDc3MTE1MTh9.0sBIbBMv-XQHDDORc0RgdCmW-amX-olEIW7-40nD6oY"
+							}
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": "localhost:8080/api/user/7",
+						"description": "Mencari/mengakses user berdasarkan id user"
+					},
+					"response": []
+				},
+				{
+					"name": "All User",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NywidXNlcm5hbWUiOiJ1c2VyVXJ1dEtlMyIsInRva2VuVHlwZSI6InVzZXIiLCJleHAiOjE3MDc3MTE1MTh9.0sBIbBMv-XQHDDORc0RgdCmW-amX-olEIW7-40nD6oY"
+							}
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NywidXNlcm5hbWUiOiJ1c2VyVXJ1dEtlMyIsInRva2VuVHlwZSI6InVzZXIiLCJleHAiOjE3MDc3MTE1MTh9.0sBIbBMv-XQHDDORc0RgdCmW-amX-olEIW7-40nD6oY",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"url": "localhost:8080/api/user/all"
+					},
+					"response": []
+				},
+				{
+					"name": "Upload Avatar",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NywidXNlcm5hbWUiOiJ1c2VyVXJ1dEtlMyIsInRva2VuVHlwZSI6InVzZXIiLCJleHAiOjE3MDc3MTE1MTh9.0sBIbBMv-XQHDDORc0RgdCmW-amX-olEIW7-40nD6oY"
+							}
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "file",
+									"type": "file",
+									"src": "/D:/ab7bd4d836c08ce85aa64d5549588ffa.jpg"
+								}
+							]
+						},
+						"url": "localhost:8080/api/user/avatar",
+						"description": "gambar yang diupload harus berekstensi .jpg, .jpeg, dan .png"
+					},
+					"response": []
+				},
+				{
+					"name": "Block User Accouunt",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NSwidXNlcm5hbWUiOiJhZG1pbnN1cHJlbWUiLCJ0b2tlblR5cGUiOiJhZG1pbiIsImV4cCI6MTcwNzcxMzM1Nn0.eFy8l4lskMdRdIPPzNhC7EJi50ZEhF-X6JX9N-1QbK4"
+							}
+						},
+						"method": "PUT",
+						"header": [],
+						"url": "localhost:8080/api/user/7",
+						"description": "Admin dapat melakukan blokir akun pada user"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NywidXNlcm5hbWUiOiJ1c2VyVXJ1dEtlMyIsInRva2VuVHlwZSI6InVzZXIiLCJleHAiOjE3MDc3MTE1MTh9.0sBIbBMv-XQHDDORc0RgdCmW-amX-olEIW7-40nD6oY",
+								"type": "text"
+							}
+						],
+						"url": "localhost:8080/api/user/delete"
+					},
+					"response": []
+				}
+			],
+			"description": "endpoint untuk manajemen akun user\n\nDaftar fitur yang dapat diakses oleh user:\n\n1. Registrasi\n2. Login\n3. Mengupload avatar atau foto profile\n4. Logout\n5. Mencari user berdasarkan username\n6. Menghapus akun\n    \n7. User juga dapat mendaftarkan diri sebagai admin",
+			"auth": {
+				"type": "bearer",
+				"bearer": {}
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "Admin",
+			"item": [
+				{
+					"name": "Login",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\":\"admin04\",\r\n    \"password\":\"admin_admin03\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "localhost:8080/api/user/admin/login",
+						"description": "Digunakan untuk mendapatkan token bertipe admin"
+					},
+					"response": []
+				},
+				{
+					"name": "Find Admin by Username",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NSwidXNlcm5hbWUiOiJhZG1pbnN1cHJlbWUiLCJ0b2tlblR5cGUiOiJhZG1pbiIsImV4cCI6MTcwNzcxMzM1Nn0.eFy8l4lskMdRdIPPzNhC7EJi50ZEhF-X6JX9N-1QbK4"
+							}
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\":\"adminsupreme\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "localhost:8080/api/user/admin/username"
+					},
+					"response": []
+				},
+				{
+					"name": "get Admin by ID",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NSwidXNlcm5hbWUiOiJhZG1pbjA0IiwidG9rZW5UeXBlIjoiYWRtaW4iLCJleHAiOjE3MTM3OTYyOTZ9.1T-WLHNmly3ds1-EngpSLt9IjF98rT2nAB5ma5-qODA"
+							}
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": "localhost:8080/api/user/admin/5"
+					},
+					"response": []
+				},
+				{
+					"name": "Admin Logout",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NSwidXNlcm5hbWUiOiJhZG1pbnN1cHJlbWUiLCJ0b2tlblR5cGUiOiJhZG1pbiIsImV4cCI6MTcwNzc0OTQ2OH0.IyboiCe1iNRUXYT8bn-5ycFtTy7_OJXvXbrhaghAEis"
+							}
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": "localhost:8080/api/user/logout"
+					},
+					"response": []
+				},
+				{
+					"name": "Registration",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NiwidXNlcm5hbWUiOiJyeW8xMjM0NSIsInRva2VuVHlwZSI6InVzZXIiLCJleHAiOjE3MTM4NTI5NTh9.hiTj6vG-Utg7HTTQy41-Z8CKEr-rSBy5Kg9kCzmk0Tc"
+							}
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"password\":\"ryo12345\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "localhost:8080/api/user/admin/create",
+						"description": "User yang terdaftar pada database dan sudah login dapat mengajukan diri sebagai admin\n\nKetentuan:\n\n1. password: minimal 8 karakter\n    \n2. memiliki token autentikasi"
+					},
+					"response": []
+				}
+			],
+			"description": "Folder ini merupakan kumpulan layanan untuk memanajemen data admin.\n\nAda beberapa privilage yang dimiliki oleh admin dibandingkan dengan user biasa, antara lain:\n\n- Bisa membuat, mengedit, dan menghapus quiz, soal, dan jawaban\n    \n\nLangkah-langkah yang perlu dilakukan untuk menjadi admin adalah mendaftarkan diri menjadi admin, maka kamu akan memiliki akun admin. Lalu login untuk mengakses layanan admin\n\n**Note: Proses autentikasi admin menggunakan token bertipe \"admin\"**"
+		},
+		{
+			"name": "quiz",
+			"item": [
+				{
+					"name": "quiz cheapest list",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": "localhost:8080/api/quiz/cheapest",
+						"description": "Mencari quiz dengan harga yang paling murah"
+					},
+					"response": []
+				},
+				{
+					"name": "Not Verified",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": "localhost:8080/api/quiz/not-verified",
+						"description": "Mendapatkan daftar quiz yang belum diverifikasi oleh admin\n\n**Layanan ini hanya bisa diakses oleh admin**"
+					},
+					"response": []
+				},
+				{
+					"name": "Quiz All",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": "localhost:8080/api/quiz",
+						"description": "Menampilkan daftar seluruh quiz"
+					},
+					"response": []
+				},
+				{
+					"name": "quiz detail",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NSwidXNlcm5hbWUiOiJhZG1pbjA0IiwidG9rZW5UeXBlIjoiYWRtaW4iLCJleHAiOjE3MTM4NTg3NDB9.k1iYjI2jos79achESiyyQT935x6ziUFAx-0pXvd4Y30"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"url": "localhost:8080/api/quiz/1/detail",
+						"description": "Digunakan untuk mengakses quiz beserta soal-soal yangberasosiasi dengan quiz tersebut."
+					},
+					"response": []
+				},
+				{
+					"name": "Get Quiz by ID",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NSwidXNlcm5hbWUiOiJhZG1pbjA0IiwidG9rZW5UeXBlIjoiYWRtaW4iLCJleHAiOjE3MTM4NTg3NDB9.k1iYjI2jos79achESiyyQT935x6ziUFAx-0pXvd4Y30"
+							}
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": "localhost:8080/api/quiz/5",
+						"description": "jangan lupa untuk memasukkan id setelah quiz"
+					},
+					"response": []
+				},
+				{
+					"name": "Create Quiz",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NiwidXNlcm5hbWUiOiJyeW8xMjM0NSIsInRva2VuVHlwZSI6InVzZXIiLCJleHAiOjE3MTM3OTc1Mzh9.J2k0VrQ1sToC5i4wTNA6AtcEcGwOdwt17DmIg4nLdFc",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"title\":\"TEst11\",\r\n    \"topic\":\"bangunan\",\r\n    \"desc\":\"cara membangun rumah tetangga\",\r\n    \"duration\":2\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "localhost:8080/api/quiz/create",
+						"description": "Menambahkan elemen quiz baru ke database.\n\nNote: Fitur ini hanya bisa diakses oleh admin\n\nKetentuan:"
+					},
+					"response": []
+				},
+				{
+					"name": "Find Quiz By Title",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"title\":\"Edukasi Kesehatan\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "localhost:8080/api/quiz/title"
+					},
+					"response": []
+				},
+				{
+					"name": "Find Quiz by Topic",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"topic\":\"Menjaga Kesehatan\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "localhost:8080/api/quiz/topic"
+					},
+					"response": []
+				},
+				{
+					"name": "Edit Quiz",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NSwidXNlcm5hbWUiOiJhZG1pbjA0IiwidG9rZW5UeXBlIjoiYWRtaW4iLCJleHAiOjE3MTM3OTYyOTZ9.1T-WLHNmly3ds1-EngpSLt9IjF98rT2nAB5ma5-qODA"
+							}
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"title\":\"Menjaga pola makan\",\r\n    \"topic\":\"Menjaga Kesehatan\",\r\n    \"desc\":\"Menjaga pola makan merupakan hal yang sangat penting dalam menjaga kesehatan. Quiz ini akan memberitahu kamu tentang cara menjaga pola makan\",\r\n    \"duration\":11\r\n\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "localhost:8080/api/quiz/edit/4",
+						"description": "Layanan untuk mengedit quiz. **Layanan ini hanya dapat diakses oleh admin**"
+					},
+					"response": []
+				},
+				{
+					"name": "Upload imgage cover",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NSwidXNlcm5hbWUiOiJhZG1pbnN1cHJlbWUiLCJ0b2tlblR5cGUiOiJhZG1pbiIsImV4cCI6MTcwNzcyNDc0NH0.QeWFJNCJESnHHzmfiIPo9NG5zU1Q4RtetNJM-Y7y40g"
+							}
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "file",
+									"type": "file",
+									"src": "/D:/635f7e32c0784.jpg"
+								}
+							]
+						},
+						"url": "localhost:8080/api/quiz/upload/4",
+						"description": "Layanan ini digunakan untuk mengupload gambar pada sampul quiz.\n\nTipe yang dapat diupload antara lain: {.jpg, .jpeg, dan .png}\n\n**Note: halaman ini hanya bisa diakses oleh admin**"
+					},
+					"response": []
+				},
+				{
+					"name": "verify quiz",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NSwidXNlcm5hbWUiOiJhZG1pbjA0IiwidG9rZW5UeXBlIjoiYWRtaW4iLCJleHAiOjE3MTM3OTYyOTZ9.1T-WLHNmly3ds1-EngpSLt9IjF98rT2nAB5ma5-qODA"
+							}
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": "localhost:8080/api/quiz/verify/4",
+						"description": "'Verifikasi quiz' merupakan fitur untuk memastikan bahwa konten quiz yang dibuat berkualitas dan lengkap.\n\n**Note: fitur ini hanya bisa diakses oleh author yang juga merupakan seorang admin**"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Quiz",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NSwidXNlcm5hbWUiOiJhZG1pbjA0IiwidG9rZW5UeXBlIjoiYWRtaW4iLCJleHAiOjE3MTM3OTYyOTZ9.1T-WLHNmly3ds1-EngpSLt9IjF98rT2nAB5ma5-qODA"
+							}
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": "localhost:8080/api/quiz/delete/4",
+						"description": "Layanan khusus **admin** untuk menghapus quiz dan isinya"
+					},
+					"response": []
+				}
+			],
+			"description": "Merupakan folder yang berhubungan dengan Class Quiz"
+		},
+		{
+			"name": "Questions",
+			"item": [
+				{
+					"name": "Create Question",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NSwidXNlcm5hbWUiOiJhZG1pbnN1cHJlbWUiLCJ0b2tlblR5cGUiOiJhZG1pbiIsImV4cCI6MTcwNzczNDIzOH0.lcTRMUmm6uiiWbZ1Pd7AEgXO4Uo4AqRKVJD2vaScrys"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"question\":\"Soal gagal\",\r\n    \"answer\":\"A\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "localhost:8080/api/quiz/2/question/create",
+						"description": "hanya boleh diakses oleh **admin**"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Question by ID",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NSwidXNlcm5hbWUiOiJhZG1pbjA0IiwidG9rZW5UeXBlIjoiYWRtaW4iLCJleHAiOjE3MTM3OTYyOTZ9.1T-WLHNmly3ds1-EngpSLt9IjF98rT2nAB5ma5-qODA"
+							}
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": "localhost:8080/api/question/1"
+					},
+					"response": []
+				},
+				{
+					"name": "Send Question to User Page",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6OSwidXNlcm5hbWUiOiJiYWdhczExMSIsInRva2VuVHlwZSI6InVzZXIiLCJleHAiOjE3MTM4NTgxMDJ9.WR0DsMs5FfMpRg4sZlkcaWQD_mx51kT3zNzxoxNXQbg"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"url": "localhost:8080/api/quiz/2/attempt",
+						"description": "Ketika user menekan tombol \"kerjakan soal\", maka server akan mengirim daftar soal ke client yang selanjutnya akan di atur oleh frontend."
+					},
+					"response": []
+				},
+				{
+					"name": "Edit",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NiwidXNlcm5hbWUiOiJyeW8xMjM0NSIsInRva2VuVHlwZSI6InVzZXIiLCJleHAiOjE3MTM3OTc1Mzh9.J2k0VrQ1sToC5i4wTNA6AtcEcGwOdwt17DmIg4nLdFc"
+							}
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"question\":\"Makanan manakah yang merupakan sumber protein nabati\",\r\n    \"answer\":\"B\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "localhost:8080/api/question/update/2",
+						"description": "Layanan ini digunakan untuk mengedit soal dan hanya bisa diakses oleh **admin**"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Question",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NSwidXNlcm5hbWUiOiJhZG1pbnN1cHJlbWUiLCJ0b2tlblR5cGUiOiJhZG1pbiIsImV4cCI6MTcwNzczNDIzOH0.lcTRMUmm6uiiWbZ1Pd7AEgXO4Uo4AqRKVJD2vaScrys"
+							}
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": "localhost:8080/api/question/delete/3"
+					},
+					"response": []
+				}
+			],
+			"description": "_Soal_ merupakan class yang berasosiasi dengan Quiz. Soal digunakan untuk memberi pertanyaan dan kunci jawaban kepada user"
+		},
+		{
+			"name": "Option",
+			"item": [
+				{
+					"name": "Create Option",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NCwidXNlcm5hbWUiOiJhZG1pbjAzIiwidG9rZW5UeXBlIjoiYWRtaW4iLCJleHAiOjE3MTM3ODIzMzZ9.rr82mI_2z7jb8cItXXANHpnUw6GH7DpGK15sLDUDeA0"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"options\":\"C\",\r\n    \"desc\":\"untuk bermain istana pasir\",\r\n    \"color\":\"white\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "localhost:8080/api/question/5/option/create",
+						"description": "Ketentuan:\n\n- opsi: memiliki panjang 1 karakter, dengan range dari A - E\n    \n- desc: keterangan dari opsi\n    \n- color: warna (tampilan warna tidak harus mengikuti database)\n    \n\n**Layanan ini hanya bisa diakses oleh admin**"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Option by ID",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NSwidXNlcm5hbWUiOiJhZG1pbnN1cHJlbWUiLCJ0b2tlblR5cGUiOiJhZG1pbiIsImV4cCI6MTcwNzc0ODQ2NX0.Xsmcefi3PwsjmV261YSpA2da3dRP7LmlDlgpcv2m-hs"
+							}
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": "localhost:8080/api/option/2"
+					},
+					"response": []
+				},
+				{
+					"name": "Edit Option",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NSwidXNlcm5hbWUiOiJhZG1pbnN1cHJlbWUiLCJ0b2tlblR5cGUiOiJhZG1pbiIsImV4cCI6MTcwNzc0OTQ2OH0.IyboiCe1iNRUXYT8bn-5ycFtTy7_OJXvXbrhaghAEis"
+							}
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"options\":\"A\",\r\n    \"desc\":\"Wortel\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "localhost:8080/api/option/edit/1"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Option",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": "localhost:8080/api/option/delete/5"
+					},
+					"response": []
+				}
+			],
+			"description": "#### Opsi merupakan kumpulan opsi jawaban yang berasosiasi dengan soal"
+		},
+		{
+			"name": "Score",
+			"item": [
+				{
+					"name": "Rank",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywidXNlcm5hbWUiOiJ1c2VyRmlrdGlmMiIsInRva2VuVHlwZSI6InVzZXIiLCJleHAiOjE3MTM3ODE1MTV9.nFyq6wwuW7XXJn4zlgRqMxTDcvZ5nkMKAtdq19IXqAA"
+							}
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": "localhost:8080/api/quiz/1/rank"
+					},
+					"response": []
+				},
+				{
+					"name": "History",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlcm5hbWUiOiJ1c2VyRmlrdGlmMSIsInRva2VuVHlwZSI6InVzZXIiLCJleHAiOjE3MDgzMzkyMTZ9.TxjjmKfxipSwu655y1PKcoOsJvPSL2CqIHZSQCssHXs"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"url": "localhost:8080/api/history"
+					},
+					"response": []
+				},
+				{
+					"name": "submit quiz",
+					"protocolProfileBehavior": {
+						"strictSSL": false
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6OSwidXNlcm5hbWUiOiJiYWdhczExMSIsInRva2VuVHlwZSI6InVzZXIiLCJleHAiOjE3MTM4NzI1MTB9.I7xOyuMKV_FEk8aJ-Kp76sWkJIQDQWlHpbPoSTkF9-A"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"answer\":[\r\n        {\r\n            \"id\":4,\r\n            \"checkbox\":\"A\"\r\n        },\r\n        {\r\n            \"id\":5,\r\n            \"checkbox\":\"A\"\r\n        }\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/api/quiz/:id/post",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"quiz",
+								":id",
+								"post"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": ""
+								}
+							]
+						},
+						"description": "digunakan untuk melakukan submit saat user selesai menjawab soal.\n\nKetika user belum menyelesaikan quiz, simpan atribut id soal dan checkbox pada **local storage**. Lalu ketika user menyelesaikan soal, maka kirim data dari local storage sebagai **json**"
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"auth": {
+		"type": "apikey",
+		"apikey": {
+			"key": "X-API-Key",
+			"value": "{{token}}"
+		}
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "https://farming-simulator.pstmn.io"
+		}
+	]
+}
