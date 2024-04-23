@@ -31,6 +31,11 @@ func (qs *QuestionService) FindID(id uint) (models.Question, error) {
 	return q, err
 }
 
+func (qs *QuestionService) FindAnswer(id uint) (string, error) {
+	q, err := qs.repository.FindAnswer(id)
+	return q, err
+}
+
 func (qs *QuestionService) AttemptQuiz(quizID uint) ([]models.Question, error) {
 	q, err := qs.repository.QuestionAndOption(quizID)
 	return q, err

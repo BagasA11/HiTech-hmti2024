@@ -7,8 +7,10 @@ type Score struct {
 }
 
 type Answer struct {
-	Num      uint   `json:"num" binding:"required"`
-	Length   uint   `json:"length" binding:"required"`
-	Answer   string `json:"answer" binding:"required,max=1"`
+	ID       uint   `json:"id" binding:"required"`
 	Checkbox string `json:"checkbox" binding:"required,max=1"`
+}
+
+type Send struct {
+	Answer []Answer
 }
