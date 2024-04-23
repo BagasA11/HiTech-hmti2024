@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:healty_quizz/presentation/pages/profil_page.dart';
 import 'package:healty_quizz/presentation/pages/quizlist_page.dart';
+import 'package:healty_quizz/presentation/pages/user/create_quiz_admin.dart';
 import 'package:healty_quizz/presentation/pages/user/home_page/create_quiz.dart';
 import 'package:healty_quizz/presentation/pages/user/home_page/main.dart';
 import 'package:healty_quizz/presentation/pages/user/home_page/profile.dart';
@@ -36,6 +37,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   bool _isvisibleSaldo = false;
+  var halaman;
 
   void togleVisibility() {
     setState(() {
@@ -53,14 +55,31 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    if (widget.level == 'member') {
+      setState(() {
+        halaman = CreateQuiz();
+      });
+    } else {
+      setState(() {
+        halaman = CreateQuizAdmin();
+      });
+    }
+
     List<Widget> _widgetOptions = <Widget>[
       HomeMain(
         id: widget.id,
         username: widget.username,
         score: widget.score,
       ),
-      CreateQuiz(),
-      ProfilePage(),
+      halaman,
+      ProfilePage(
+        id: widget.id,
+        username: widget.username,
+        password: widget.password,
+        email: widget.email,
+        level: widget.level,
+        score: widget.score,
+      ),
     ];
 
     return Scaffold(

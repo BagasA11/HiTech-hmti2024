@@ -30,7 +30,7 @@ class _LoginPageState extends State<LoginPage> {
     var datauser = json.decode(response.body);
 
     if (response.statusCode == 200) {
-      Navigator.push(context, MaterialPageRoute(builder: (context) {
+      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {
         return HomePage(
           id: datauser[0]['id'],
           username: datauser[0]['username'],
@@ -106,8 +106,11 @@ class _LoginPageState extends State<LoginPage> {
                         )),
                   ],
                 )),
-            Spacer(
-              flex: 1,
+            // Spacer(
+            //   flex: 1,
+            // ),
+            SizedBox(
+              height: 20,
             ),
             Container(
               padding: EdgeInsets.symmetric(horizontal: 20),

@@ -1,10 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:healty_quizz/presentation/pages/login_page.dart';
 import 'package:healty_quizz/themes/theme.dart';
 
-class ProfilePage extends StatelessWidget {
-  const ProfilePage({super.key});
+class ProfilePage extends StatefulWidget {
+  final String id;
+  final String username;
+  final String password;
+  final String email;
+  final String level;
+  final String score;
+  const ProfilePage(
+      {super.key,
+      required this.id,
+      required this.username,
+      required this.password,
+      required this.email,
+      required this.level,
+      required this.score});
 
+  @override
+  State<ProfilePage> createState() => _ProfilePageState();
+}
+
+class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -15,7 +34,7 @@ class ProfilePage extends StatelessWidget {
               height: 20,
             ),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
+              padding: EdgeInsets.symmetric(horizontal: 20),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -27,7 +46,7 @@ class ProfilePage extends StatelessWidget {
                           height: MediaQuery.of(context).size.width * 0.25,
                           decoration: BoxDecoration(
                             shape: BoxShape.circle,
-                            image: const DecorationImage(
+                            image: DecorationImage(
                                 image: AssetImage("assets/guest.png")),
                             border: Border.all(
                               color: Colors.black87, // Warna border
@@ -39,7 +58,7 @@ class ProfilePage extends StatelessWidget {
                           height: 10,
                         ),
                         Text(
-                          "Username",
+                          widget.username,
                           style: GoogleFonts.poppins(
                               fontSize: 16,
                               fontWeight: FontWeight.w600,
@@ -49,7 +68,7 @@ class ProfilePage extends StatelessWidget {
                           height: 0,
                         ),
                         Text(
-                          "email@gmail.com",
+                          widget.email,
                           style: GoogleFonts.poppins(
                               fontSize: 12,
                               fontWeight: FontWeight.w400,
@@ -81,17 +100,52 @@ class ProfilePage extends StatelessWidget {
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.only(left: 10),
+                    padding: EdgeInsets.only(left: 10),
                     child: Column(
                       children: [
-                        const ProfileDetailInfo(
+                        ProfileDetailInfo(
                           cat: 'Password',
                           value: '',
+                          onTap: () {
+                            showDialog(
+                                context: context,
+                                builder: (context) {
+                                  return AlertDialog(
+                                    title: Text("Password mu adalah"),
+                                    content: Text(widget.password),
+                                  );
+                                });
+                          },
                         ),
-                        const ProfileDetailInfo(
-                          cat: 'Language',
+                        ProfileDetailInfo(
+                          cat: 'Status',
                           value: '',
                           noValue: true,
+                          onTap: () {
+                            showDialog(
+                                context: context,
+                                builder: (context) {
+                                  return AlertDialog(
+                                    title: Text("Status mu adalah"),
+                                    content: Text(widget.level),
+                                  );
+                                });
+                          },
+                        ),
+                        ProfileDetailInfo(
+                          cat: 'Score',
+                          value: '',
+                          noValue: true,
+                          onTap: () {
+                            showDialog(
+                                context: context,
+                                builder: (context) {
+                                  return AlertDialog(
+                                    title: Text("Score mu adalah"),
+                                    content: Text(widget.score),
+                                  );
+                                });
+                          },
                         ),
                       ],
                     ),
@@ -118,25 +172,39 @@ class ProfilePage extends StatelessWidget {
                       ),
                     ),
                   ),
-                  const Padding(
+                  Padding(
                     padding: EdgeInsets.only(left: 10),
                     child: Column(
                       children: [
                         ProfileDetailInfo(
                           cat: 'About App',
                           value: '',
+                          onTap: () {
+                            showDialog(
+                                context: context,
+                                builder: (context) {
+                                  return AlertDialog(
+                                    title: Text("Healty Quizz"),
+                                    content:
+                                        Text("adalah sebuah aplikasi quizz"),
+                                  );
+                                });
+                          },
                         ),
                         ProfileDetailInfo(
                           cat: 'Terms',
                           value: '',
+                          onTap: () {},
                         ),
                         ProfileDetailInfo(
                           cat: 'Privacy Policy',
                           value: '',
+                          onTap: () {},
                         ),
                         ProfileDetailInfo(
                           cat: 'Share This App',
                           value: '',
+                          onTap: () {},
                         ),
                       ],
                     ),
@@ -144,6 +212,14 @@ class ProfilePage extends StatelessWidget {
                 ],
               ),
             ),
+            ElevatedButton(
+                onPressed: () {
+                  Navigator.pushReplacement(context,
+                      MaterialPageRoute(builder: (context) {
+                    return LoginPage();
+                  }));
+                },
+                child: Text("Logout"))
           ],
         ),
       ),
@@ -152,11 +228,17 @@ class ProfilePage extends StatelessWidget {
 }
 
 class ProfileDetailInfo extends StatelessWidget {
-  const ProfileDetailInfo(
-      {super.key, required this.cat, required this.value, this.noValue});
   final String cat;
   final String value;
   final bool? noValue;
+  final VoidCallback onTap;
+  ProfileDetailInfo(
+      {super.key,
+      required this.cat,
+      required this.value,
+      this.noValue,
+      required this.onTap});
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -182,7 +264,7 @@ class ProfileDetailInfo extends StatelessWidget {
               ),
             ),
             IconButton(
-              onPressed: () {},
+              onPressed: onTap,
               icon: const Icon(
                 Icons.arrow_forward_ios_outlined,
                 size: 15,
