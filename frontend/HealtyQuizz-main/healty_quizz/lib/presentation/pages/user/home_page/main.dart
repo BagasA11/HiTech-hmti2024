@@ -64,16 +64,11 @@ class HomeMain extends StatelessWidget {
                     ],
                   ),
                   Spacer(),
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.pushNamed(context, ProfilPage.routeName);
-                    },
-                    child: SizedBox(
-                      width: 50,
-                      child: CircleAvatar(
-                        radius: 30,
-                        backgroundImage: AssetImage('assets/logo.png'),
-                      ),
+                  SizedBox(
+                    width: 50,
+                    child: CircleAvatar(
+                      radius: 30,
+                      backgroundImage: AssetImage('assets/logo.png'),
                     ),
                   ),
                 ],
