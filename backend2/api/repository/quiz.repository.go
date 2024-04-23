@@ -31,7 +31,7 @@ func (qr *QuizRepository) Create(quiz models.Quiz) error {
 
 func (qr *QuizRepository) All() ([]models.Quiz, error) {
 	var quizzes []models.Quiz
-	err := qr.Db.Where("verified = ?", true).Select("id", "title", "topic", "desc", "free", "price").Order("created_at DESC").Find(&quizzes).Error
+	err := qr.Db.Select("id", "title", "topic", "desc", "free", "price").Order("created_at DESC").Find(&quizzes).Error
 	return quizzes, err
 }
 

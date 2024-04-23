@@ -31,3 +31,7 @@ type FindTopic struct {
 type FindTitle struct {
 	Title string `json:"title" binding:"required"`
 }
+
+type Verify struct {
+	Verify bool
+}

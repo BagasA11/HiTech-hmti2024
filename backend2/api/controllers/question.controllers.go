@@ -206,7 +206,7 @@ func (qc *QuestionController) UploadFile(c *gin.Context) {
 	id, err := strconv.Atoi(c.Param("id"))
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
-			"error": err,
+			"error": err.Error(),
 		})
 		return
 	}
@@ -214,7 +214,7 @@ func (qc *QuestionController) UploadFile(c *gin.Context) {
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"massage": "failed to upload file",
-			"error":   err,
+			"error":   err.Error(),
 		})
 		return
 	}
@@ -223,7 +223,7 @@ func (qc *QuestionController) UploadFile(c *gin.Context) {
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"massage": "failed",
-			"error":   err,
+			"error":   err.Error(),
 		})
 		return
 	}
