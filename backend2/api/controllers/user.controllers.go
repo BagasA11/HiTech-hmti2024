@@ -56,7 +56,17 @@ func (uc *UserController) CreateUser(c *gin.Context) {
 	})
 }
 
-func (uc *UserController) CreateAdmin(c *gin.Context) {
+func (uc *UserController) SetAdmin(c *gin.Context) {
+
+	//token validation
+	userID, exist := c.Get("ID")
+	if !exist {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"message": "id value not found",
+		})
+		return
+	}
+
 	//get Request data
 	req := new(dto.AdminCreate)
 	err := c.ShouldBindJSON(&req)
@@ -75,18 +85,14 @@ func (uc *UserController) CreateAdmin(c *gin.Context) {
 		return
 	}
 
-	//service
-	err = uc.service.CreateAdmin(req)
-	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{
-			"message": "failed to create admin",
-			"error":   err,
+	if err = uc.service.SetAdmin(userID.(uint), req); err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"massage": "galat",
+			"error":   err.Error(),
 		})
 		return
 	}
-	c.JSON(http.StatusOK, gin.H{
-		"message": "success",
-	})
+	c.JSON(http.StatusOK, "success")
 }
 
 func (uc *UserController) FindUsername(c *gin.Context) {

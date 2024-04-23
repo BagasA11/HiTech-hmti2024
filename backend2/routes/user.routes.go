@@ -49,7 +49,7 @@ func UserRoutes(group *gin.RouterGroup) {
 	// login page for admin
 	group.POST("/user/admin/login", ac.AdmiLogin)
 	//Create another admin
-	group.POST("/user/admin/create", uc.CreateAdmin)
+	group.POST("/user/admin/set", middleware.JwtAuth(), uc.SetAdmin)
 	//find admin by username
 	group.POST("/user/admin/username", middleware.JwtAuth(), uc.FindAdminbyUsername)
 	//get admin by id

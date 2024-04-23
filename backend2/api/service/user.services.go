@@ -33,18 +33,19 @@ func (service *UserService) CreateUser(req *dto.UserCreate) error {
 	return err
 }
 
-func (service *UserService) CreateAdmin(req *dto.AdminCreate) error {
-	if strings.Compare(req.Password, req.C_password) != 0 {
-		return errors.New("password & password confirmation not match")
+func (us *UserService) SetAdmin(id uint, req *dto.AdminCreate) error {
+	user, err := us.repository.FindId(id)
+	if err != nil {
+		return err
 	}
-	adm := models.User{
-		Username: req.Username,
-		Email:    req.Email,
-		Password: req.Password,
-		Admin:    true,
+	err = bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(req.Password))
+	if err != nil {
+		return err
 	}
-	err := service.repository.CreateUser(adm)
-	return err
+	if err = us.repository.SetAdmin(id); err != nil {
+		return err
+	}
+	return nil
 }
 
 func (service *UserService) GetAllUser() ([]models.User, error) {

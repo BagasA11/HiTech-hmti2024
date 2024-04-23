@@ -135,12 +135,8 @@ func (qc *QuestionController) AttemptQuiz(c *gin.Context) {
 		return
 	}
 
-	num := number(len(q))
-
 	c.JSON(200, gin.H{
 		"question": q,
-		"num":      num,
-		"rows":     len(q),
 	})
 }
 
@@ -292,10 +288,10 @@ func (qc *QuestionController) Delete(c *gin.Context) {
 	c.JSON(http.StatusOK, "delete question success")
 }
 
-func number(rows int) []uint {
-	num := []uint{}
-	for i := 1; i <= rows; i++ {
-		num = append(num, uint(i))
-	}
-	return num
-}
+// func number(rows int) []uint {
+// 	num := []uint{}
+// 	for i := 1; i <= rows; i++ {
+// 		num = append(num, uint(i))
+// 	}
+// 	return num
+// }

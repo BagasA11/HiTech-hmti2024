@@ -158,6 +158,18 @@ func (ur *UserRepository) BlockUser(id uint) error {
 	return nil
 }
 
+func (ur *UserRepository) SetAdmin(id uint) error {
+	tx := ur.Db.Begin()
+	//SELECT * FROM users WHERE id = {id} AND admin = false
+	err := tx.Model(&models.User{}).Where("id = ?", id).Update("admin", true).Error
+	if err != nil {
+		tx.Rollback()
+		return err
+	}
+	tx.Commit()
+	return nil
+}
+
 func (ur *UserRepository) Delete(id uint) error {
 	tx := ur.Db.Begin()
 	err := tx.Model(&models.User{}).Where("id = ?", id).Update("deleted_at", time.Now().Unix()).Error
