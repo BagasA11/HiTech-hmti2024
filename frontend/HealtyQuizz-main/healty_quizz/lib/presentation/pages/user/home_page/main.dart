@@ -31,7 +31,7 @@ class HomeMain extends StatefulWidget {
 
 class _HomeMainState extends State<HomeMain> {
   late QuestionModel questionModel;
-  List dataQuiz = [];
+  List ListdataQuiz = [];
 
   Future<void> _registeradmin() async {
     String Url =
@@ -93,6 +93,26 @@ class _HomeMainState extends State<HomeMain> {
     }
   }
 
+   void _getAllDataKomputer(String username) async {
+    final String UrlFisika =
+        "https://script.google.com/macros/s/AKfycbyynDyZ6K3y-OjenyK1Z6FuQO9_Z4WEoPG-GlvAUrR-b_az2iqkEZvrPO5mg0jkllQd/exec";
+    try {
+      var response = await http.get(Uri.parse(UrlFisika));
+
+      questionModel = QuestionModel.fromJson(json.decode(response.body));
+      Navigator.push(context, MaterialPageRoute(builder: (context) {
+        return Test(
+          questionModel: questionModel,
+          username: username,
+          score: widget.score,
+          id: widget.id,
+        );
+      }));
+    } catch (e) {
+      print(e.toString());
+    }
+  }
+
   Future<void> _getAllDataQuizUser(String username) async {
     String Url =
         "http://192.168.100.11/belajar/HiTech-hmti2024/frontend/HealtyQuizz-main/healty_quizz/lib/data/quiz_user.php";
@@ -101,19 +121,22 @@ class _HomeMainState extends State<HomeMain> {
     );
 
     try {
-      if (response.statusCode == 20) {
-        var quizuser = json.decode(response.body);
+      if (response.statusCode == 200) {
+        final quizuser = jsonDecode(response.body);
         setState(() {
-          dataQuiz = quizuser;
+          ListdataQuiz = quizuser;
         });
+        print("ini adalah ${ListdataQuiz.length}");
       }
       Navigator.push(context, MaterialPageRoute(builder: (context) {
         return TestQuizUser(
           username: username,
           score: widget.score,
           id: widget.id,
+          question: ListdataQuiz,
         );
       }));
+      // print("ini adalah ${ListdataQuiz}");
     } catch (e) {
       print("gagal ambil quiz");
     }
@@ -364,11 +387,17 @@ class _HomeMainState extends State<HomeMain> {
                         onTap: () {
                           _getAllDataQuizUser(widget.username);
                         },
-                        imageUrl: "https://picsum.photos/100",
+                        imageUrl: "https://picsum.photos/400",
                         title: 'Quiz User',
                         description: '5',
                       ),
-                      // QuizCard(),
+                      QuizCard(
+                          onTap: () {
+                            _getAllDataKomputer(widget.username);
+                          },
+                          imageUrl: "https://picsum.photos/600",
+                          title: "Quiz Komputer",
+                          description: "5"),
                       // QuizCard(),
                       // QuizCard(),
                       // QuizCard(),

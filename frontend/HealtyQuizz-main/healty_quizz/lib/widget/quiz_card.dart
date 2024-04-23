@@ -7,6 +7,7 @@ class QuizCard extends StatelessWidget {
   final String imageUrl;
   final String title;
   final String description;
+
   QuizCard(
       {super.key,
       required this.onTap,

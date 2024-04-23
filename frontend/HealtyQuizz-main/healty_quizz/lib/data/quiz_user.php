@@ -8,7 +8,7 @@ $queryResult = $connect->query("SELECT * FROM quiz");
 
 $result = array();
 
-while ($fetchData = $queryResult->fetch_assoc()) {
+while ($fetchData = $queryResult->fetch_array()) {
     $result[]= $fetchData;
 }
 
