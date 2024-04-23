@@ -7,6 +7,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:healty_quizz/presentation/pages/profil_page.dart';
 import 'package:healty_quizz/presentation/pages/quiz/model/question_model.dart';
 import 'package:healty_quizz/presentation/pages/quiz/test_page.dart';
+import 'package:healty_quizz/presentation/pages/quiz/test_page_quiz_user.dart';
 import 'package:healty_quizz/presentation/pages/splashscreen_page.dart';
 import 'package:healty_quizz/themes/theme.dart';
 import 'package:healty_quizz/widget/quiz_card.dart';
@@ -30,6 +31,7 @@ class HomeMain extends StatefulWidget {
 
 class _HomeMainState extends State<HomeMain> {
   late QuestionModel questionModel;
+  List dataQuiz = [];
 
   Future<void> _registeradmin() async {
     String Url =
@@ -40,11 +42,14 @@ class _HomeMainState extends State<HomeMain> {
     });
 
     if (response.statusCode == 200) {
-      // Navigator.push(context, MaterialPageRoute(builder: (context) {
-      //   return LoginPage();
-      // }));
-
-      print("berhasil update admin");
+      showDialog(
+          context: context,
+          builder: (context) {
+            return AlertDialog(
+              title: Text("Selamt anda telah berhasil menjadi Admin"),
+              content: Text("Ayo manfaatkan fitur admin dengan sebaik mungkin"),
+            );
+          });
     }
   }
 
@@ -85,6 +90,32 @@ class _HomeMainState extends State<HomeMain> {
       }));
     } catch (e) {
       print(e.toString());
+    }
+  }
+
+  Future<void> _getAllDataQuizUser(String username) async {
+    String Url =
+        "http://192.168.100.11/belajar/HiTech-hmti2024/frontend/HealtyQuizz-main/healty_quizz/lib/data/quiz_user.php";
+    final response = await http.get(
+      Uri.parse(Url),
+    );
+
+    try {
+      if (response.statusCode == 20) {
+        var quizuser = json.decode(response.body);
+        setState(() {
+          dataQuiz = quizuser;
+        });
+      }
+      Navigator.push(context, MaterialPageRoute(builder: (context) {
+        return TestQuizUser(
+          username: username,
+          score: widget.score,
+          id: widget.id,
+        );
+      }));
+    } catch (e) {
+      print("gagal ambil quiz");
     }
   }
 
@@ -329,7 +360,14 @@ class _HomeMainState extends State<HomeMain> {
                           imageUrl: "https://picsum.photos/300",
                           title: "Quiz Fisika",
                           description: "10"),
-                      // QuizCard(),
+                      QuizCard(
+                        onTap: () {
+                          _getAllDataQuizUser(widget.username);
+                        },
+                        imageUrl: "https://picsum.photos/100",
+                        title: 'Quiz User',
+                        description: '5',
+                      ),
                       // QuizCard(),
                       // QuizCard(),
                       // QuizCard(),
