@@ -11,5 +11,5 @@ func ScoreRoutes(group *gin.RouterGroup) {
 	sc := controllers.NewScoreController()
 	group.GET("/quiz/:id/rank", middleware.JwtAuth(), sc.Rank)
 	group.GET("/history", middleware.JwtAuth(), sc.History)
-	group.PUT("/quiz/:id/post", middleware.JwtAuth(), sc.CreateOrUpdate)
+	group.PUT("/quiz/:id/post", middleware.JwtAuth(), sc.Create)
 }
