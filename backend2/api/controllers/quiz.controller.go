@@ -9,13 +9,11 @@ import (
 	"errors"
 	"fmt"
 	"net/http"
-	"slices"
 	"strconv"
 	"strings"
 
 	"github.com/gin-gonic/gin"
 	"github.com/go-playground/validator/v10"
-	"github.com/google/uuid"
 )
 
 type QuizController struct {
@@ -309,16 +307,23 @@ func (qc *QuizController) UploadImgCover(c *gin.Context) {
 		return
 	}
 
-	//upload image from form file type
-	oldFile, exist := qc.service.CheckIMG(uint(id))
-	filePath, err := upload(c, oldFile, exist)
+	filePath, err := upload(c, uint(id))
 	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{
+		c.JSON(http.StatusInternalServerError, gin.H{
 			"massage": "failed to upload quiz image",
 			"error":   err,
 		})
 		return
 	}
+
+	if filePath == "" {
+		c.JSON(500, gin.H{
+			"massage": "failed to uploading file",
+			"error":   (errors.New("failed to upload file and return path").Error()),
+		})
+		return
+	}
+
 	//save file path to database
 	err = qc.service.UploadImgCover(uint(id), filePath)
 	//error validation
@@ -332,7 +337,7 @@ func (qc *QuizController) UploadImgCover(c *gin.Context) {
 	c.JSON(http.StatusOK, "upload success")
 }
 
-func upload(c *gin.Context, oldFile string, exist bool) (string, error) {
+func upload(c *gin.Context, id uint) (string, error) {
 	file, err := c.FormFile("file")
 	//request validation
 	if err != nil {
@@ -343,27 +348,17 @@ func upload(c *gin.Context, oldFile string, exist bool) (string, error) {
 	if ext == "" {
 		return "", errors.New("file has not extension")
 	}
-	if !slices.Contains([]string{"jpg", "jpeg", "png", "svg"}, ext) {
-		return "", errors.New("file not image type")
+
+	filename, err := helpers.Rename(file.Filename, "quiz", ext, id)
+	if err != nil {
+		return "", err
 	}
 
-	//check if image exist in dir
-	//img will be deleted
-	if exist {
-		//remove file from directory
-		err := helpers.RemoveFile(oldFile, "quiz")
-		//if error occur ... function will terminated with error
-		if err != nil {
-			return "", err
-		}
-
-	}
-	var filename string = uuid.NewString() + "." + ext
 	err = c.SaveUploadedFile(file, fmt.Sprintf("asset/img/quiz/%s", filename))
 	if err != nil {
 		return "", err
 	}
-	path := "/asset/img/question/" + filename
+	path := "/asset/img/quiz/" + filename
 	return path, nil
 }
 

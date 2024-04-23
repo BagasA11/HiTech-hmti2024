@@ -3,17 +3,16 @@ package controllers
 import (
 	"BagasA11/GSC-quizHealthEdu-BE/api/dto"
 	"BagasA11/GSC-quizHealthEdu-BE/api/service"
+	"BagasA11/GSC-quizHealthEdu-BE/helpers"
 	"errors"
 	"fmt"
 	"net/http"
 
-	"slices"
 	"strconv"
 	"strings"
 
 	"github.com/gin-gonic/gin"
 	"github.com/go-playground/validator/v10"
-	"github.com/google/uuid"
 )
 
 type QuestionController struct {
@@ -211,7 +210,7 @@ func (qc *QuestionController) UploadFile(c *gin.Context) {
 		})
 		return
 	}
-	dir, err := moveFile(c)
+	dir, err := move(c, uint(id))
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"massage": "failed to upload file",
@@ -232,26 +231,29 @@ func (qc *QuestionController) UploadFile(c *gin.Context) {
 
 }
 
-func moveFile(c *gin.Context) (string, error) {
+func move(c *gin.Context, id uint) (string, error) {
 	file, err := c.FormFile("file")
+	//request validation
 	if err != nil {
 		return "", err
 	}
-	//file extension validation
+	//extension validation
 	ext := strings.Split(file.Filename, ".")[1]
 	if ext == "" {
-		return "", errors.New("file extension undefined")
+		return "", errors.New("file has not extension")
 	}
-	if !slices.Contains([]string{"jpg", "png", "jpeg", "svg"}, ext) {
-		return "", errors.New("file is not image type")
-	}
-	filename := uuid.New().String() + "." + ext
-	err = c.SaveUploadedFile(file, fmt.Sprintf("asset/img/question/%s", filename))
+
+	filename, err := helpers.Rename(file.Filename, "quiz", ext, id)
 	if err != nil {
 		return "", err
 	}
 
-	return fmt.Sprintf("asset/img/question/%s", filename), nil
+	err = c.SaveUploadedFile(file, fmt.Sprintf("asset/img/quiz/%s", filename))
+	if err != nil {
+		return "", err
+	}
+	path := "/asset/img/quiz/" + filename
+	return path, nil
 }
 
 func (qc *QuestionController) Delete(c *gin.Context) {
