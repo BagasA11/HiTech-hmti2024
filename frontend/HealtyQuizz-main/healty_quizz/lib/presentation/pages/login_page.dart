@@ -23,7 +23,7 @@ class _LoginPageState extends State<LoginPage> {
 
   Future<List> _login() async {
     String Url =
-        "http://192.168.100.11/belajar/HiTech-hmti2024/frontend/HealtyQuizz-main/healty_quizz/lib/data/login.php";
+        "http://192.168.31.222/Users/ryokf/data/coding/HiTech-hmti2024/frontend/HealtyQuizz-main/healty_quizz/lib/data/login.php";
     final response = await http.post(Uri.parse(Url),
         body: {"username": _username.text, "password": _password.text});
 
