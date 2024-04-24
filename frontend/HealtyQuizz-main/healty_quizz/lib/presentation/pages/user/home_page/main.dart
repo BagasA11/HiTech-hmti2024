@@ -17,12 +17,18 @@ class HomeMain extends StatefulWidget {
   String id;
   String username;
   String score;
+  String email;
+  String level;
+  String password;
 
   HomeMain({
     Key? key,
     required this.id,
     required this.username,
     required this.score,
+    required this.email,
+    required this.level,
+    required this.password,
   }) : super(key: key);
 
   @override
@@ -35,7 +41,7 @@ class _HomeMainState extends State<HomeMain> {
 
   Future<void> _registeradmin() async {
     String Url =
-        "http://192.168.100.11/belajar/HiTech-hmti2024/frontend/HealtyQuizz-main/healty_quizz/lib/data/register_admin.php";
+        "http://192.168.31.222/Users/ryokf/data/coding/HiTech-hmti2024/frontend/HealtyQuizz-main/healty_quizz/lib/data/register_admin.php";
     final response = await http.post(Uri.parse(Url), body: {
       "username": widget.username,
       "id": widget.id,
@@ -65,7 +71,7 @@ class _HomeMainState extends State<HomeMain> {
           questionModel: questionModel,
           username: username,
           score: widget.score,
-          id: widget.id,
+          id: widget.id, level: widget.level, email: widget.email, password: widget.password,
         );
       }));
     } catch (e) {
@@ -85,7 +91,7 @@ class _HomeMainState extends State<HomeMain> {
           questionModel: questionModel,
           username: username,
           score: widget.score,
-          id: widget.id,
+          id: widget.id, email: widget.email, password: widget.password, level: widget.level,
         );
       }));
     } catch (e) {
@@ -105,7 +111,7 @@ class _HomeMainState extends State<HomeMain> {
           questionModel: questionModel,
           username: username,
           score: widget.score,
-          id: widget.id,
+          id: widget.id, email: widget.email, password: widget.password, level: widget.level,
         );
       }));
     } catch (e) {
@@ -115,7 +121,7 @@ class _HomeMainState extends State<HomeMain> {
 
   Future<void> _getAllDataQuizUser(String username) async {
     String Url =
-        "http://192.168.100.11/belajar/HiTech-hmti2024/frontend/HealtyQuizz-main/healty_quizz/lib/data/quiz_user.php";
+        "http://192.168.31.222/belajar/HiTech-hmti2024/frontend/HealtyQuizz-main/healty_quizz/lib/data/quiz_user.php";
     final response = await http.get(
       Uri.parse(Url),
     );
@@ -133,7 +139,7 @@ class _HomeMainState extends State<HomeMain> {
           username: username,
           score: widget.score,
           id: widget.id,
-          question: ListdataQuiz,
+          question: ListdataQuiz, email: widget.email, level: widget.level, password: widget.password,
         );
       }));
       // print("ini adalah ${ListdataQuiz}");
