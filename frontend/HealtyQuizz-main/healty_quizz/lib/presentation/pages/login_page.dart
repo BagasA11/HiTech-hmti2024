@@ -20,10 +20,11 @@ class _LoginPageState extends State<LoginPage> {
   final TextEditingController _password = TextEditingController();
   final TextEditingController _verifypassword = TextEditingController();
   String message = '';
+  bool visible = true;
 
   Future<List> _login() async {
     String Url =
-        "http://192.168.31.222/Users/ryokf/data/coding/HiTech-hmti2024/frontend/HealtyQuizz-main/healty_quizz/lib/data/login.php";
+        "http://192.168.67.214/belajar/HiTech-hmti2024/frontend/HealtyQuizz-main/healty_quizz/lib/data/login.php";
     final response = await http.post(Uri.parse(Url),
         body: {"username": _username.text, "password": _password.text});
 
@@ -161,6 +162,7 @@ class _LoginPageState extends State<LoginPage> {
                     height: 40,
                     child: TextField(
                       controller: _password,
+                      obscureText: visible,
                       decoration: InputDecoration(
                         hintText: 'masukkan password',
                         hintStyle: GoogleFonts.poppins(
@@ -171,6 +173,16 @@ class _LoginPageState extends State<LoginPage> {
                           borderSide: BorderSide(
                             color: primaryColor,
                           ),
+                        ),
+                        suffixIcon: IconButton(
+                          onPressed: () {
+                            setState(() {
+                              visible = !visible;
+                            });
+                          },
+                          icon: Icon(visible
+                              ? Icons.visibility
+                              : Icons.visibility_off),
                         ),
                         isDense: true,
                         border: OutlineInputBorder(

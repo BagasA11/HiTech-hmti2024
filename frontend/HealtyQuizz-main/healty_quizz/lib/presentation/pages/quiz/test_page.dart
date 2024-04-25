@@ -10,12 +10,18 @@ class Test extends StatefulWidget {
   final String id;
   final String username;
   final String score;
+  final String level;
+  final String email;
+  final String password;
   const Test(
       {super.key,
       required this.questionModel,
       required this.id,
       required this.username,
-      required this.score});
+      required this.score,
+      required this.level,
+      required this.email,
+      required this.password});
 
   @override
   State<Test> createState() => _TestState();
@@ -41,6 +47,9 @@ class _TestState extends State<Test> {
               score: widget.score,
               id: widget.id,
               username: widget.username,
+              email: widget.email,
+              level: widget.level,
+              password: widget.password,
             );
           }));
           print("full ");
@@ -83,6 +92,9 @@ class _TestState extends State<Test> {
                               score: widget.score,
                               id: widget.id,
                               username: widget.username,
+                              password: widget.password,
+                              email: widget.email,
+                              level: widget.level,
                             );
                           })).then((value) {
                             setState(() {});

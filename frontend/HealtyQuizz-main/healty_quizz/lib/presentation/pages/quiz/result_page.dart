@@ -26,7 +26,7 @@ class ResultPage extends StatefulWidget {
 class _ResultPageState extends State<ResultPage> {
   Future<void> _tambahskor(String score) async {
     String Url =
-        "http://192.168.31.222//Users/ryokf/data/coding/HiTech-hmti2024/frontend/HealtyQuizz-main/healty_quizz/lib/data/tambah_score.php";
+        "http://192.168.67.214/belajar/HiTech-hmti2024/frontend/HealtyQuizz-main/healty_quizz/lib/data/tambah_score.php";
 
     final response = await http
         .post(Uri.parse(Url), body: {"id": widget.id, "score": score});

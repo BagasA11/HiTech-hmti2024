@@ -9,12 +9,18 @@ class TestQuizUser extends StatefulWidget {
   final String id;
   final String username;
   final String score;
+  final String password;
+  final String email;
+  final String level;
   TestQuizUser(
       {super.key,
       required this.id,
       required this.username,
       required this.score,
-      required this.question});
+      required this.question,
+      required this.password,
+      required this.email,
+      required this.level});
 
   @override
   State<TestQuizUser> createState() => _TestQuizUserState();
@@ -43,6 +49,9 @@ class _TestQuizUserState extends State<TestQuizUser> {
               score: widget.score,
               id: widget.id,
               username: widget.username,
+              password: widget.password,
+              email: widget.email,
+              level: widget.level,
             );
           }));
           print("full ");
@@ -85,6 +94,9 @@ class _TestQuizUserState extends State<TestQuizUser> {
                               score: widget.score,
                               id: widget.id,
                               username: widget.username,
+                              level: widget.level,
+                              password: widget.password,
+                              email: widget.email,
                             );
                           })).then((value) {
                             setState(() {});
