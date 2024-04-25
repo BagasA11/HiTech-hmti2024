@@ -4,7 +4,7 @@ include 'conn.php';
 
 
 
-$queryResult = $connect->query("SELECT * FROM quiz");
+$queryResult = $connect->query("SELECT * FROM admin ORDER BY 'score' ASC");
 
 $result = array();
 

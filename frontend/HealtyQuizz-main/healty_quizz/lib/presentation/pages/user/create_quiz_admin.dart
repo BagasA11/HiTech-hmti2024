@@ -19,7 +19,7 @@ class _CreateQuizAdminState extends State<CreateQuizAdmin> {
 
   Future<void> simpan_quizz() async {
     String Url =
-        "http://192.168.100.11/belajar/HiTech-hmti2024/frontend/HealtyQuizz-main/healty_quizz/lib/data/tambah_quiz.php";
+        "http://192.168.67.214/belajar/HiTech-hmti2024/frontend/HealtyQuizz-main/healty_quizz/lib/data/tambah_quiz.php";
 
     try {
       final response = await http.post(Uri.parse(Url), body: {

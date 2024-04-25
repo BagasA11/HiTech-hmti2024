@@ -96,7 +96,25 @@ class SplashScreen extends StatelessWidget {
                 ),
                 Spacer(
                   flex: 1,
-                )
+                ),
+                Column(
+                  children: [
+                    Text(
+                      "Supported by",
+                      style: TextStyle(color: greyColor),
+                    ),
+                    SizedBox(
+                      height: 5,
+                    ),
+                    Container(
+                      width: screenWidth.width * 0.2,
+                      child: Image.asset("assets/logo2.png"),
+                    )
+                  ],
+                ),
+                Spacer(
+                  flex: 1,
+                ),
               ],
             ),
           ),

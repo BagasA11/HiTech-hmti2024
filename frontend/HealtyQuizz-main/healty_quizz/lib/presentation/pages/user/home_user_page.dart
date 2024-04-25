@@ -69,7 +69,8 @@ class _HomePageState extends State<HomePage> {
       HomeMain(
         id: widget.id,
         username: widget.username,
-        score: widget.score,
+        score: widget.score, password: widget.password, email: widget.email, level: widget.level,
+        
       ),
       halaman,
       ProfilePage(

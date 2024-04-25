@@ -18,10 +18,11 @@ class _RegisterPageState extends State<RegisterPage> {
   final TextEditingController _username = TextEditingController();
   final TextEditingController _email = TextEditingController();
   final TextEditingController _password = TextEditingController();
+  bool visibility = true;
 
   Future<void> _register() async {
     String Url =
-        "http://192.168.100.11/belajar/HiTech-hmti2024/frontend/HealtyQuizz-main/healty_quizz/lib/data/register.php";
+        "http://192.168.67.214/belajar/HiTech-hmti2024/frontend/HealtyQuizz-main/healty_quizz/lib/data/register.php";
     final response = await http.post(Uri.parse(Url), body: {
       "username": _username.text,
       "password": _password.text,
@@ -190,6 +191,7 @@ class _RegisterPageState extends State<RegisterPage> {
                     height: 40,
                     child: TextField(
                       controller: _password,
+                      obscureText: visibility,
                       decoration: InputDecoration(
                         hintText: 'masukkan password',
                         hintStyle: GoogleFonts.poppins(
@@ -200,6 +202,16 @@ class _RegisterPageState extends State<RegisterPage> {
                           borderSide: BorderSide(
                             color: primaryColor,
                           ),
+                        ),
+                        suffixIcon: IconButton(
+                          onPressed: () {
+                            setState(() {
+                              visibility = !visibility;
+                            });
+                          },
+                          icon: Icon(visibility
+                              ? Icons.visibility
+                              : Icons.visibility_off),
                         ),
                         isDense: true,
                         border: OutlineInputBorder(
