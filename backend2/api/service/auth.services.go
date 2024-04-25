@@ -22,22 +22,21 @@ func NewAuthService() *AuthService {
 	}
 }
 
-func (as *AuthService) UserLogin(req *dto.UserLogin) (string, error) {
-	var user models.User
+func (as *AuthService) UserLogin(req *dto.UserLogin) (models.User, error) {
+	var user = new(models.User)
 	err := as.db.Where("username = ? AND admin = ?", req.Username, false).First(&user).Error
 	if err != nil {
-		return "", err
+		return models.User{}, err
 	}
 	err = bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(req.Password))
 	if err != nil {
-		return "", err
+		return models.User{}, err
 	}
 	if user.Block {
-		return "", errors.New("this user was blocked")
+		return models.User{}, errors.New("this user was blocked")
 	}
 
-	acessToken, err := helpers.GenerateAccessToken(user.ID, user.Username, "user")
-	return acessToken, err
+	return *user, err
 }
 
 func (as *AuthService) AdmiLogin(req *dto.AdminLogin) (string, error) {
