@@ -163,6 +163,66 @@ class _HomeMainState extends State<HomeMain> {
     }
   }
 
+  void _getAllDataDatabase(String username) async {
+    final String UrlFisika =
+        "https://script.google.com/macros/s/AKfycbya--U9POXuNgY8Fjkn-tDPREcV5wzmSLnf2sMc-OkBxjSRsIGgr5x8IuV_v6p36JNB/exec";
+    try {
+      setState(() {
+        _isLoading = true;
+      });
+      var response = await http.get(Uri.parse(UrlFisika));
+
+      questionModel = QuestionModel.fromJson(json.decode(response.body));
+      Navigator.push(context, MaterialPageRoute(builder: (context) {
+        return Test(
+          questionModel: questionModel,
+          username: username,
+          score: widget.score,
+          id: widget.id,
+          email: widget.email,
+          password: widget.password,
+          level: widget.level,
+        );
+      }));
+    } catch (e) {
+      print(e.toString());
+    } finally {
+      setState(() {
+        _isLoading = false;
+      });
+    }
+  }
+
+  void _getAllDataSql(String username) async {
+    final String UrlFisika =
+        "https://script.google.com/macros/s/AKfycby2VOmTAjnZc_X1oz2QzMw3YjMo2dFoe4IxNQH_WlKdyn915HLRFEG7T5qvYiZo4CoeFA/exec";
+    try {
+      setState(() {
+        _isLoading = true;
+      });
+      var response = await http.get(Uri.parse(UrlFisika));
+
+      questionModel = QuestionModel.fromJson(json.decode(response.body));
+      Navigator.push(context, MaterialPageRoute(builder: (context) {
+        return Test(
+          questionModel: questionModel,
+          username: username,
+          score: widget.score,
+          id: widget.id,
+          email: widget.email,
+          password: widget.password,
+          level: widget.level,
+        );
+      }));
+    } catch (e) {
+      print(e.toString());
+    } finally {
+      setState(() {
+        _isLoading = false;
+      });
+    }
+  }
+
   // void _cariQuiz(String username) async {
   //   String Url =
   //       "http://192.168.67.214/belajar/HiTech-hmti2024/frontend/HealtyQuizz-main/healty_quizz/lib/data/quiz_user.php";
@@ -537,8 +597,20 @@ class _HomeMainState extends State<HomeMain> {
                                 imageUrl: "https://picsum.photos/600",
                                 title: "Quiz Komputer",
                                 description: "5"),
-                            // QuizCard(),
-                            // QuizCard(),
+                            QuizCard(
+                                onTap: () {
+                                  _getAllDataDatabase(widget.username);
+                                },
+                                imageUrl: "https://picsum.photos/700",
+                                title: "Quiz Github",
+                                description: "10"),
+                            QuizCard(
+                                onTap: () {
+                                  _getAllDataSql(widget.username);
+                                },
+                                imageUrl: "https://picsum.photos/800",
+                                title: "Quiz Sql",
+                                description: "10"),
                             // QuizCard(),
                             // QuizCard(),
                             // QuizCard(),

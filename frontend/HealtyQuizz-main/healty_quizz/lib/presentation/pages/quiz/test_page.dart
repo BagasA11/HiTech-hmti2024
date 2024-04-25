@@ -82,7 +82,7 @@ class _TestState extends State<Test> {
                         backgroundColor: Colors.white,
                         controller: _controller,
                         initialPosition: 0,
-                        duration: 60,
+                        duration: 120,
                         text: 'detik',
                         onComplete: () {
                           Navigator.push(context,

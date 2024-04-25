@@ -70,87 +70,87 @@ class _CreateQuizAdminState extends State<CreateQuizAdmin> {
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(20),
                 ),
-                labelText: "sebutkan pertanyaan quiz",
+                labelText: "masukan url api spreedsheet",
               ),
             ),
-            SizedBox(
-              height: 10,
-            ),
-            TextField(
-              controller: option_a,
-              decoration: InputDecoration(
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(20),
-                ),
-                labelText: "sebutkan isian dari opsi a",
-              ),
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            TextField(
-              controller: option_b,
-              decoration: InputDecoration(
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(20),
-                ),
-                labelText: "sebutkan isian dari opsi b",
-              ),
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            TextField(
-              controller: option_c,
-              decoration: InputDecoration(
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(20),
-                ),
-                labelText: "sebutkan isian dari opsi c",
-              ),
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            TextField(
-              controller: option_d,
-              decoration: InputDecoration(
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(20),
-                ),
-                labelText: "sebutkan isian dari opsi d",
-              ),
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            TextField(
-              controller: answear,
-              decoration: InputDecoration(
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(20),
-                ),
-                labelText: "sebutkan isian dari jawaban yang benar",
-              ),
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            TextField(
-              controller: correct_option,
-              decoration: InputDecoration(
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(20),
-                ),
-                labelText: "sebutkan opsi dari jawaban yang benar",
-              ),
-            ),
+            // SizedBox(
+            //   height: 10,
+            // ),
+            // TextField(
+            //   controller: option_a,
+            //   decoration: InputDecoration(
+            //     border: OutlineInputBorder(
+            //       borderRadius: BorderRadius.circular(20),
+            //     ),
+            //     labelText: "sebutkan isian dari opsi a",
+            //   ),
+            // ),
+            // SizedBox(
+            //   height: 10,
+            // ),
+            // TextField(
+            //   controller: option_b,
+            //   decoration: InputDecoration(
+            //     border: OutlineInputBorder(
+            //       borderRadius: BorderRadius.circular(20),
+            //     ),
+            //     labelText: "sebutkan isian dari opsi b",
+            //   ),
+            // ),
+            // SizedBox(
+            //   height: 10,
+            // ),
+            // TextField(
+            //   controller: option_c,
+            //   decoration: InputDecoration(
+            //     border: OutlineInputBorder(
+            //       borderRadius: BorderRadius.circular(20),
+            //     ),
+            //     labelText: "sebutkan isian dari opsi c",
+            //   ),
+            // ),
+            // SizedBox(
+            //   height: 10,
+            // ),
+            // TextField(
+            //   controller: option_d,
+            //   decoration: InputDecoration(
+            //     border: OutlineInputBorder(
+            //       borderRadius: BorderRadius.circular(20),
+            //     ),
+            //     labelText: "sebutkan isian dari opsi d",
+            //   ),
+            // ),
+            // SizedBox(
+            //   height: 10,
+            // ),
+            // TextField(
+            //   controller: answear,
+            //   decoration: InputDecoration(
+            //     border: OutlineInputBorder(
+            //       borderRadius: BorderRadius.circular(20),
+            //     ),
+            //     labelText: "sebutkan isian dari jawaban yang benar",
+            //   ),
+            // ),
+            // SizedBox(
+            //   height: 10,
+            // ),
+            // TextField(
+            //   controller: correct_option,
+            //   decoration: InputDecoration(
+            //     border: OutlineInputBorder(
+            //       borderRadius: BorderRadius.circular(20),
+            //     ),
+            //     labelText: "sebutkan opsi dari jawaban yang benar",
+            //   ),
+            // ),
             SizedBox(
               height: 10,
             ),
             ElevatedButton(
                 onPressed: () {
-                  simpan_quizz();
+                  // simpan_quizz();
                 },
                 child: Text('simpan'))
           ],

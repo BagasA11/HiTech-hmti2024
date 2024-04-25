@@ -111,7 +111,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                 context: context,
                                 builder: (context) {
                                   return AlertDialog(
-                                    title: Text("Password mu adalah"),
+                                    title: Text("Password"),
                                     content: Text(widget.password),
                                   );
                                 });
@@ -126,7 +126,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                 context: context,
                                 builder: (context) {
                                   return AlertDialog(
-                                    title: Text("Status mu adalah"),
+                                    title: Text("Status"),
                                     content: Text(widget.level),
                                   );
                                 });
@@ -141,7 +141,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                 context: context,
                                 builder: (context) {
                                   return AlertDialog(
-                                    title: Text("Score mu adalah"),
+                                    title: Text("Score"),
                                     content: Text(widget.score),
                                   );
                                 });
@@ -184,9 +184,9 @@ class _ProfilePageState extends State<ProfilePage> {
                                 context: context,
                                 builder: (context) {
                                   return AlertDialog(
-                                    title: Text("Healty Quizz"),
-                                    content:
-                                        Text("adalah sebuah aplikasi quizz"),
+                                    title: Text("About"),
+                                    content: Text(
+                                        "quizz app adalah sebuah aplikasi yang dibangun dapat memenuhi semua keresahan guru dalam meyelenggarakan ulangan secara online"),
                                   );
                                 });
                           },

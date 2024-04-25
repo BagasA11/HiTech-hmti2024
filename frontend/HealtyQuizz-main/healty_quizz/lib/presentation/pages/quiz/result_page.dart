@@ -17,7 +17,10 @@ class ResultPage extends StatefulWidget {
       required this.result,
       required this.score,
       required this.id,
-      required this.username, required this.password, required this.email, required this.level});
+      required this.username,
+      required this.password,
+      required this.email,
+      required this.level});
 
   @override
   State<ResultPage> createState() => _ResultPageState();
@@ -33,11 +36,16 @@ class _ResultPageState extends State<ResultPage> {
 
     if (response.statusCode == 200) {
       Navigator.push(context, MaterialPageRoute(builder: (context) {
-        return HomePage(id: widget.id, username: widget.username, password: widget.password, email: widget.email, level: widget.level, score: score);
+        return HomePage(
+            id: widget.id,
+            username: widget.username,
+            password: widget.password,
+            email: widget.email,
+            level: widget.level,
+            score: score);
       }));
     }
   }
-
 
   @override
   Widget build(BuildContext context) {
