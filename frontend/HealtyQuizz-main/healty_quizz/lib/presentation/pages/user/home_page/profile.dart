@@ -186,7 +186,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                   return AlertDialog(
                                     title: Text("About"),
                                     content: Text(
-                                        "quizz app adalah sebuah aplikasi yang dibangun dapat memenuhi semua keresahan guru dalam meyelenggarakan ulangan secara online"),
+                                        "Curiousiz adalah sebuah aplikasi yang dibangun dapat memenuhi semua keresahan guru dalam meyelenggarakan ulangan secara online"),
                                   );
                                 });
                           },
